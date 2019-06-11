@@ -4,6 +4,7 @@ import com.curso.spring.rest.models.entity.Cliente;
 import com.curso.spring.rest.models.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -36,9 +37,11 @@ public class ClienteRestController {
         this.clienteService = clienteService;
     }
 
+    // todo: Adaptar el front a la paginación
     @GetMapping(value = "/clientes")
-    public List<Cliente> index() {
-        return clienteService.findAll();
+    public List<Cliente> index(@RequestParam(name = "page", defaultValue = "0") int page,
+                               @RequestParam(defaultValue = "1000") int size) {
+        return clienteService.findAll(PageRequest.of(page, size)).getContent();
     }
 
     @GetMapping("/clientes/{id}")
@@ -95,34 +98,40 @@ public class ClienteRestController {
 
         if (clienteActual == null) {
             response.put("mensaje", "Error: no se pudo editar, el cliente ID: "
-                    .concat(id.toString().concat(" no existe en la base de datos!")));
+                    .concat(id.toString().concat(" no existe")));
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
 
         try {
-            clienteActual.setApellidos(cliente.getApellidos());
-            clienteActual.setNombre(cliente.getNombre());
-            clienteActual.setEmail(cliente.getEmail());
-            clienteActual.setCreatedAt(cliente.getCreatedAt());
-
+            clienteActual.copy(cliente);
             clienteUpdated = clienteService.save(clienteActual);
-
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al actualizar el cliente en la base de datos");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         response.put("mensaje", "El cliente ha sido actualizado con éxito!");
         response.put("cliente", clienteUpdated);
 
-        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "clientes/{id}")
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) {
-        clienteService.delete(id);
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            clienteService.delete(id);
+        } catch (DataAccessException e) {
+            response.put("mensaje", "Error al eliminar el cliente de la base de datos");
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        response.put("mensaje", "Cliente eliminado con éxito");
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     private ResponseEntity<?> getErrors(BindingResult result, Map response) {

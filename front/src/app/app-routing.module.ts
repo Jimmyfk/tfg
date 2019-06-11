@@ -9,8 +9,8 @@ const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/inicio' },
   { path: 'inicio', component: InicioComponent },
   { path: 'clientes', component: ClientesComponent },
-  { path: 'clientes/:id', component: ClientesDetalleComponent },
   { path: 'clientes/formulario', component: FormComponent },
+  { path: 'clientes/:id', component: ClientesDetalleComponent },
   { path: 'clientes/formulario/:id', component: FormComponent }
 ];
 

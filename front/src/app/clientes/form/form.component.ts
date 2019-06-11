@@ -41,7 +41,7 @@ export class FormComponent implements OnInit {
         swal.fire('Nuevo cliente', this.decode(response.mensaje), 'success');
       },
       response => {
-        this.errores = response.error.errores as string[];
+        this.errores = response.error.errors as string[];
         console.error(this.errores);
         console.error('Código de error: ' + response.status);
       }
@@ -55,7 +55,7 @@ export class FormComponent implements OnInit {
          swal.fire('Cliente actualizado', this.decode(response.mensaje), 'success');
       },
       response => {
-        this.errores = response.error.errores as string[];
+        this.errores = response.error.errors as string[];
         console.error(this.errores);
         console.error('Código de error: ' + response.status);
       }
