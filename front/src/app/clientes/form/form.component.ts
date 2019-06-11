@@ -1,7 +1,7 @@
-import { ClienteService } from './../cliente.service';
-import { Cliente } from './../cliente';
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import {ClienteService} from './../cliente.service';
+import {Cliente} from './../cliente';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import swal from 'sweetalert2';
 
 
@@ -38,7 +38,7 @@ export class FormComponent implements OnInit {
     this.clienteService.create(this.cliente).subscribe(
       response => {
         this.router.navigate(['/clientes']);
-        swal.fire('Nuevo cliente', this.decode(response.mensaje), 'success');
+        swal.fire('Nuevo cliente', this.decode(response.nombre) + ' creado con éxito', 'success');
       },
       response => {
         this.errores = response.error.errores as string[];
@@ -51,8 +51,8 @@ export class FormComponent implements OnInit {
   public update(): void {
     this.clienteService.update(this.cliente).subscribe(
        response => {
-          this.router.navigate(['/clientes']);
-          swal.fire('Cliente actualizado', this.decode(response.mensaje), 'success');
+         this.router.navigate(['/clientes']);
+         swal.fire('Cliente actualizado', this.decode(response.nombre) + ' actualizado con éxito', 'success');
       },
       response => {
         this.errores = response.error.errores as string[];

@@ -1,10 +1,10 @@
-import { Router } from '@angular/router';
+import {Router} from '@angular/router';
 import swal from 'sweetalert2';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Cliente } from './cliente.js';
-import { Observable, of, throwError } from 'rxjs';
-import {map, catchError, tap } from 'rxjs/operators';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Cliente} from './cliente.js';
+import {Observable, throwError} from 'rxjs';
+import {catchError, map, tap} from 'rxjs/operators';
 
 
 @Injectable()
@@ -50,7 +50,6 @@ export class ClienteService {
   create(cliente: Cliente): Observable<any> {
     return this.http.post<any>(this.url, cliente, {headers: this.httpHeaders}).pipe(
       catchError(e => {
-        console.log(e);
         if (e.status === 400) {
           return throwError(e);
         }
@@ -64,7 +63,6 @@ export class ClienteService {
   update(cliente: Cliente): Observable<any> {
     return this.http.put<any>(`${this.url}/${cliente.id}`, cliente, {headers: this.httpHeaders}).pipe(
       catchError(e => {
-        console.log(e);
         if (e.status === 400) {
           return throwError(e);
         }
@@ -78,7 +76,6 @@ export class ClienteService {
   delete(cliente: Cliente): Observable<any> {
     return this.http.delete<Cliente>(`${this.url}/${cliente.id}`, {headers: this.httpHeaders}).pipe(
       catchError(e => {
-        console.log(e);
         swal.fire('Error al eliminar el cliente', e.error.error, 'error');
         return throwError(e);
       })
