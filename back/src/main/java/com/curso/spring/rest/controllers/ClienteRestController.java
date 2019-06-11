@@ -3,7 +3,9 @@ package com.curso.spring.rest.controllers;
 import com.curso.spring.rest.models.entity.Cliente;
 import com.curso.spring.rest.models.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
@@ -34,9 +38,25 @@ public class ClienteRestController {
         return clienteService.findAll();
     }
 
-    @GetMapping(value = "clientes/{id}")
-    public Cliente show(@PathVariable Long id) {
-        return clienteService.findById(id);
+    @GetMapping("/clientes/{id}")
+    public ResponseEntity<?> show(@PathVariable Long id) {
+        Cliente cliente = null;
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            cliente = clienteService.findById(id);
+        } catch(DataAccessException e) {
+            response.put("mensaje", "Error al realizar la consulta en la base de datos");
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        if(cliente == null) {
+            response.put("mensaje", "El cliente ID: ".concat(id.toString().concat(" no existe en la base de datos!")));
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(cliente, HttpStatus.OK);
     }
 
     @PostMapping(value = "/clientes")
