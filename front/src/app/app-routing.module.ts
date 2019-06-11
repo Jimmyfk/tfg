@@ -4,6 +4,9 @@ import {InicioComponent} from './inicio/inicio.component';
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {ClientesDetalleComponent} from './clientes/clientes-detalle/clientes-detalle.component';
+import {FacturasDetalleComponent} from './facturas/facturas-detalle/facturas-detalle.component';
+import {FacturasComponent} from './facturas/facturas.component';
+import {FacturasFormComponent} from './facturas/facturas-form/facturas-form.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/inicio' },
@@ -11,7 +14,8 @@ const routes: Routes = [
   { path: 'clientes', component: ClientesComponent },
   { path: 'clientes/formulario', component: FormComponent },
   { path: 'clientes/:id', component: ClientesDetalleComponent },
-  { path: 'clientes/formulario/:id', component: FormComponent }
+  { path: 'clientes/formulario/:id', component: FormComponent },
+  { path: 'factura/:id', component: FacturasDetalleComponent }
 ];
 
 @NgModule({
@@ -23,5 +27,8 @@ export const RUTAS = [
   FormComponent,
   ClientesComponent,
   InicioComponent,
-  ClientesDetalleComponent
+  ClientesDetalleComponent,
+  FacturasComponent,
+  FacturasDetalleComponent,
+  FacturasFormComponent
 ];

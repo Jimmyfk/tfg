@@ -17,6 +17,9 @@ import localeEs from '@angular/common/locales/es';
 import localeIt from '@angular/common/locales/it';
 import localeRu from '@angular/common/locales/ru';
 import {ClientesDetalleComponent} from './clientes/clientes-detalle/clientes-detalle.component';
+import {FacturasComponent} from './facturas/facturas.component';
+import {FacturasDetalleComponent} from './facturas/facturas-detalle/facturas-detalle.component';
+import {FacturasFormComponent} from './facturas/facturas-form/facturas-form.component';
 
 registerLocaleData(localeFr, 'fr');
 registerLocaleData(localeEs, 'es');
@@ -31,7 +34,10 @@ registerLocaleData(localeRu, 'ru');
       FooterComponent,
       ClientesComponent,
       FormComponent,
-      ClientesDetalleComponent
+      ClientesDetalleComponent,
+      FacturasComponent,
+      FacturasDetalleComponent,
+      FacturasFormComponent
    ],
    imports: [
       BrowserModule,
