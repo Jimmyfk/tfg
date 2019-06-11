@@ -1,7 +1,5 @@
 package com.curso.spring.rest.models.entity;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,23 +13,27 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "clientes", schema = "tfg")
-public class Cliente  implements Serializable {
+@Table(schema = "tfg", name = "productos")
+public class Producto implements Serializable {
 
-    private static final long serialVersionUID = 548693643152216215L;
+    private static final long serialVersionUID = -1337640584244361382L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nombre;
-    private String apellidos;
-    private String email;
 
+    private Double precio;
+
+    @Temporal(TemporalType.DATE)
     @Column(name = "created_at")
-    @Temporal(value = TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createdAt;
+
+    @PrePersist
+    private void prePersist() {
+        createdAt = new Date();
+    }
 
     public Long getId() {
         return id;
@@ -49,20 +51,12 @@ public class Cliente  implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getApellidos() {
-        return apellidos;
+    public Double getPrecio() {
+        return precio;
     }
 
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPrecio(Double precio) {
+        this.precio = precio;
     }
 
     public Date getCreatedAt() {
@@ -71,17 +65,5 @@ public class Cliente  implements Serializable {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public void copy(Cliente cliente) {
-        nombre = cliente.nombre;
-        apellidos = cliente.apellidos;
-        email = cliente.email;
-        createdAt = cliente.createdAt;
-    }
-
-    @PrePersist
-    public void prePersist() {
-        createdAt = new Date();
     }
 }

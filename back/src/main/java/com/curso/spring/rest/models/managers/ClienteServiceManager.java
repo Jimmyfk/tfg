@@ -1,7 +1,8 @@
-package com.curso.spring.rest.models.services;
+package com.curso.spring.rest.models.managers;
 
 import com.curso.spring.rest.models.dao.ClienteDao;
 import com.curso.spring.rest.models.entity.Cliente;
+import com.curso.spring.rest.models.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
