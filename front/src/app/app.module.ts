@@ -1,5 +1,5 @@
-import {FormComponent} from './clientes/form/form.component';
-import {ClienteService} from './clientes/cliente.service';
+import {ClientesFormComponent} from './clientes/clientes-form/clientes-form.component';
+import {ClienteService} from './services/cliente.service';
 import {BrowserModule} from '@angular/platform-browser';
 import {LOCALE_ID, NgModule} from '@angular/core';
 
@@ -33,7 +33,7 @@ registerLocaleData(localeRu, 'ru');
       HeaderComponent,
       FooterComponent,
       ClientesComponent,
-      FormComponent,
+      ClientesFormComponent,
       ClientesDetalleComponent,
       FacturasComponent,
       FacturasDetalleComponent,

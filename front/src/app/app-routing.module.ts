@@ -1,4 +1,4 @@
-import {FormComponent} from './clientes/form/form.component';
+import {ClientesFormComponent} from './clientes/clientes-form/clientes-form.component';
 import {ClientesComponent} from './clientes/clientes.component';
 import {InicioComponent} from './inicio/inicio.component';
 import {NgModule} from '@angular/core';
@@ -8,15 +8,18 @@ import {FacturasDetalleComponent} from './facturas/facturas-detalle/facturas-det
 import {FacturasComponent} from './facturas/facturas.component';
 import {FacturasFormComponent} from './facturas/facturas-form/facturas-form.component';
 
+
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/inicio' },
   { path: 'inicio', component: InicioComponent },
   { path: 'clientes', component: ClientesComponent },
-  { path: 'clientes/formulario', component: FormComponent },
+  { path: 'clientes/formulario', component: ClientesFormComponent },
   { path: 'clientes/:id', component: ClientesDetalleComponent },
-  { path: 'clientes/formulario/:id', component: FormComponent },
-  { path: 'factura/:id', component: FacturasDetalleComponent },
-  { path: 'factura/formulario/:id', component: FacturasFormComponent }
+  { path: 'clientes/formulario/:id', component: ClientesFormComponent },
+  {
+    path: 'facturas',
+    loadChildren: () => import ('./facturas/facturas.module').then(mod => mod.FacturasModule)
+  }
 ];
 
 @NgModule({
@@ -25,7 +28,7 @@ const routes: Routes = [
 })
 export class AppRoutingModule { }
 export const routingComponents = [
-  FormComponent,
+  ClientesFormComponent,
   ClientesComponent,
   InicioComponent,
   ClientesDetalleComponent,

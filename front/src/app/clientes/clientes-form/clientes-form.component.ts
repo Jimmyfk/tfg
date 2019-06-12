@@ -1,4 +1,4 @@
-import {ClienteService} from './../cliente.service';
+import {ClienteService} from '../../services/cliente.service';
 import {Cliente} from './../cliente';
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -10,7 +10,7 @@ import swal from 'sweetalert2';
   templateUrl: './form.component.html',
   styleUrls: []
 })
-export class FormComponent implements OnInit {
+export class ClientesFormComponent implements OnInit {
 
   constructor(private clienteService: ClienteService,
               private router: Router,

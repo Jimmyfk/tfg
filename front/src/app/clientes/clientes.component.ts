@@ -1,4 +1,4 @@
-import { ClienteService } from './cliente.service';
+import { ClienteService } from '../services/cliente.service';
 import { Component, OnInit } from '@angular/core';
 import { Cliente } from './cliente';
 import Swal from 'sweetalert2';
