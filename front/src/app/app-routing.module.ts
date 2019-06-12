@@ -15,7 +15,8 @@ const routes: Routes = [
   { path: 'clientes/formulario', component: FormComponent },
   { path: 'clientes/:id', component: ClientesDetalleComponent },
   { path: 'clientes/formulario/:id', component: FormComponent },
-  { path: 'factura/:id', component: FacturasDetalleComponent }
+  { path: 'factura/:id', component: FacturasDetalleComponent },
+  { path: 'factura/formulario/:id', component: FacturasFormComponent }
 ];
 
 @NgModule({
@@ -23,7 +24,7 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-export const RUTAS = [
+export const routingComponents = [
   FormComponent,
   ClientesComponent,
   InicioComponent,
