@@ -1,4 +1,4 @@
-package com.curso.spring.rest.models.services;
+package com.curso.spring.rest.models.manager;
 
 import com.curso.spring.rest.models.dao.ClienteDao;
 import com.curso.spring.rest.models.entity.Cliente;
@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class ClienteServiceManager implements ClienteService {
 
-    private ClienteDao clienteDao;
+    private final ClienteDao clienteDao;
 
     @Autowired
     public ClienteServiceManager(ClienteDao clienteDao) {

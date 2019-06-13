@@ -1,4 +1,4 @@
-package com.curso.spring.rest.models.services;
+package com.curso.spring.rest.models.manager;
 
 import com.curso.spring.rest.models.dao.FacturaDao;
 import org.springframework.beans.factory.annotation.Autowired;

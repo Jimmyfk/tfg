@@ -3,6 +3,7 @@ package com.curso.spring.rest.controllers;
 import com.curso.spring.rest.models.dao.FacturaDao;
 import com.curso.spring.rest.models.entity.Cliente;
 import com.curso.spring.rest.models.entity.Factura;
+import com.curso.spring.rest.models.entity.Producto;
 import com.curso.spring.rest.models.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @CrossOrigin(origins = {"http://localhost:4200"})
@@ -74,6 +77,10 @@ public class FacturaRestController {
         response.put("mensaje", "Factura creada correctamente");
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    public @ResponseBody List<Producto> cargarProducto(@PathVariable String nombre) {
+        return null;
     }
 
 }
