@@ -15,6 +15,8 @@ import localeEs from '@angular/common/locales/es';
 import localeIt from '@angular/common/locales/it';
 import localeRu from '@angular/common/locales/ru';
 import {ClienteService} from './services/cliente.service';
+import { ProductosComponent } from './productos/productos.component';
+import { ItemsFacturaComponent } from './items-factura/items-factura.component';
 
 registerLocaleData(localeFr, 'fr');
 registerLocaleData(localeEs, 'es');
@@ -26,7 +28,9 @@ registerLocaleData(localeRu, 'ru');
       AppComponent,
       InicioComponent,
       HeaderComponent,
-      FooterComponent
+      FooterComponent,
+      ProductosComponent,
+      ItemsFacturaComponent
    ],
    imports: [
       BrowserModule,
