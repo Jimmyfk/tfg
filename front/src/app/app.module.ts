@@ -14,7 +14,6 @@ import localeFr from '@angular/common/locales/fr';
 import localeEs from '@angular/common/locales/es';
 import localeIt from '@angular/common/locales/it';
 import localeRu from '@angular/common/locales/ru';
-import {ClienteService} from './services/cliente.service';
 import { ProductosComponent } from './productos/productos.component';
 import { ItemsFacturaComponent } from './items-factura/items-factura.component';
 
@@ -39,7 +38,6 @@ registerLocaleData(localeRu, 'ru');
       FormsModule
    ],
    providers: [
-     ClienteService,
      {provide: LOCALE_ID, useValue: 'es' }
    ],
    bootstrap: [
