@@ -1,4 +1,4 @@
-package com.curso.spring.rest.models.managers;
+package com.curso.spring.rest.models.services;
 
 import com.curso.spring.rest.models.dao.ClienteDao;
 import com.curso.spring.rest.models.entity.Cliente;
