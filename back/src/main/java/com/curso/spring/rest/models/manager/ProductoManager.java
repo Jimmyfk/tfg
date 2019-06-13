@@ -24,4 +24,9 @@ public class ProductoManager implements ProductoService {
     public List<Producto> findByNombreLikeIgnoreCase(String nombre) {
         return productoDao.findByNombreLikeIgnoreCase(nombre);
     }
+
+    @Override
+    public Producto findById(Long id) {
+        return productoDao.findById(id).orElse(null);
+    }
 }

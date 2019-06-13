@@ -7,4 +7,6 @@ import java.util.List;
 public interface ProductoService {
 
     List<Producto> findByNombreLikeIgnoreCase(String nombre);
+
+    Producto findById(Long id);
 }

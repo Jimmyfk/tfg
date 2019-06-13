@@ -3,8 +3,10 @@ package com.curso.spring.rest.controllers;
 import com.curso.spring.rest.models.dao.FacturaDao;
 import com.curso.spring.rest.models.entity.Cliente;
 import com.curso.spring.rest.models.entity.Factura;
+import com.curso.spring.rest.models.entity.ItemFactura;
 import com.curso.spring.rest.models.entity.Producto;
 import com.curso.spring.rest.models.services.ClienteService;
+import com.curso.spring.rest.models.services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,11 +31,13 @@ public class FacturaRestController {
 
     private final FacturaDao facturaDao;
     private final ClienteService clienteService;
+    private final ProductoService productoService;
 
     @Autowired
-    public FacturaRestController(FacturaDao facturaDao, ClienteService clienteService) {
+    public FacturaRestController(FacturaDao facturaDao, ClienteService clienteService, ProductoService productoService) {
         this.facturaDao = facturaDao;
         this.clienteService = clienteService;
+        this.productoService = productoService;
     }
 
     @GetMapping(value = "")
@@ -56,7 +61,9 @@ public class FacturaRestController {
     }
 
     @PostMapping(value = "/facturas/nueva/{cliente}")
-    public ResponseEntity<?> create(@PathVariable Long cliente) {
+    public ResponseEntity<?> create(@PathVariable Long cliente,
+                                    @RequestParam(name = "item_id[]", required = false) Long[] itemId,
+                                    @RequestParam(name = "item_cantidad[]", required = false) Integer[] cantidad) {
         Cliente cli;
         Map<String, Object> response = new HashMap<>();
 
@@ -73,6 +80,12 @@ public class FacturaRestController {
         }
 
         Factura factura = new Factura(cli);
+        for (int i = 0; i < itemId.length; i++) {
+            Producto producto = productoService.findById(itemId[i]);
+            ItemFactura item = new ItemFactura(cantidad[i], producto);
+            factura.addItems(item);
+        }
+
         response.put("factura", factura);
         response.put("mensaje", "Factura creada correctamente");
 
@@ -80,7 +93,7 @@ public class FacturaRestController {
     }
 
     public @ResponseBody List<Producto> cargarProducto(@PathVariable String nombre) {
-        return null;
+        return productoService.findByNombreLikeIgnoreCase(nombre);
     }
 
 }
