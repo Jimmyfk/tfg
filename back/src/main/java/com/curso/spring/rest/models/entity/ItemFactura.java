@@ -27,13 +27,14 @@ public class ItemFactura implements Serializable {
 
     private Integer cantidad;
 
-    public ItemFactura() {
+    private Double importe;
 
-    }
+    public ItemFactura() {}
 
     public ItemFactura(Integer cantidad, Producto producto) {
         this.cantidad = cantidad;
         this.producto = producto;
+        importe = cantidad * producto.getPrecio();
     }
 
     public Long getId() {
@@ -53,7 +54,11 @@ public class ItemFactura implements Serializable {
     }
 
     public Double getImporte() {
-        return cantidad.doubleValue() * producto.getPrecio();
+        return this.importe;
+    }
+
+    public void setImporte(Double importe) {
+        this.importe = importe;
     }
 
     public Producto getProducto() {
