@@ -1,3 +1,39 @@
-<p>
-  facturas-form works!
-</p>
+<table class="d-none">
+  <tbody id="plantillaItemsFactura">
+    <tr class="alert-info row row_" id="row_{ID}">
+      <input type="hidden" value="{ID}" name="item_id[]">
+      <td class="col-5">{{"{"}}NOMBRE{{"}"}}</td>
+      <td class="col-3"><span id="precio_{ID}">{{"{"}}PRECIO{{"}"}}</span>€</td>
+      <td class="col-1"><input type="number" min="1" value="1" name="cantidad[]" id="cantidad_{ID}"
+                               class="form-control cantidad"/></td>
+      <td class="col-2 text-right"><span id="importe_{ID}" class="importe">0.0</span>€</td>
+      <td class="col-1 text-center">
+        <button id="eliminar_{ID}" class="btn btn-danger eliminar_">X</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div class="row justify-content-center">
+  <table class="table col-11 mb-0" id="items">
+    <thead>
+    <tr class="bg-info row">
+      <th class="col-5">Nombre</th>
+      <th class="col-3">Precio</th>
+      <th class="col-1">Cantidad</th>
+      <th class="col-2 text-right">Importe</th>
+      <th class="col-1"></th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+  <table class="table col-11 mt-0">
+    <tr class="alert-warning row">
+      <th class="col-5"></th>
+      <th class="col-3"></th>
+      <th class="col-1"></th>
+      <th class="col-2 text-right"><span id="total">0</span>€</th>
+      <th class="col-1">Total</th>
+    </tr>
+  </table>
+</div>

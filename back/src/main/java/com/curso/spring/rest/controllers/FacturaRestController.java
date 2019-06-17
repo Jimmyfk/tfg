@@ -40,24 +40,41 @@ public class FacturaRestController {
         this.productoService = productoService;
     }
 
-    @GetMapping(value = "")
+    @GetMapping(value = "/facturas/{id}")
     public ResponseEntity<?> show(@PathVariable Long id) {
         Factura factura;
         Map<String, Object> response = new HashMap<>();
 
         try {
             factura = facturaDao.fetchByIdWithClienteWithItemFacturaWithProducto(id);
-        } catch(DataAccessException e) {
+        } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar la consulta en la base de datos");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         if (factura == null) {
-            response.put("mensaje", "La factura nº " + id + " no existe");
+            response.put("mensaje", "La factura " + id + " no existe");
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(factura, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "facturas/ver/{id}")
+    public ResponseEntity<?> list(@PathVariable Long id) {
+        List<Factura> facturas;
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            facturas = facturaDao.findAllByCliente(clienteService.findById(id));
+        } catch (DataAccessException e) {
+            response.put("mensaje", "Error al realizar la consulta en la base de datos");
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        response.put("facturas", facturas);
+        return new ResponseEntity<>(facturas, HttpStatus.OK);
     }
 
     @PostMapping(value = "/facturas/nueva/{cliente}")
@@ -69,7 +86,7 @@ public class FacturaRestController {
 
         try {
             cli = clienteService.findById(cliente);
-        } catch(DataAccessException e) {
+        } catch (DataAccessException e) {
             response.put("error", "Error al consultar la base de datos ");
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -92,7 +109,8 @@ public class FacturaRestController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    public @ResponseBody List<Producto> cargarProducto(@PathVariable String nombre) {
+    public @ResponseBody
+    List<Producto> cargarProducto(@PathVariable String nombre) {
         return productoService.findByNombreLikeIgnoreCase(nombre);
     }
 

@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {FacturaService} from '../../services/factura.service';
 
 @Component({
   selector: 'app-facturas-detalle',
@@ -7,7 +8,9 @@ import {Component, OnInit} from '@angular/core';
 })
 export class FacturasDetalleComponent implements OnInit {
 
-  constructor() { }
+  constructor(private facturaService: FacturaService) {
+
+  }
 
   ngOnInit() {
   }

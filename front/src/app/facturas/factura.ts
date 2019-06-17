@@ -4,7 +4,7 @@ import {ItemFactura} from '../items-factura/itemFactura';
 export class Factura {
   id: number;
   descripcion: string;
-  obervacion: string;
+  observacion: string;
   cliente: Cliente;
   items: ItemFactura[];
   createdAt: Date;

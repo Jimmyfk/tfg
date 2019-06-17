@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.io.Serializable;
 
 @Entity
@@ -27,6 +28,7 @@ public class ItemFactura implements Serializable {
 
     private Integer cantidad;
 
+    @Transient
     private Double importe;
 
     public ItemFactura() {}
