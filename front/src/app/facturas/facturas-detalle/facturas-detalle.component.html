@@ -17,6 +17,33 @@
         <li class="list-group-item">Fecha: {{factura.createdAt}}</li>
         <li class="list-group-item" *ngIf="factura.observacion">Observaciones: {{factura.observacion}}</li>
       </ul>
+      <div class="alert alert-info my-4" *ngIf="!factura.items || factura.items.length == 0">
+        La factura {{factura.descripcion}} no tiene items
+      </div>
+      <table class="table table-striped table-bordered my-3 table-danger"
+             *ngIf="factura.items && factura.items.length > 0">
+        <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Precio</th>
+          <th>Cantidad</th>
+          <th>Importe</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of factura.items">
+          <td>{{item.producto.nombre}}</td>
+          <td>{{item.producto.precio}}€</td>
+          <td>{{item.cantidad}}</td>
+          <td>{{item.importe}}€</td>
+        </tr>
+        <tr>
+          <td colspan="4" class="text-right pr-4">
+            Total: <span class="badge badge-pill badge-danger">{{factura.total}}€</span>
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
