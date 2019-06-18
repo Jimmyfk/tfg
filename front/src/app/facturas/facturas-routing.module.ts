@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import {FacturasDetalleComponent} from './facturas-detalle/facturas-detalle.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '', pathMatch: 'full'}
+  { path: '',  component: FacturasDetalleComponent },
+  { path: 'clientes/facturas/:id', component: FacturasDetalleComponent }
 ];
 
 @NgModule({

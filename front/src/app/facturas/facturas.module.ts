@@ -9,13 +9,12 @@ import {FacturasFormComponent} from './facturas-form/facturas-form.component';
 @NgModule({
   declarations: [
     FacturasComponent,
-    FacturasDetalleComponent,
-    FacturasFormComponent
+    FacturasFormComponent,
+    FacturasDetalleComponent
   ],
   imports: [
     CommonModule,
     FacturasRoutingModule,
-
   ]
 })
 export class FacturasModule { }

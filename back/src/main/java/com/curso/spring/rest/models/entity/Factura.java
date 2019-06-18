@@ -100,7 +100,6 @@ public class Factura implements Serializable {
         this.createdAt = createdAt;
     }
 
-    @JsonIgnore
     @XmlTransient
     public Cliente getCliente() {
         return cliente;

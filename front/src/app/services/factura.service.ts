@@ -19,4 +19,8 @@ export class FacturaService {
   getFacturas(id: number) {
     return this.http.get<Factura[]>(`${this.url}/ver/${id}`);
   }
+
+  getDetalleFactura(id: number) {
+    return this.http.get<Factura>(`${this.url}/${id}`);
+  }
 }

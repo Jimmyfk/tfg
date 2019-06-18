@@ -30,7 +30,9 @@
       </thead>
       <tbody>
         <tr *ngFor="let factura of facturas">
-          <td>{{factura.descripcion}}</td>
+          <td>
+            <a [routerLink]="['/clientes/facturas', factura.id]">{{factura.descripcion}}</a>
+          </td>
           <td>{{factura.observacion}}</td>
         </tr>
       </tbody>
