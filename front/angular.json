@@ -28,7 +28,9 @@
             "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",
               "./node_modules/popper.js/dist/umd/popper.min.js",
-              "./node_modules/jquery-ui/build/release.js"
+              "./node_modules/jquery-ui/build/release.js",
+              "./src/assets/js/helper.js",
+              "./src/assets/js/validaciones.js"
             ],
             "es5BrowserSupport": true
           },

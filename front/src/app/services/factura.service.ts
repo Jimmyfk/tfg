@@ -3,6 +3,7 @@ import {environment} from '../../environments/environment';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {Factura} from '../facturas/factura';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -22,5 +23,14 @@ export class FacturaService {
 
   getDetalleFactura(id: number) {
     return this.http.get<Factura>(`${this.url}/${id}`);
+  }
+
+  buscarProductos(name: string) {
+    return this.http.get(`${this.url}/cargar-productos/${name}`).pipe(
+      map((response: any) => {
+      return response.json().map(item => {
+        return item;
+      });
+    }));
   }
 }

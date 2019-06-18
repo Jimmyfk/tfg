@@ -25,11 +25,11 @@ $(function () {
     $('#volver').click(function () {
         history.back()
     });
-
+    
     $('#buscar').autocomplete({
         source: function (request, response) {
             $.ajax({
-                url: getPath() + '/factura/cargar-productos/' + request.term,
+                url: getPath() + '/facturas/cargar-productos/' + request.term,
                 datatype: 'json',
                 data: {
                     term: request.term

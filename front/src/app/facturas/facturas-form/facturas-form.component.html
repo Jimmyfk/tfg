@@ -1,39 +1,104 @@
 <table class="d-none">
   <tbody id="plantillaItemsFactura">
-    <tr class="alert-info row row_" id="row_{ID}">
-      <input type="hidden" value="{ID}" name="item_id[]">
-      <td class="col-5">{{"{"}}NOMBRE{{"}"}}</td>
-      <td class="col-3"><span id="precio_{ID}">{{"{"}}PRECIO{{"}"}}</span>€</td>
-      <td class="col-1"><input type="number" min="1" value="1" name="cantidad[]" id="cantidad_{ID}"
-                               class="form-control cantidad"/></td>
-      <td class="col-2 text-right"><span id="importe_{ID}" class="importe">0.0</span>€</td>
-      <td class="col-1 text-center">
-        <button id="eliminar_{ID}" class="btn btn-danger eliminar_">X</button>
-      </td>
-    </tr>
+  <tr class="alert-info row row_" id="row_{ID}">
+    <input type="hidden" value="{ID}" name="item_id[]">
+    <td class="col-5">{{"{"}}NOMBRE{{"}"}}</td>
+    <td class="col-3"><span id="precio_{ID}">{{"{"}}PRECIO{{"}"}}</span>€</td>
+    <td class="col-1"><input type="number" min="1" value="1" name="cantidad[]" id="cantidad_{ID}"
+                             class="form-control cantidad"/></td>
+    <td class="col-2 text-right"><span id="importe_{ID}" class="importe">0.0</span>€</td>
+    <td class="col-1 text-center">
+      <button id="eliminar_{ID}" class="btn btn-danger eliminar_">X</button>
+    </td>
+  </tr>
   </tbody>
 </table>
-<div class="row justify-content-center">
-  <table class="table col-11 mb-0" id="items">
-    <thead>
-    <tr class="bg-info row">
-      <th class="col-5">Nombre</th>
-      <th class="col-3">Precio</th>
-      <th class="col-1">Cantidad</th>
-      <th class="col-2 text-right">Importe</th>
-      <th class="col-1"></th>
-    </tr>
-    </thead>
-    <tbody>
-    </tbody>
-  </table>
-  <table class="table col-11 mt-0">
-    <tr class="alert-warning row">
-      <th class="col-5"></th>
-      <th class="col-3"></th>
-      <th class="col-1"></th>
-      <th class="col-2 text-right"><span id="total">0</span>€</th>
-      <th class="col-1">Total</th>
-    </tr>
-  </table>
+
+<div class="row">
+  <form class="col-12 pt-3" method="post"
+        enctype="multipart/form-data">
+    <div class="row justify-content-center">
+      <div class="col-6">
+        <div class="form-group row">
+          <label class="col-form-label text-right col-2">Cliente</label>
+          <div class="col-10">
+            <input type="text" class="form-control"
+                   value="{{factura.cliente.nombre}} {{factura.cliente.apellidos}}"
+                   disabled="disabled"/>
+          </div>
+        </div>
+        <div class="form-group row justify-content-center"></div>
+        <div class="form-group row">
+          <label [(ngModel)]="factura.descripcion"
+                      class="col-form-label text-right col-2">Descripción
+          </label>
+          <div class="col-10">
+            <input type="text" class="form-control" [(ngModel)]="factura.descripcion"
+                        placeholder="Descripción"/>
+          </div>
+        </div>
+        <div class="form-group row justify-content-center">
+          <small>
+
+          </small>
+        </div>
+        <div class="form-group row">
+          <label path="observacion"
+                      class="col-form-label text-right col-2">Observación
+          </label>
+          <div class="col-10">
+            <input type="text" class="form-control" path="observacion"
+                        placeholder="Observación"/>
+          </div>
+        </div>
+        <div class="form-group row justify-content-center">
+          <small>
+
+          </small>
+        </div>
+        <div class="form-group row">
+          <label for="buscar_producto" class="col-form-label text-right col-2">Productos</label>
+          <div class="col-10">
+            <mat-form-field>
+              <input type="text" class="form-control" name="buscar_producto" id="buscar"
+                   placeholder="Buscar producto" matInput [formControl]="buscar" [matAutocomplete]="auto"/>
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let item of resultados" [value]="item">
+                  {{item}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form-group row justify-content-center">
+          <input type="submit" class="btn btn-primary" value="Crear" disabled="disabled" id="pedro"/>
+          <input type="button" class="btn btn-danger ml-1" value="Volver" onclick="history.back()"/>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <table class="table col-11 mb-0" id="items">
+        <thead>
+        <tr class="bg-info row">
+          <th class="col-5">Nombre</th>
+          <th class="col-3">Precio</th>
+          <th class="col-1">Cantidad</th>
+          <th class="col-2 text-right">Importe</th>
+          <th class="col-1"></th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+      <table class="table col-11 mt-0">
+        <tr class="alert-warning row">
+          <th class="col-5"></th>
+          <th class="col-3"></th>
+          <th class="col-1"></th>
+          <th class="col-2 text-right"><span id="total">0</span>€</th>
+          <th class="col-1">Total</th>
+        </tr>
+      </table>
+    </div>
+  </form>
 </div>

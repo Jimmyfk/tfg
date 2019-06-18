@@ -2,7 +2,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {LOCALE_ID, NgModule} from '@angular/core';
 
-import {AppRoutingModule} from './app-routing.module';
+
 import {AppComponent} from './app.component';
 import {InicioComponent} from './inicio/inicio.component';
 import {HeaderComponent} from './header/header.component';
@@ -16,6 +16,7 @@ import localeIt from '@angular/common/locales/it';
 import localeRu from '@angular/common/locales/ru';
 import { ProductosComponent } from './productos/productos.component';
 import { ItemsFacturaComponent } from './items-factura/items-factura.component';
+import {AppRoutingModule} from './app-routing.module';
 
 registerLocaleData(localeFr, 'fr');
 registerLocaleData(localeEs, 'es');

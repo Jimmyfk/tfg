@@ -109,8 +109,8 @@ public class FacturaRestController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    public @ResponseBody
-    List<Producto> cargarProducto(@PathVariable String nombre) {
+    @GetMapping(value = "facturas/cargar-productos/{nombre}")
+    public @ResponseBody List<Producto> cargarProducto(@PathVariable String nombre) {
         return productoService.findByNombreLikeIgnoreCase(nombre);
     }
 

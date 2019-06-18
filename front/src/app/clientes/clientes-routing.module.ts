@@ -9,7 +9,8 @@ const routes: Routes = [
   { path: 'formulario', component: ClientesFormComponent },
   { path: ':id', component: ClientesDetalleComponent },
   { path: 'formulario/:id', component: ClientesFormComponent },
-  { path: 'facturas/:id', loadChildren: '../facturas/facturas.module#FacturasModule' }
+  { path: 'facturas/:id', loadChildren: '../facturas/facturas.module#FacturasModule' },
+  { path: 'facturas/formulario/:id', loadChildren: '../facturas/facturas.module#FacturasModule' }
 ];
 
 @NgModule({

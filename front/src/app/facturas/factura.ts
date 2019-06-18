@@ -9,4 +9,9 @@ export class Factura {
   items: ItemFactura[];
   createdAt: Date;
   total: number;
+
+  constructor(cliente: Cliente) {
+    this.cliente = cliente;
+  }
+
 }
