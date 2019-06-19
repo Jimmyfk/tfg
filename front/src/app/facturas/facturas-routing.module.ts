@@ -1,16 +1,21 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {FacturasDetalleComponent} from './facturas-detalle/facturas-detalle.component';
 import {FacturasFormComponent} from './facturas-form/facturas-form.component';
 
-const routes: Routes = [
-  { path: '',  component: FacturasDetalleComponent },
-  { path: 'clientes/facturas/:id', component: FacturasDetalleComponent },
-  { path: 'formulario/:id', component: FacturasFormComponent }
+const facturaRoutes: Routes = [
+  {
+    path: '',
+    children: [
+      {path: 'factura/:id', component: FacturasDetalleComponent},
+      {path: 'factura/nueva/:id', component: FacturasFormComponent}
+    ]
+  }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(facturaRoutes)],
   exports: [RouterModule]
 })
-export class FacturasRoutingModule { }
+export class FacturasRoutingModule {
+}

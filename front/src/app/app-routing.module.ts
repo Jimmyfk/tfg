@@ -8,16 +8,16 @@ const routes: Routes = [
   { path: 'inicio', component: InicioComponent },
   {
     path: 'clientes',
-    loadChildren: () => import('./clientes/clientes.module').then(mod => mod.ClientesModule)
+    loadChildren: () => import('./clientes/clientes-list/clientes-list.module').then(mod => mod.ClientesListModule)
   },
   {
-    path: 'facturas',
+    path: 'factura',
     loadChildren: () => import('./facturas/facturas.module').then(mod => mod.FacturasModule)
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { enableTracing: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

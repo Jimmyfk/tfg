@@ -5,22 +5,27 @@ import {FacturasRoutingModule} from './facturas-routing.module';
 import {FacturasComponent} from './facturas.component';
 import {FacturasDetalleComponent} from './facturas-detalle/facturas-detalle.component';
 import {FacturasFormComponent} from './facturas-form/facturas-form.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ClienteService} from '../services/cliente.service';
 import {MatAutocompleteModule, MatInputModule} from '@angular/material';
+import {ProductosComponent} from '../productos/productos.component';
+import {ItemsFacturaComponent} from '../items-factura/items-factura.component';
 
 @NgModule({
   declarations: [
     FacturasComponent,
     FacturasFormComponent,
-    FacturasDetalleComponent
+    FacturasDetalleComponent,
+    ProductosComponent,
+    ItemsFacturaComponent
   ],
   imports: [
     CommonModule,
-    FacturasRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     MatInputModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    FacturasRoutingModule
   ],
   providers: [
     ClienteService
