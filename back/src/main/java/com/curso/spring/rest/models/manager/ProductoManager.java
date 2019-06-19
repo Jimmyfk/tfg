@@ -22,7 +22,7 @@ public class ProductoManager implements ProductoService {
 
     @Override
     public List<Producto> findByNombreLikeIgnoreCase(String nombre) {
-        return productoDao.findByNombreLikeIgnoreCase(nombre);
+        return productoDao.findByNombreLikeIgnoreCase('%' + nombre + '%');
     }
 
     @Override

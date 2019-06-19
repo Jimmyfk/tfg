@@ -16,7 +16,7 @@ import {debounceTime} from 'rxjs/operators';
 export class FacturasFormComponent implements OnInit {
 
   public factura: Factura;
-  
+
   buscar: FormControl = new FormControl();
   resultados = [];
 

@@ -28,8 +28,8 @@ export class FacturaService {
   buscarProductos(name: string) {
     return this.http.get(`${this.url}/cargar-productos/${name}`).pipe(
       map((response: any) => {
-      return response.json().map(item => {
-        return item;
+      return response.map(item => {
+        return item.nombre;
       });
     }));
   }
