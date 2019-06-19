@@ -6,6 +6,7 @@ import {MatAutocompleteModule, MatInputModule} from '@angular/material';
 import {FormControl} from '@angular/forms';
 import {FacturaService} from '../../services/factura.service';
 import {debounceTime} from 'rxjs/operators';
+import {ItemFactura} from '../../items-factura/itemFactura';
 
 
 @Component({
@@ -16,6 +17,7 @@ import {debounceTime} from 'rxjs/operators';
 export class FacturasFormComponent implements OnInit {
 
   public factura: Factura;
+  public items: ItemFactura[];
 
   buscar: FormControl = new FormControl();
   resultados = [];
