@@ -4,9 +4,9 @@ import {LOCALE_ID, NgModule} from '@angular/core';
 
 
 import {AppComponent} from './app.component';
-import {InicioComponent} from './inicio/inicio.component';
-import {HeaderComponent} from './header/header.component';
-import {FooterComponent} from './footer/footer.component';
+import {InicioComponent} from './common/inicio/inicio.component';
+import {HeaderComponent} from './common/header/header.component';
+import {FooterComponent} from './common/footer/footer.component';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {registerLocaleData} from '@angular/common';

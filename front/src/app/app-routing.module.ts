@@ -1,4 +1,4 @@
-import {InicioComponent} from './inicio/inicio.component';
+import {InicioComponent} from './common/inicio/inicio.component';
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
