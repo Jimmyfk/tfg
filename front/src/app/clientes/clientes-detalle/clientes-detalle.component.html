@@ -1,23 +1,20 @@
-<div>
-  <table>
-    <caption></caption>
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Apellidos</th>
-        <th>Email</th>
-        <th>Fecha creación</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>{{cliente.nombre}}</td>
-        <td>{{cliente.apellidos}}</td>
-        <td>{{cliente.email}}</td>
-        <td>{{cliente.createdAt}}</td>
-      </tr>
-    </tbody>
-  </table>
+<div class="container">
+  <div class="card bg-light">
+    <div class="card-header">Detalles del cliente</div>
+    <div class="card-body">
+      <ul class="list-group my-2">
+        <li class="list-group-item list-group-item-primary">
+         {{cliente.nombre}} {{cliente.apellidos}}
+        </li>
+        <li class="list-group-item">
+          Email: {{cliente.email}}
+        </li>
+        <li class="list-group-item">
+          Fecha de creación: {{cliente.createdAt}}
+        </li>
+      </ul>
+    </div>
+  </div>
 
   <div class="container" *ngIf="facturas && facturas.length > 0">
     <table>
