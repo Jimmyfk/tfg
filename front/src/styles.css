@@ -3,3 +3,7 @@
 a, button, .btn {
   cursor: pointer !important;
 }
+
+caption {
+  caption-side: top !important;
+}

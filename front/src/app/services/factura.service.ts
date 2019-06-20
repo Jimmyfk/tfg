@@ -4,6 +4,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {Factura} from '../facturas/factura';
 import {map} from 'rxjs/operators';
+import {Producto} from '../productos/producto';
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +33,9 @@ export class FacturaService {
           return item.nombre;
         });
       }));
+  }
+
+  getProducto(name: string) {
+    return this.http.get<Producto>(`${this.url}/producto/${name}`);
   }
 }

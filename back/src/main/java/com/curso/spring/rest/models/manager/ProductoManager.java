@@ -29,4 +29,8 @@ public class ProductoManager implements ProductoService {
     public Producto findById(Long id) {
         return productoDao.findById(id).orElse(null);
     }
+
+    public Producto findByNombre(String nombre) {
+        return productoDao.findByNombreIgnoreCase(nombre);
+    }
 }

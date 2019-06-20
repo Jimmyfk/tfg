@@ -12,6 +12,15 @@ export class Factura {
 
   constructor(cliente: Cliente) {
     this.cliente = cliente;
+    this.items = [];
+    this.total = 0;
+  }
+
+  calcularTotal() {
+    this.total = 0;
+    for (let item of this.items) {
+      this.total += item.calcularImporte();
+    }
   }
 
 }

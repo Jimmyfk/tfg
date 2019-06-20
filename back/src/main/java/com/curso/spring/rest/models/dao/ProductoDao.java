@@ -8,4 +8,6 @@ import java.util.List;
 public interface ProductoDao extends JpaRepository<Producto, Long> {
 
     List<Producto> findByNombreLikeIgnoreCase(String nombre);
+
+    Producto findByNombreIgnoreCase(String nombre);
 }

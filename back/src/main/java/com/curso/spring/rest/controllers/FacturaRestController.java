@@ -114,4 +114,25 @@ public class FacturaRestController {
         return productoService.findByNombreLikeIgnoreCase(nombre);
     }
 
+    @GetMapping(value = "facturas/producto/{nombre}")
+    public ResponseEntity<?> find(@PathVariable String nombre) {
+        Producto producto;
+        Map<String, Object> response = new HashMap();
+
+        try {
+            producto = productoService.findByNombre(nombre);
+        } catch (DataAccessException e) {
+            response.put("error", "Error al consultar la base de datos");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        if (producto == null) {
+            response.put("error", "El producto no existe");
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+
+        response.put("producto", producto);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 }
