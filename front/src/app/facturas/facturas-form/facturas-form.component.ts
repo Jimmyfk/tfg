@@ -7,7 +7,6 @@ import {FormControl} from '@angular/forms';
 import {FacturaService} from '../../services/factura.service';
 import {debounceTime} from 'rxjs/operators';
 import {ItemFactura} from '../../items-factura/itemFactura';
-import {Producto} from '../../productos/producto';
 
 @Component({
   selector: 'app-facturas-form',
@@ -56,6 +55,7 @@ export class FacturasFormComponent implements OnInit {
         this.factura.items.push(new ItemFactura(response.producto));
       }
       this.factura.calcularTotal();
+      this.buscar.setValue('');
     });
   }
 

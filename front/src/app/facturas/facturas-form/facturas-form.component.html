@@ -63,26 +63,27 @@
     <div class="row justify-content-center">
       <table class="table col-11 mb-0" id="items">
         <thead>
-          <tr class="bg-info row">
-            <th class="col-5">Nombre</th>
-            <th class="col-3">Precio</th>
-            <th class="col-1">Cantidad</th>
-            <th class="col-2 text-right">Importe</th>
-            <th class="col-1"></th>
-          </tr>
+        <tr class="bg-info row">
+          <th class="col-5">Nombre</th>
+          <th class="col-3">Precio</th>
+          <th class="col-1">Cantidad</th>
+          <th class="col-2 text-right">Importe</th>
+          <th class="col-1"></th>
+        </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of factura.items" class="row">
-            <td class="col-5">{{item.producto.nombre}}</td>
-            <td class="col-3">{{item.producto.precio}}€</td>
-            <td class="col-1">
-              <input class="form-control" type="number" [(ngModel)]="item.cantidad" [name]="item.producto.id.toString()" min="1"  (ngModelChange)="factura.calcularTotal()"/>
-            </td>
-            <td class="col-2 text-right">{{item.calcularImporte()}}€</td>
-            <td class="col-1">
-              <button class="btn btn-danger btn-xs" title="Eliminar" (click)="removeItem(item)">X</button>
-            </td>
-          </tr>
+        <tr *ngFor="let item of factura.items" class="row">
+          <td class="col-5">{{item.producto.nombre}}</td>
+          <td class="col-3">{{item.producto.precio}}€</td>
+          <td class="col-1">
+            <input class="form-control" type="number" [(ngModel)]="item.cantidad" [name]="item.producto.id.toString()"
+                   min="1" (ngModelChange)="factura.calcularTotal()"/>
+          </td>
+          <td class="col-2 text-right">{{item.calcularImporte() | number: '1.2-2'}}€</td>
+          <td class="col-1">
+            <button class="btn btn-danger btn-xs" title="Eliminar" (click)="removeItem(item)">X</button>
+          </td>
+        </tr>
         </tbody>
       </table>
       <table class="table col-11 mt-0">
@@ -91,7 +92,8 @@
           <th class="col-3"></th>
           <th class="col-1"></th>
           <th class="col-2 form-group">
-            <input type="number" disabled [(ngModel)]="factura.total" name="total" #total="ngModel" class="form-control text-right h-75"/>
+            <input type="number" disabled [(ngModel)]="factura.total" name="total" #total="ngModel"
+                   class="form-control text-right h-75" />
           </th>
           <th class="col-1">Total</th>
         </tr>

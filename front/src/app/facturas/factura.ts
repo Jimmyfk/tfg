@@ -18,7 +18,7 @@ export class Factura {
 
   calcularTotal() {
     this.total = 0;
-    for (let item of this.items) {
+    for (const item of this.items) {
       this.total += item.calcularImporte();
     }
   }

@@ -7,3 +7,7 @@ a, button, .btn {
 caption {
   caption-side: top !important;
 }
+
+input[type='number'][disabled] {
+  -moz-appearance:textfield !important;
+}
