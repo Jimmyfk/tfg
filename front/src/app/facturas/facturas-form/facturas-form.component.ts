@@ -56,19 +56,15 @@ export class FacturasFormComponent implements OnInit {
       }
       this.factura.calcularTotal();
     });
-    console.log(this.factura);
   }
 
   private hasProducto(id: number): boolean {
-    for (const {item, index} of this.toItemIndexes(this.factura.items)) {
+    for (const item of this.factura.items) {
       if (item.producto.id === id) {
+        item.cantidad++;
         return true;
       }
     }
     return false;
-  }
-
-  private toItemIndexes<T>(a: T[]) {
-    return a.map((item, index) => ({item, index}));
   }
 }
