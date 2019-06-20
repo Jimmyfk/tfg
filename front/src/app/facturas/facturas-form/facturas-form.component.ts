@@ -7,6 +7,7 @@ import {FormControl} from '@angular/forms';
 import {FacturaService} from '../../services/factura.service';
 import {debounceTime} from 'rxjs/operators';
 import {ItemFactura} from '../../items-factura/itemFactura';
+import {Producto} from '../../productos/producto';
 
 @Component({
   selector: 'app-facturas-form',
@@ -56,6 +57,16 @@ export class FacturasFormComponent implements OnInit {
       }
       this.factura.calcularTotal();
     });
+  }
+
+  removeItem(it: ItemFactura) {
+    for (const item of this.factura.items) {
+      if (it.producto.id === item.producto.id) {
+        this.factura.items.splice(this.factura.items.indexOf(it, 1));
+        break;
+      }
+    }
+    this.factura.calcularTotal();
   }
 
   private hasProducto(id: number): boolean {
