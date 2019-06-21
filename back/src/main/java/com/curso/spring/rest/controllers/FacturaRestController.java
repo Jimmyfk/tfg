@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -78,9 +79,7 @@ public class FacturaRestController {
     }
 
     @PostMapping(value = "/facturas/nueva/{cliente}")
-    public ResponseEntity<?> create(@PathVariable Long cliente,
-                                    @RequestParam(name = "item_id[]", required = false) Long[] itemId,
-                                    @RequestParam(name = "item_cantidad[]", required = false) Integer[] cantidad) {
+    public ResponseEntity<?> create(@PathVariable Long cliente, @RequestBody Factura factura) {
         Cliente cli;
         Map<String, Object> response = new HashMap<>();
 
@@ -95,14 +94,7 @@ public class FacturaRestController {
             response.put("error", "El cliente " + cliente + " no existe");
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
-
-        Factura factura = new Factura(cli);
-        for (int i = 0; i < itemId.length; i++) {
-            Producto producto = productoService.findById(itemId[i]);
-            ItemFactura item = new ItemFactura(cantidad[i], producto);
-            factura.addItems(item);
-        }
-
+        facturaDao.save(factura);
         response.put("factura", factura);
         response.put("mensaje", "Factura creada correctamente");
 

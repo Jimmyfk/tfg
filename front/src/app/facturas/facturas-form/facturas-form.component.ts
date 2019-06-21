@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {Factura} from '../factura';
 import {ClienteService} from '../../services/cliente.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {MatAutocompleteSelectedEvent} from '@angular/material';
 import {FormControl} from '@angular/forms';
 import {FacturaService} from '../../services/factura.service';
 import {debounceTime} from 'rxjs/operators';
 import {ItemFactura} from '../../items-factura/itemFactura';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-facturas-form',
@@ -19,10 +20,12 @@ export class FacturasFormComponent implements OnInit {
 
   buscar: FormControl = new FormControl();
   resultados = [];
+  errores = [];
 
   constructor(private clienteService: ClienteService,
               private facturaService: FacturaService,
-              private rutaActiva: ActivatedRoute) {
+              private rutaActiva: ActivatedRoute,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -69,6 +72,21 @@ export class FacturasFormComponent implements OnInit {
     this.factura.calcularTotal();
   }
 
+  create() {
+    this.facturaService.create(this.factura).subscribe(
+      response => {
+        this.router.navigate(['/clientes', this.factura.cliente.id]);
+        swal.fire('Nueva factura', this.decode(response.mensaje), 'success');
+      },
+      response => {
+        this.errores = response.error.errors as string[];
+        console.error(this.errores);
+        console.error('Código de error: ' + response.status);
+      }
+    );
+    console.log(this.factura);
+  }
+
   private hasProducto(id: number): boolean {
     for (const item of this.factura.items) {
       if (item.producto.id === id) {
@@ -77,5 +95,9 @@ export class FacturasFormComponent implements OnInit {
       }
     }
     return false;
+  }
+
+  private decode(cadena: string): string {
+    return decodeURIComponent(escape(cadena));
   }
 }

@@ -13,11 +13,9 @@
         </div>
         <div class="form-group row justify-content-center"></div>
         <div class="form-group row">
-          <label [(ngModel)]="factura.descripcion"
-                 class="col-form-label text-right col-2">Descripción
-          </label>
+          <label class="col-form-label text-right col-2">Descripción</label>
           <div class="col-10">
-            <input type="text" class="form-control" [(ngModel)]="factura.descripcion"
+            <input type="text" class="form-control" [(ngModel)]="factura.descripcion" name="descripcion"
                    placeholder="Descripción"/>
           </div>
         </div>
@@ -31,7 +29,7 @@
                  class="col-form-label text-right col-2">Observación
           </label>
           <div class="col-10">
-            <input type="text" class="form-control" path="observacion"
+            <input type="text" class="form-control" [(ngModel)]="factura.observacion" name="observacion"
                    placeholder="Observación"/>
           </div>
         </div>
@@ -55,7 +53,7 @@
           </div>
         </div>
         <div class="form-group row justify-content-center">
-          <input type="submit" class="btn btn-primary" value="Crear" disabled="disabled" id="pedro"/>
+          <input type="submit" class="btn btn-primary" value="Crear" (click)="create()"/>
           <input type="button" class="btn btn-danger ml-1" value="Volver" onclick="history.back()"/>
         </div>
       </div>
@@ -86,16 +84,16 @@
         </tr>
         </tbody>
       </table>
-      <table class="table col-11 mt-0">
+      <table class="table col-11 mt-0 h-50 py-0">
         <tr class="alert-warning row">
-          <th class="col-5"></th>
-          <th class="col-3"></th>
-          <th class="col-1"></th>
-          <th class="col-2 form-group">
+          <th class="col-5 border-0"></th>
+          <th class="col-3 border-0"></th>
+          <th class="col-1 border-0"></th>
+          <th class="col-2 form-group py-0 mb-0 mt-2 border-0">
             <input type="number" disabled [(ngModel)]="factura.total" name="total" #total="ngModel"
                    class="form-control text-right h-75" />
           </th>
-          <th class="col-1">Total</th>
+          <th class="col-1 py-0 mt-2 border-0">Total</th>
         </tr>
       </table>
     </div>
