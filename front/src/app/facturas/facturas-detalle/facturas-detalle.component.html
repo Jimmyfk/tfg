@@ -35,11 +35,11 @@
           <td>{{item.producto.nombre}}</td>
           <td>{{item.producto.precio}}€</td>
           <td>{{item.cantidad}}</td>
-          <td>{{item.importe}}€</td>
+          <td>{{item.importe | number: '1.2-2'}}€</td>
         </tr>
         <tr>
           <td colspan="4" class="text-right pr-4">
-            Total: <span class="badge badge-pill badge-danger">{{factura.total}}€</span>
+            Total: <span class="badge badge-pill badge-danger">{{factura.total | number: '1.2-2'}}€</span>
           </td>
         </tr>
         </tbody>

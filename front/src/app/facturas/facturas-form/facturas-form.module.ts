@@ -6,6 +6,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatAutocompleteModule, MatInputModule} from '@angular/material';
 import {ClienteService} from '../../services/cliente.service';
 import {FacturasFormComponent} from './facturas-form.component';
+import {ProductoService} from '../../services/producto.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {FacturasFormComponent} from './facturas-form.component';
     FacturasFormRoutingModule
   ],
   providers: [
-    ClienteService
+    ClienteService,
+    ProductoService
   ]
 })
 export class FacturasFormModule { }

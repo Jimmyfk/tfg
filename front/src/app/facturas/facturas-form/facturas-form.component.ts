@@ -8,6 +8,7 @@ import {FacturaService} from '../../services/factura.service';
 import {debounceTime} from 'rxjs/operators';
 import {ItemFactura} from '../../items-factura/itemFactura';
 import swal from 'sweetalert2';
+import {ProductoService} from '../../services/producto.service';
 
 @Component({
   selector: 'app-facturas-form',
@@ -24,6 +25,7 @@ export class FacturasFormComponent implements OnInit {
 
   constructor(private clienteService: ClienteService,
               private facturaService: FacturaService,
+              private productoService: ProductoService,
               private rutaActiva: ActivatedRoute,
               private router: Router) {
   }
@@ -46,14 +48,14 @@ export class FacturasFormComponent implements OnInit {
 
   autocomplete() {
     this.buscar.valueChanges.pipe(debounceTime(400)).subscribe(data => {
-      this.facturaService.buscarProductos(data).subscribe(response => {
+      this.productoService.buscarProductos(data).subscribe(response => {
         this.resultados = response;
       });
     });
   }
 
   select(event: MatAutocompleteSelectedEvent) {
-    this.facturaService.getProducto(event.option.value).subscribe((response: any) => {
+    this.productoService.getProducto(event.option.value).subscribe((response: any) => {
       if (!this.hasProducto(response.producto.id)) {
         this.factura.items.push(new ItemFactura(response.producto));
       }
@@ -79,12 +81,11 @@ export class FacturasFormComponent implements OnInit {
         swal.fire('Nueva factura', this.decode(response.mensaje), 'success');
       },
       response => {
-        this.errores = response.error.errors as string[];
+        this.errores = response.error.message as string[];
         console.error(this.errores);
         console.error('Código de error: ' + response.status);
       }
     );
-    console.log(this.factura);
   }
 
   private hasProducto(id: number): boolean {

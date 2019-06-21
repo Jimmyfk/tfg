@@ -29,7 +29,7 @@
               <a [routerLink]="['/factura', factura.id]">{{factura.descripcion}}</a>
             </td>
             <td>{{factura.observacion}}</td>
-            <td class="text-right">{{factura.total}}€</td>
+            <td class="text-right">{{factura.total | number: '1.2-2'}}€</td>
           </tr>
           </tbody>
         </table>

@@ -19,8 +19,9 @@ export class Factura {
   calcularTotal() {
     this.total = 0;
     for (const item of this.items) {
-      this.total += parseFloat(item.calcularImporte().toFixed(2));
+      this.total += item.calcularImporte();
     }
+    this.total = Number(this.total.toFixed(2));
   }
 
 }

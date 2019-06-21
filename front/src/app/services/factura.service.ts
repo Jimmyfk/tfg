@@ -4,7 +4,6 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {Factura} from '../facturas/factura';
 import {catchError, map} from 'rxjs/operators';
-import {Producto} from '../productos/producto';
 import {Observable, throwError} from 'rxjs';
 import swal from 'sweetalert2';
 
@@ -28,19 +27,6 @@ export class FacturaService {
 
   getDetalleFactura(id: number) {
     return this.http.get<Factura>(`${this.url}/${id}`);
-  }
-
-  buscarProductos(name: string) {
-    return this.http.get(`${this.url}/cargar-productos/${name}`).pipe(
-      map((response: any) => {
-        return response.map(item => {
-          return item.nombre;
-        });
-      }));
-  }
-
-  getProducto(name: string) {
-    return this.http.get<Producto>(`${this.url}/producto/${name}`);
   }
 
   create(factura: Factura): Observable<any> {
