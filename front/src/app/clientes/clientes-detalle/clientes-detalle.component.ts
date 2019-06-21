@@ -7,8 +7,7 @@ import {FacturaService} from '../../services/factura.service';
 
 @Component({
   selector: 'app-clientes-detalle',
-  templateUrl: './clientes-detalle.component.html',
-  styleUrls: ['./clientes-detalle.component.css']
+  templateUrl: './clientes-detalle.component.html'
 })
 export class ClientesDetalleComponent implements OnInit {
 

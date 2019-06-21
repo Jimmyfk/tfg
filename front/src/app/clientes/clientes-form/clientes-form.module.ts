@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ClientesFormRoutingModule } from './clientes-form-routing.module';
 import {ClientesFormComponent} from './clientes-form.component';
 import {FormsModule} from '@angular/forms';
+import {BackButtonModule} from '../../common/back-button/back-button.module';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import {FormsModule} from '@angular/forms';
   imports: [
     CommonModule,
     FormsModule,
-    ClientesFormRoutingModule
+    ClientesFormRoutingModule,
+    BackButtonModule
   ]
 })
 export class ClientesFormModule { }

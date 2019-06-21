@@ -12,8 +12,7 @@ import {ProductoService} from '../../services/producto.service';
 
 @Component({
   selector: 'app-facturas-form',
-  templateUrl: './facturas-form.component.html',
-  styleUrls: ['./facturas-form.component.css']
+  templateUrl: './facturas-form.component.html'
 })
 export class FacturasFormComponent implements OnInit {
 

@@ -7,6 +7,7 @@ import {MatAutocompleteModule, MatInputModule} from '@angular/material';
 import {ClienteService} from '../../services/cliente.service';
 import {FacturasFormComponent} from './facturas-form.component';
 import {ProductoService} from '../../services/producto.service';
+import {BackButtonModule} from '../../common/back-button/back-button.module';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import {ProductoService} from '../../services/producto.service';
     ReactiveFormsModule,
     MatInputModule,
     MatAutocompleteModule,
+    BackButtonModule,
     FacturasFormRoutingModule
   ],
   providers: [
