@@ -13,7 +13,7 @@
           Fecha de creación: {{cliente.createdAt}}
         </li>
       </ul>
-      <div class="container" *ngIf="facturas && facturas.length > 0">
+      <div class="container" *ngIf="facturas && facturas.length > 0; else sinFactura">
         <table class="table table-striped table-bordered table-hover">
           <caption class="text-center">Lista de facturas</caption>
           <thead>
@@ -34,6 +34,11 @@
           </tbody>
         </table>
       </div>
+      <ng-template #sinFactura>
+        <div class="aler alert-info mb-2 py-1">
+          El cliente {{cliente.nombre}} {{cliente.apellidos}} no tiene facturas
+        </div>
+      </ng-template>
       <app-back-button class="ml-3"></app-back-button>
     </div>
   </div>
