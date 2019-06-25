@@ -3,7 +3,6 @@ package com.curso.spring.rest.controllers;
 import com.curso.spring.rest.models.dao.FacturaDao;
 import com.curso.spring.rest.models.entity.Cliente;
 import com.curso.spring.rest.models.entity.Factura;
-import com.curso.spring.rest.models.entity.ItemFactura;
 import com.curso.spring.rest.models.entity.Producto;
 import com.curso.spring.rest.models.services.ClienteService;
 import com.curso.spring.rest.models.services.ProductoService;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 

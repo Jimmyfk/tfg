@@ -18,8 +18,14 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security:2.1.2.RELEASE'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework:spring-oxm:5.1.6.RELEASE'
+    implementation 'org.apache.poi:poi:4.1.0'
+    implementation 'org.apache.poi:poi-ooxml:4.1.0'
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.15'
+    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+
 }
