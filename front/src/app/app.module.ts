@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {LOCALE_ID, NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule, NgModuleFactory, NgModuleFactoryLoader, SystemJsNgModuleLoader} from '@angular/core';
 import {AppComponent} from './app.component';
 import {InicioComponent} from './common/inicio/inicio.component';
 import {HeaderComponent} from './common/header/header.component';
@@ -12,6 +12,9 @@ import localeEs from '@angular/common/locales/es';
 import localeIt from '@angular/common/locales/it';
 import localeRu from '@angular/common/locales/ru';
 import {AppRoutingModule} from './app-routing.module';
+import { LoadModuleDirective } from './directives/load-module.directive';
+
+
 
 registerLocaleData(localeFr, 'fr');
 registerLocaleData(localeEs, 'es');
@@ -24,6 +27,7 @@ registerLocaleData(localeRu, 'ru');
     InicioComponent,
     HeaderComponent,
     FooterComponent,
+    LoadModuleDirective,
   ],
   imports: [
     BrowserModule,
@@ -32,6 +36,7 @@ registerLocaleData(localeRu, 'ru');
     AppRoutingModule
   ],
   providers: [
+    { provide: NgModuleFactoryLoader, useValue: SystemJsNgModuleLoader},
     {provide: LOCALE_ID, useValue: 'es'}
   ],
   exports: [

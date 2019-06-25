@@ -8,6 +8,9 @@ import { LogoutComponent } from './logout.component';
   declarations: [
     LogoutComponent
   ],
+  exports: [
+    LogoutComponent
+  ],
   imports: [
     CommonModule,
     LogoutRoutingModule

@@ -9,6 +9,9 @@ import {FormsModule} from '@angular/forms';
   declarations: [
     RegisterComponent
   ],
+  exports: [
+    RegisterComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,
