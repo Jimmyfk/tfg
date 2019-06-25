@@ -28,13 +28,13 @@ import java.util.Map;
 @RequestMapping("/api")
 public class FacturaRestController {
 
-    private final FacturaDao facturaDao;
+    private final FacturaDao facturaService;
     private final ClienteService clienteService;
     private final ProductoService productoService;
 
     @Autowired
-    public FacturaRestController(FacturaDao facturaDao, ClienteService clienteService, ProductoService productoService) {
-        this.facturaDao = facturaDao;
+    public FacturaRestController(FacturaDao facturaService, ClienteService clienteService, ProductoService productoService) {
+        this.facturaService = facturaService;
         this.clienteService = clienteService;
         this.productoService = productoService;
     }
@@ -45,7 +45,7 @@ public class FacturaRestController {
         Map<String, Object> response = new HashMap<>();
 
         try {
-            factura = facturaDao.fetchByIdWithClienteWithItemFacturaWithProducto(id);
+            factura = facturaService.fetchByIdWithClienteWithItemFacturaWithProducto(id);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar la consulta en la base de datos");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -65,7 +65,7 @@ public class FacturaRestController {
         Map<String, Object> response = new HashMap<>();
 
         try {
-            facturas = facturaDao.findAllByCliente(clienteService.findById(id));
+            facturas = facturaService.findAllByCliente(clienteService.findById(id));
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar la consulta en la base de datos");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -92,7 +92,7 @@ public class FacturaRestController {
             response.put("error", "El cliente " + cliente + " no existe");
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
-        facturaDao.save(factura);
+        facturaService.save(factura);
         response.put("factura", factura);
         response.put("mensaje", "Factura creada correctamente");
 

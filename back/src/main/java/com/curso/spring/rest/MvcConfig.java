@@ -8,6 +8,7 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
@@ -19,13 +20,17 @@ import java.util.Locale;
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
 
-
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
         configurer.
                 defaultContentType(MediaType.APPLICATION_JSON_UTF8).
                 mediaType("json", MediaType.APPLICATION_JSON_UTF8).
                 mediaType("xml", MediaType.APPLICATION_XML);
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("http://localhost:4200").allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
     }
 
     @Bean

@@ -48,6 +48,7 @@ public class JpaUserDetailsService implements UserDetailsService {
     }
 
     public Usuario save(Usuario usuario) {
+        usuario.setPassword(encoder.encode(usuario.getPassword()));
         return usuarioDao.save(usuario);
     }
 }
