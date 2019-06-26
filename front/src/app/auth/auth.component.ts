@@ -27,7 +27,6 @@ export class AuthComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.usuarioService.logout();
-        Swal.fire('Sesión cerrada');
       }
     });
   }

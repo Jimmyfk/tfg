@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Usuario} from '../usuarios/usuario';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register',
@@ -24,8 +25,11 @@ export class FormComponent implements OnInit {
 
   register() {
     this.usuarioService.register(this.usuario).subscribe(response => {
-      this.router.navigate(['/inicio']);
-    });
+        this.router.navigate(['/inicio']);
+      },
+      error => {
+        Swal.fire('Error', 'El nombre de usuario ya está cogido');
+      });
   }
 
 }
