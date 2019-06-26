@@ -1,5 +1,3 @@
-import {UsuarioWrapper} from './usuario-wrapper';
-
 export class Usuario {
   id: number;
   username: string;
@@ -7,11 +5,7 @@ export class Usuario {
   enabled: boolean;
   authorities: string[] = [];
 
-  copy(usuario: UsuarioWrapper) {
-    this.id = usuario.id;
-    this.username = usuario.username;
-    this.password = usuario.password;
-    this.enabled = usuario.enabled;
+  constructor() {
     this.authorities.push('USER');
   }
 }
