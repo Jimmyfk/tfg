@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.List;
@@ -72,5 +73,10 @@ public class Usuario implements Serializable {
 
     public void setAuthorities(List<Rol> authorities) {
         this.authorities = authorities;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        enabled = true;
     }
 }

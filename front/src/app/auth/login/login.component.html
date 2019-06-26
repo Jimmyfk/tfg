@@ -1,3 +1,27 @@
-<p>
-  login works!
-</p>
+<div class="container">
+  <div class="card bg-dark text-white">
+    <div class="card-header">{{ titulo }} </div>
+    <div class="card-body">
+      <form>
+        <div class="form-group row">
+          <label for="nombre" class="col-form-label col-sm-3">Nombre de usuario</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="usuario.username"
+                   required="required" minlength="4"/>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="pw" class="col-form-label col-sm-3">Contraseña</label>
+          <div class="col-sm-6">
+            <input type="password" class="form-control" id="pw" name="pw" [(ngModel)]="usuario.password"
+                   #password="ngModel"
+                   required="required" minlength="8"/>
+          </div>
+        </div>
+        <div class="form-group row">
+          <input type="button" value="Acceder" class="btn btn-primary ml-2" (click)="login()"/>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -6,7 +6,8 @@ import {HeaderComponent} from './header.component';
 import {AuthModule} from '../../auth/auth.module';
 
 @NgModule({
-  declarations: [],
+  declarations: [HeaderComponent],
+  entryComponents: [HeaderComponent],
   imports: [
     CommonModule,
     AuthModule,
@@ -14,5 +15,5 @@ import {AuthModule} from '../../auth/auth.module';
   ]
 })
 export class HeaderModule {
-  static rootComponent = HeaderComponent;
+  static entry = HeaderComponent;
 }

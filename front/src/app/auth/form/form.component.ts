@@ -1,25 +1,25 @@
 import {Component, OnInit} from '@angular/core';
-import {UsuarioWrapper} from '../usuario-wrapper';
-import {Usuario} from '../usuario';
-import {UsuarioService} from '../../services/usuario.service';
-import swal from 'sweetalert2';
+import {UsuarioWrapper} from '../usuarios/usuario-wrapper';
+import {Usuario} from '../usuarios/usuario';
+import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-register',
-  templateUrl: './register.component.html',
+  templateUrl: './form.component.html',
   styleUrls: []
 })
-export class RegisterComponent implements OnInit {
+export class FormComponent implements OnInit {
 
   public wrapper: UsuarioWrapper = new UsuarioWrapper();
   public usuario: Usuario = new Usuario();
 
-  constructor(private usuarioService: UsuarioService,
+  constructor(private usuarioService: AuthService,
               private router: Router) {
   }
 
   ngOnInit() {
+
   }
 
   register() {

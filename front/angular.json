@@ -28,7 +28,8 @@
             "scripts": [],
             "es5BrowserSupport": true,
             "lazyModules": [
-              "src/app/common/header/header.module.ts"
+              "src/app/common/header/header.module.ts",
+              "src/app/auth/auth.module.ts"
             ]
           },
           "configurations": {

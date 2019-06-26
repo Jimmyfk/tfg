@@ -12,7 +12,7 @@ import localeEs from '@angular/common/locales/es';
 import localeIt from '@angular/common/locales/it';
 import localeRu from '@angular/common/locales/ru';
 import {AppRoutingModule} from './app-routing.module';
-import { LoadModuleDirective } from './directives/load-module.directive';
+import {AuthModule} from './auth/auth.module';
 
 
 
@@ -27,17 +27,17 @@ registerLocaleData(localeRu, 'ru');
     InicioComponent,
     HeaderComponent,
     FooterComponent,
-    LoadModuleDirective,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AuthModule
   ],
   providers: [
-    { provide: NgModuleFactoryLoader, useValue: SystemJsNgModuleLoader},
-    {provide: LOCALE_ID, useValue: 'es'}
+    {provide: LOCALE_ID, useValue: 'es'},
+    SystemJsNgModuleLoader
   ],
   exports: [
   ],
