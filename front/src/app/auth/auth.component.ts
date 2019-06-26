@@ -8,8 +8,6 @@ import {AuthService} from '../services/auth.service';
 })
 export class AuthComponent implements OnInit {
 
-  private isLogged: boolean;
-
   constructor(private usuarioService: AuthService) {
   }
 
@@ -17,7 +15,11 @@ export class AuthComponent implements OnInit {
   }
 
   logout() {
+    this.usuarioService.logout();
+  }
 
+  isLogged() {
+    return this.usuarioService.isLogged();
   }
 
 }

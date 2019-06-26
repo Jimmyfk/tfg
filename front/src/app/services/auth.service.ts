@@ -34,8 +34,9 @@ export class AuthService {
         (userData: any) => {
           sessionStorage.setItem('username', username);
           const token = 'Bearer ' + userData.jwtToken;
+          const data = JSON.parse(window.atob(token.split('.')[1]));
           sessionStorage.setItem('token', token);
-          console.log(sessionStorage);
+          sessionStorage.setItem('authorities', JSON.stringify(data.authorities));
           return userData;
         }
       ),
@@ -48,11 +49,11 @@ export class AuthService {
   logout() {
     sessionStorage.removeItem('username');
     sessionStorage.removeItem('token');
+    sessionStorage.removeItem('authorities');
   }
 
   isLogged() {
     const user = sessionStorage.getItem('username');
-    console.log(!(user === null));
     return !(user === null);
   }
 
