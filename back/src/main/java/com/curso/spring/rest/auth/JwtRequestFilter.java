@@ -41,7 +41,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             }
         } else {
             logger.warn("El token no empieza por Bearer ");
-            logger.info(request.getHeader("Authorization"));
+            logger.info(requestTokenHeader);
         }
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);

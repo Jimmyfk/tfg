@@ -4,7 +4,7 @@ import {AppComponent} from './app.component';
 import {InicioComponent} from './common/inicio/inicio.component';
 import {HeaderComponent} from './common/header/header.component';
 import {FooterComponent} from './common/footer/footer.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {registerLocaleData} from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
@@ -13,6 +13,7 @@ import localeIt from '@angular/common/locales/it';
 import localeRu from '@angular/common/locales/ru';
 import {AppRoutingModule} from './app-routing.module';
 import {AuthModule} from './auth/auth.module';
+import {HttpInterceptorService} from './services/httpInterceptor.service';
 
 
 
@@ -37,6 +38,7 @@ registerLocaleData(localeRu, 'ru');
   ],
   providers: [
     {provide: LOCALE_ID, useValue: 'es'},
+    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
     SystemJsNgModuleLoader
   ],
   exports: [
