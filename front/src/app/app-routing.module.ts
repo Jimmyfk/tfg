@@ -12,7 +12,11 @@ const routes: Routes = [
     path: 'factura',
     loadChildren: () => import('./facturas/facturas.module').then(mod => mod.FacturasModule)
   },
-  { path: '', redirectTo: 'inicio', pathMatch: 'full'}
+  { path: '', redirectTo: 'inicio', pathMatch: 'full'},
+  { path: 'error',
+    loadChildren: () => import('./common/errores/errores.module').then(mod => mod.ErroresModule)
+  },
+  { path: '**', redirectTo: 'error/404'}
 ];
 
 @NgModule({
