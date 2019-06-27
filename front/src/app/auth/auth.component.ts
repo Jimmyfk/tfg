@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../services/auth.service';
 import Swal from 'sweetalert2';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -9,7 +10,8 @@ import Swal from 'sweetalert2';
 })
 export class AuthComponent implements OnInit {
 
-  constructor(private usuarioService: AuthService) {
+  constructor(private usuarioService: AuthService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -24,9 +26,10 @@ export class AuthComponent implements OnInit {
       confirmButtonText: 'Sí',
       cancelButtonClass: 'btn btn-sm',
       cancelButtonText: 'No'
-    }).then((result) => {
+    }).then(result => {
       if (result.value) {
         this.usuarioService.logout();
+        this.router.navigate(['inicio']).then(() =>  null);
       }
     });
   }

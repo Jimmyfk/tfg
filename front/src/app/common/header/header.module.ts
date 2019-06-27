@@ -8,12 +8,13 @@ import {AuthModule} from '../../auth/auth.module';
 @NgModule({
   declarations: [HeaderComponent],
   entryComponents: [HeaderComponent],
+  exports: [
+    HeaderComponent
+  ],
   imports: [
     CommonModule,
     AuthModule,
     HeaderRoutingModule
   ]
 })
-export class HeaderModule {
-  static entry = HeaderComponent;
-}
+export class HeaderModule {}
