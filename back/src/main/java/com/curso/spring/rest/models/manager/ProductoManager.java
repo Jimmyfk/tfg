@@ -39,4 +39,14 @@ public class ProductoManager implements ProductoService {
     public Producto findByNombre(String nombre) {
         return productoDao.findByNombreIgnoreCase(nombre);
     }
+
+    @Override
+    public Producto save(Producto producto) {
+        return productoDao.save(producto);
+    }
+
+    @Override
+    public void delete(Long id) {
+        productoDao.deleteById(id);
+    }
 }

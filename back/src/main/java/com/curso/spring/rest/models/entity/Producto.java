@@ -66,4 +66,10 @@ public class Producto implements Serializable {
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
+
+    public void copy(Producto producto) {
+        precio = producto.precio;
+        nombre = producto.nombre;
+        createdAt = producto.createdAt;
+    }
 }

@@ -13,4 +13,8 @@ public interface ProductoService {
     Producto findById(Long id);
 
     Producto findByNombre(String nombre);
+
+    Producto save(Producto producto);
+
+    void delete(Long id);
 }
