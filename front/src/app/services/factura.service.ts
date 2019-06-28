@@ -13,7 +13,7 @@ import swal from 'sweetalert2';
 export class FacturaService {
 
   private url = environment.baseUrl + 'facturas';
-  httpOptions = {
+  private httpOptions = {
     headers: new HttpHeaders({'Content-type': 'application/json'})
   };
 
