@@ -6,6 +6,7 @@ a, button, .btn {
 
 caption {
   caption-side: top !important;
+  text-align: center;
 }
 
 input[type='number'][disabled] {

@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 export class LoginComponent implements OnInit {
 
   public usuario: Usuario = new Usuario();
+  public titulo = 'Iniciar Sesión';
 
   constructor(private usuarioService: AuthService,
               private router: Router) {
@@ -22,7 +23,7 @@ export class LoginComponent implements OnInit {
       this.usuario.authorities = JSON.parse(sessionStorage.getItem('authorities'));
       this.router.navigate(['/inicio']);
     }, error => {
-      Swal.fire('Error', 'Usuario o contraseña incorrectos');
+      Swal.fire('Error', 'Usuario o contraseña incorrectos', 'error').then();
     });
   }
 
