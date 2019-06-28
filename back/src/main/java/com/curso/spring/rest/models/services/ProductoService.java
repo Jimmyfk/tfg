@@ -8,6 +8,8 @@ public interface ProductoService {
 
     List<Producto> findByNombreLikeIgnoreCase(String nombre);
 
+    List<Producto> findProductos();
+
     Producto findById(Long id);
 
     Producto findByNombre(String nombre);

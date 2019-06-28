@@ -26,10 +26,16 @@ public class ProductoManager implements ProductoService {
     }
 
     @Override
+    public List<Producto> findProductos() {
+        return productoDao.findAll();
+    }
+
+    @Override
     public Producto findById(Long id) {
         return productoDao.findById(id).orElse(null);
     }
 
+    @Override
     public Producto findByNombre(String nombre) {
         return productoDao.findByNombreIgnoreCase(nombre);
     }

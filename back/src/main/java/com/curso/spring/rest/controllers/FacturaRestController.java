@@ -19,13 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/facturas")
 public class FacturaRestController {
 
     private final FacturaDao facturaService;
@@ -39,7 +40,7 @@ public class FacturaRestController {
         this.productoService = productoService;
     }
 
-    @GetMapping(value = "/facturas/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<?> show(@PathVariable Long id) {
         Factura factura;
         Map<String, Object> response = new HashMap<>();
@@ -59,7 +60,7 @@ public class FacturaRestController {
         return new ResponseEntity<>(factura, HttpStatus.OK);
     }
 
-    @GetMapping(value = "facturas/ver/{id}")
+    @GetMapping(value = "/ver/{id}")
     public ResponseEntity<?> list(@PathVariable Long id) {
         List<Factura> facturas;
         Map<String, Object> response = new HashMap<>();
@@ -76,7 +77,7 @@ public class FacturaRestController {
         return new ResponseEntity<>(facturas, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/facturas/nueva/{cliente}")
+    @PostMapping(value = "/nueva/{cliente}")
     public ResponseEntity<?> create(@PathVariable Long cliente, @RequestBody Factura factura) {
         Cliente cli;
         Map<String, Object> response = new HashMap<>();
@@ -98,31 +99,4 @@ public class FacturaRestController {
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
-
-    @GetMapping(value = "facturas/cargar-productos/{nombre}")
-    public @ResponseBody List<Producto> cargarProducto(@PathVariable String nombre) {
-        return productoService.findByNombreLikeIgnoreCase(nombre);
-    }
-
-    @GetMapping(value = "facturas/producto/{nombre}")
-    public ResponseEntity<?> find(@PathVariable String nombre) {
-        Producto producto;
-        Map<String, Object> response = new HashMap();
-
-        try {
-            producto = productoService.findByNombre(nombre);
-        } catch (DataAccessException e) {
-            response.put("error", "Error al consultar la base de datos");
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-        if (producto == null) {
-            response.put("error", "El producto no existe");
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-        }
-
-        response.put("producto", producto);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
 }
