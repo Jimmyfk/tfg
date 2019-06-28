@@ -6,7 +6,7 @@ const clientesRoutes: Routes = [
   {
     path: '',
     children: [
-      { path: '', component: ClientesListComponent, pathMatch: 'full'},
+      { path: '', component: ClientesListComponent },
       { path: 'listar', component: ClientesListComponent },
       { path: 'nuevo', loadChildren: () => import('../clientes-form/clientes-form.module').then(m => m.ClientesFormModule) },
       { path: ':id', loadChildren: () => import('../clientes-detalle/clientes-detalle.module').then(m => m.ClientesDetalleModule) },

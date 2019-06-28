@@ -6,7 +6,8 @@ const facturaRoutes: Routes = [
     path: '',
     children: [
       { path: ':id', loadChildren: () => import('./facturas-detalle/factura-detalles.module').then(m => m.FacturaDetallesModule) },
-      { path: 'nueva/:id', loadChildren: () => import('./facturas-form/facturas-form.module').then(m => m.FacturasFormModule) }
+      { path: 'nueva/:id', loadChildren: () => import('./facturas-form/facturas-form.module').then(m => m.FacturasFormModule) },
+      { path: '**', redirectTo: 'error/404'}
     ]
   }
 ];

@@ -17,7 +17,8 @@ export class ClienteService {
   mayus = (x: string): string => x.toUpperCase();
 
   constructor(private http: HttpClient,
-              private router: Router) { }
+              private router: Router) {
+  }
 
   getClientes(): Observable<Cliente[]> {
     return this.http.get<Cliente[]>(this.url).pipe(
@@ -33,11 +34,9 @@ export class ClienteService {
   getCliente(id: number): Observable<Cliente> {
     return this.http.get<Cliente>(`${this.url}/${id}`).pipe(
       catchError(e => {
-        this.router.navigate(['/clientes']);
-        swal.fire({
-          title: 'Error al editar',
-          text: e.error.error,
-          type: 'error'});
+        this.router.navigate(['error', '404']).then(() =>
+          swal.fire('Error', 'El cliente no existe', 'error')
+        );
         return throwError(e);
       })
     );

@@ -16,6 +16,8 @@ const routes: Routes = [
   { path: 'error',
     loadChildren: () => import('./common/errores/errores.module').then(mod => mod.ErroresModule)
   },
+  { path: 'register', loadChildren: () => import('./auth/form/form.module').then(m => m.FormModule) },
+  { path: 'login', loadChildren: () => import('./auth/login/login.module').then(m => m.LoginModule) },
   { path: '**', redirectTo: 'error/404'}
 ];
 
