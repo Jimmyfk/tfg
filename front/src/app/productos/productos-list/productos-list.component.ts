@@ -23,4 +23,15 @@ export class ProductosListComponent implements OnInit {
     );
   }
 
+  delete(producto: Producto) {
+    this.productoService.delete(producto.id).subscribe(
+      response => {
+        console.log(response);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
 }

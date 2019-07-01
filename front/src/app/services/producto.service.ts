@@ -51,7 +51,7 @@ export class ProductoService {
   }
 
   update(producto: Producto) {
-    return this.http.put(`${this.url}`, producto, this.httpOptions);
+    return this.http.put(`${this.url}/${producto.id}`, producto, this.httpOptions);
   }
 
   delete(id: number) {

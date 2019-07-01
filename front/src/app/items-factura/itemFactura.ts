@@ -5,17 +5,18 @@ export class ItemFactura implements OnInit {
   id: number;
   producto: Producto;
   cantidad: number;
+  importe: number;
 
   constructor(producto: Producto) {
     this.producto = producto;
     this.cantidad = 1;
+    this.setImporte();
   }
 
   ngOnInit(): void {
-    this.calcularImporte();
   }
 
-  calcularImporte() {
-    return this.producto.precio * this.cantidad;
+  setImporte() {
+    this.importe = this.producto.precio * this.cantidad;
   }
 }

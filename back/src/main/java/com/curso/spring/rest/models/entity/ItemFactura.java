@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(schema = "tfg", name = "facturas_items")
-public class ItemFactura implements Serializable {
+public class  ItemFactura implements Serializable {
 
     private static final long serialVersionUID = -1142856044917006208L;
 
@@ -27,7 +27,6 @@ public class ItemFactura implements Serializable {
 
     private Integer cantidad;
 
-    @Transient
     private Double importe;
 
     public ItemFactura() {}

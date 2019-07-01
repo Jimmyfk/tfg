@@ -76,8 +76,8 @@ export class FacturasFormComponent implements OnInit {
   create() {
     this.facturaService.create(this.factura).subscribe(
       response => {
-        this.router.navigate(['/clientes', this.factura.cliente.id]);
-        swal.fire('Nueva factura', this.decode(response.mensaje), 'success');
+        this.router.navigate(['/clientes', this.factura.cliente.id]).then(() =>
+          swal.fire('Nueva factura', this.decode(response.mensaje), 'success'));
       },
       response => {
         this.errores = response.error.message as string[];

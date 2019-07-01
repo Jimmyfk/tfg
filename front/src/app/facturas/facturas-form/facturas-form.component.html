@@ -77,7 +77,7 @@
             <input class="form-control" type="number" [(ngModel)]="item.cantidad" [name]="item.producto.id.toString()"
                    min="1" (ngModelChange)="factura.calcularTotal()"/>
           </td>
-          <td class="col-2 text-right">{{item.calcularImporte() | number: '1.2-2'}}€</td>
+          <td class="col-2 text-right">{{item.setImporte() | number: '1.2-2'}}€</td>
           <td class="col-1">
             <button class="btn btn-danger btn-xs" title="Eliminar" (click)="removeItem(item)">X</button>
           </td>
