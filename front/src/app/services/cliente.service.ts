@@ -1,11 +1,11 @@
 import {Router} from '@angular/router';
-import swal from 'sweetalert2';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Cliente} from '../clientes/cliente.js';
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
+import {SwalService} from './swal.service';
 
 
 @Injectable()
@@ -17,7 +17,8 @@ export class ClienteService {
   mayus = (x: string): string => x.toUpperCase();
 
   constructor(private http: HttpClient,
-              private router: Router) {
+              private router: Router,
+              private swalService: SwalService) {
   }
 
   getClientes(): Observable<Cliente[]> {
@@ -31,7 +32,7 @@ export class ClienteService {
       catchError(err => {
         if (err.status === 401) {
           this.router.navigate(['login']).then(() =>
-            swal.fire('Unauthorized', 'Inicia sesión', 'error').then()
+            this.swalService.fire('Unauthorized', 'Inicia sesión', 'error').then()
           );
           return throwError(err);
         }
@@ -43,7 +44,7 @@ export class ClienteService {
     return this.http.get<Cliente>(`${this.url}/${id}`).pipe(
       catchError(e => {
         this.router.navigate(['error', '404']).then(() =>
-          swal.fire('Error', 'El cliente no existe', 'error')
+          this.swalService.fire('Error', 'El cliente no existe', 'error')
         );
         return throwError(e);
       })
@@ -56,7 +57,7 @@ export class ClienteService {
         if (e.status === 400) {
           return throwError(e);
         }
-        swal.fire('Error al crear el cliente', e.error.error, 'error').then(
+        this.swalService.fire('Error al crear el cliente', e.error.error, 'error').then(
           () => throwError(e)
         );
       })
@@ -69,7 +70,7 @@ export class ClienteService {
         if (e.status === 400) {
           return throwError(e);
         }
-        swal.fire('Error al actualizar el cliente', e.error.error, 'error').then(() =>
+        this.swalService.fire('Error al actualizar el cliente', e.error.error, 'error').then(() =>
           throwError(e));
       })
     );
@@ -78,7 +79,7 @@ export class ClienteService {
   delete(cliente: Cliente): Observable<any> {
     return this.http.delete<Cliente>(`${this.url}/${cliente.id}`, {headers: this.httpHeaders}).pipe(
       catchError(e => {
-        swal.fire('Error al eliminar el cliente', e.error.error, 'error').then();
+        this.swalService.fire('Error al eliminar el cliente', e.error.error, 'error').then();
         return throwError(e);
       })
     );

@@ -4,8 +4,8 @@ import {Producto} from '../productos/producto';
 import {environment} from '../../environments/environment';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
-import Swal, {SweetAlertType} from 'sweetalert2';
 import {throwError} from 'rxjs';
+import {SwalService} from './swal.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,8 @@ export class ProductoService {
   };
 
   constructor(private http: HttpClient,
-              private router: Router) {
+              private router: Router,
+              private swal: SwalService) {
   }
 
   buscarProductos(name: string) {
@@ -43,7 +44,7 @@ export class ProductoService {
       catchError(err => {
         if (err.status === 401) {
           this.router.navigate(['login']).then(() => {
-            Swal.fire('Unauthorized', 'Inicia Sesión', 'error').then(() => throwError(err));
+            this.swal.fire('Unauthorized', 'Inicia Sesión', 'error').then(() => throwError(err));
           });
         }
         return throwError(err);
@@ -64,9 +65,5 @@ export class ProductoService {
 
   delete(id: number) {
     return this.http.delete(`${this.url}/` + id, this.httpOptions);
-  }
-
-  fire(title: string, msg: string, tipo: SweetAlertType) {
-    return Swal.fire(title, msg, tipo);
   }
 }

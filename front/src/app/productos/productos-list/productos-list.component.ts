@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ProductoService} from '../../services/producto.service';
 import {Producto} from '../producto';
+import {SwalService} from '../../services/swal.service';
 
 @Component({
   selector: 'app-productos-list',
@@ -11,7 +12,8 @@ export class ProductosListComponent implements OnInit {
 
   public productos: Producto[];
 
-  constructor(private productoService: ProductoService) {
+  constructor(private productoService: ProductoService,
+              private swal: SwalService) {
   }
 
   ngOnInit() {
@@ -24,14 +26,27 @@ export class ProductosListComponent implements OnInit {
   }
 
   delete(producto: Producto) {
-    this.productoService.delete(producto.id).subscribe(
-      response => {
-        console.log(response);
-      },
-      error => {
-        console.log(error);
+    const swalButtons = this.swal.getCustomButton();
+    swalButtons.fire({
+      title: 'Confirmar',
+      text: 'Eliminar ' + producto.nombre + '?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí'
+    }).then(result => {
+      if (result.value) {
+        this.productoService.delete(producto.id).subscribe(
+          response => {
+            console.log(response);
+          },
+          error => {
+            console.log(error);
+          }
+        );
+      } else if (result.dismiss) {
+        swalButtons.fire('Cancelado', 'No se eliminará el producto', 'info').then();
       }
-    );
+    });
   }
 
 }

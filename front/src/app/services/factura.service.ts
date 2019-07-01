@@ -5,7 +5,7 @@ import {Router} from '@angular/router';
 import {Factura} from '../facturas/factura';
 import {catchError} from 'rxjs/operators';
 import {Observable, throwError} from 'rxjs';
-import swal from 'sweetalert2';
+import {SwalService} from './swal.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,8 @@ export class FacturaService {
   };
 
   constructor(private http: HttpClient,
-              private router: Router) {
+              private router: Router,
+              private swal: SwalService) {
   }
 
   getFacturas(id: number) {
@@ -29,7 +30,7 @@ export class FacturaService {
     return this.http.get<any>(`${this.url}/${id}`).pipe(
       catchError(err => {
         this.router.navigate(['error', err.status]).then(() =>
-          swal.fire('Error', err.error.mensaje, 'error'));
+          this.swal.fire('Error', err.error.mensaje, 'error'));
         return throwError(err);
       })
     );
@@ -41,7 +42,7 @@ export class FacturaService {
         if (e.status === 400 || e.status === 500) {
           return throwError(e);
         }
-        swal.fire('Error al guardar la factura', e.error.error, 'error').then();
+        this.swal.fire('Error al guardar la factura', e.error.error, 'error').then();
         return throwError(e);
       })
     );

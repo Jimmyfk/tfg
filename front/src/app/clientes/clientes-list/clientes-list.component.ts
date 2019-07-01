@@ -1,9 +1,8 @@
 import {ClienteService} from '../../services/cliente.service';
 import {Component, OnInit} from '@angular/core';
 import {Cliente} from '../cliente';
-import Swal from 'sweetalert2';
-import {error} from 'selenium-webdriver';
 import {Router} from '@angular/router';
+import {SwalService} from '../../services/swal.service';
 
 @Component({
   selector: 'app-clientes',
@@ -20,6 +19,7 @@ export class ClientesListComponent implements OnInit {
   swalWithBootstrapButtons;
 
   constructor(private clienteService: ClienteService,
+              private swalService: SwalService,
               private router: Router) {
   }
 
@@ -27,13 +27,7 @@ export class ClientesListComponent implements OnInit {
     this.clienteService.getClientes().subscribe(
       clientes => this.clientes = clientes
     );
-    this.swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success btn-sm mx-1',
-        cancelButton: 'btn btn-danger btn-sm mx-1'
-      },
-      buttonsStyling: false,
-    });
+    this.swalWithBootstrapButtons = this.swalService.getCustomButton();
   }
 
   ocultar(): void {
@@ -62,7 +56,7 @@ export class ClientesListComponent implements OnInit {
           }
         );
       } else if (
-        result.dismiss === Swal.DismissReason.cancel
+        result.dismiss === this.swalService.swal().DismissReason.cancel
       ) {
         this.swalWithBootstrapButtons.fire(
           'Cancelado',

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ClienteService} from '../../services/cliente.service';
 import {Cliente} from '../cliente';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {Factura} from '../../facturas/factura';
 import {FacturaService} from '../../services/factura.service';
 
@@ -16,8 +16,7 @@ export class ClientesDetalleComponent implements OnInit {
 
   constructor(private clienteService: ClienteService,
               private facturaService: FacturaService,
-              private rutaActiva: ActivatedRoute,
-              private router: Router) {
+              private rutaActiva: ActivatedRoute) {
   }
 
   ngOnInit() {

@@ -2,7 +2,7 @@ import {ClienteService} from '../../services/cliente.service';
 import {Cliente} from './../cliente';
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import swal from 'sweetalert2';
+import {SwalService} from '../../services/swal.service';
 
 
 @Component({
@@ -13,6 +13,7 @@ import swal from 'sweetalert2';
 export class ClientesFormComponent implements OnInit {
 
   constructor(private clienteService: ClienteService,
+              private swal: SwalService,
               private router: Router,
               private rutaActiva: ActivatedRoute) { }
 
@@ -29,7 +30,7 @@ export class ClientesFormComponent implements OnInit {
         const id = params.id;
         if (id) {
           this.titulo = 'Editar cliente';
-          this.clienteService.getCliente(id).subscribe( (cliente) => this.cliente = cliente);
+          this.clienteService.getCliente(id).subscribe( cliente => this.cliente = cliente);
         }
       });
   }
@@ -38,7 +39,7 @@ export class ClientesFormComponent implements OnInit {
     this.clienteService.create(this.cliente).subscribe(
       response => {
         this.router.navigate(['/clientes']).then();
-        swal.fire('Nuevo cliente', this.decode(response.mensaje), 'success').then();
+        this.swal.fire('Nuevo cliente', this.decode(response.mensaje), 'success').then();
       },
       response => {
         this.errores = response.error.errores as string[];
@@ -52,7 +53,7 @@ export class ClientesFormComponent implements OnInit {
     this.clienteService.update(this.cliente).subscribe(
        response => {
          this.router.navigate(['/clientes']).then();
-         swal.fire('Cliente actualizado', this.decode(response.mensaje), 'success').then();
+         this.swal.fire('Cliente actualizado', this.decode(response.mensaje), 'success').then();
       },
       response => {
         this.errores = response.error.errores as string[];

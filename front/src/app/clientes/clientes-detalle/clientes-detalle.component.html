@@ -14,14 +14,14 @@
         </li>
       </ul>
       <div class="container" *ngIf="facturas && facturas.length > 0; else sinFactura">
-        <table class="table table-striped table-bordered table-hover">
+        <table class="table table-striped table-bordered table-hover table-sm">
           <caption>Lista de facturas</caption>
           <thead>
           <tr>
             <th>Descripción</th>
             <th>Observaciones</th>
+            <th>Fecha</th>
             <th>Total</th>
-            <th>Exportar</th>
           </tr>
           </thead>
           <tbody>
@@ -30,10 +30,8 @@
               <a [routerLink]="['/factura', factura.id]">{{factura.descripcion}}</a>
             </td>
             <td>{{factura.observacion}}</td>
+            <td>{{factura.createdAt | date: 'mediumDate'}}</td>
             <td class="text-right">{{factura.total | number: '1.2-2'}}€</td>
-            <td>
-              <button class="btn btn-success btn-sm mx-1" [routerLink]="['/factura.xls', factura.id]">XLS</button>
-            </td>
           </tr>
           </tbody>
         </table>
