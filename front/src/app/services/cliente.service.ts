@@ -27,6 +27,14 @@ export class ClienteService {
           cliente.nombre = this.mayus(cliente.nombre);
         });
         return response;
+      }),
+      catchError(err => {
+        if (err.status === 401) {
+          this.router.navigate(['login']).then(() =>
+            swal.fire('Unauthorized', 'Inicia sesión', 'error').then()
+          );
+          return throwError(err);
+        }
       })
     );
   }
@@ -48,9 +56,9 @@ export class ClienteService {
         if (e.status === 400) {
           return throwError(e);
         }
-
-        swal.fire('Error al crear el cliente', e.error.error, 'error').then();
-        return throwError(e);
+        swal.fire('Error al crear el cliente', e.error.error, 'error').then(
+          () => throwError(e)
+        );
       })
     );
   }
@@ -61,9 +69,8 @@ export class ClienteService {
         if (e.status === 400) {
           return throwError(e);
         }
-
-        swal.fire('Error al actualizar el cliente', e.error.error, 'error');
-        return throwError(e);
+        swal.fire('Error al actualizar el cliente', e.error.error, 'error').then(() =>
+          throwError(e));
       })
     );
   }
@@ -71,7 +78,7 @@ export class ClienteService {
   delete(cliente: Cliente): Observable<any> {
     return this.http.delete<Cliente>(`${this.url}/${cliente.id}`, {headers: this.httpHeaders}).pipe(
       catchError(e => {
-        swal.fire('Error al eliminar el cliente', e.error.error, 'error');
+        swal.fire('Error al eliminar el cliente', e.error.error, 'error').then();
         return throwError(e);
       })
     );

@@ -36,7 +36,7 @@ export class FacturaService {
   }
 
   create(factura: Factura): Observable<any> {
-    return this.http.post<any>(`${this.url}/nueva/${factura.cliente.id}`, factura, this.httpOptions).pipe(
+    return this.http.post<any>(`${this.url}/${factura.cliente.id}`, factura, this.httpOptions).pipe(
       catchError(e => {
         if (e.status === 400 || e.status === 500) {
           return throwError(e);
