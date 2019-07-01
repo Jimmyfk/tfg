@@ -2,14 +2,10 @@ package com.curso.spring.rest.models.services;
 
 import com.curso.spring.rest.models.entity.Cliente;
 import com.curso.spring.rest.models.entity.Factura;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
-import java.io.FileOutputStream;
 import java.util.List;
 
 
