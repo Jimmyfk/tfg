@@ -5,8 +5,10 @@ import com.curso.spring.rest.models.entity.Cliente;
 import com.curso.spring.rest.models.entity.Factura;
 import com.curso.spring.rest.models.entity.Producto;
 import com.curso.spring.rest.models.services.ClienteService;
+import com.curso.spring.rest.models.services.FacturaService;
 import com.curso.spring.rest.models.services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,11 +31,11 @@ import java.util.Map;
 @RequestMapping("/api/facturas")
 public class FacturaRestController {
 
-    private final FacturaDao facturaService;
+    private final FacturaService facturaService;
     private final ClienteService clienteService;
 
     @Autowired
-    public FacturaRestController(FacturaDao facturaService, ClienteService clienteService) {
+    public FacturaRestController(FacturaService facturaService, ClienteService clienteService) {
         this.facturaService = facturaService;
         this.clienteService = clienteService;
     }
@@ -75,7 +77,7 @@ public class FacturaRestController {
         return new ResponseEntity<>(facturas, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/nueva/{cliente}")
+    @PostMapping(value = "/{cliente}")
     public ResponseEntity<?> create(@PathVariable Long cliente, @RequestBody Factura factura) {
         Cliente cli;
         Map<String, Object> response = new HashMap<>();
