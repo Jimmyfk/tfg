@@ -1,9 +1,11 @@
 import {Injectable} from '@angular/core';
-import {map} from 'rxjs/operators';
+import {catchError, map} from 'rxjs/operators';
 import {Producto} from '../productos/producto';
 import {environment} from '../../environments/environment';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
+import Swal, {SweetAlertType} from 'sweetalert2';
+import {throwError} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -37,11 +39,15 @@ export class ProductoService {
   }
 
   getProductos() {
-    return this.http.get<Producto[]>(`${this.url}/cargar`);
+    return this.http.get<Producto[]>(`${this.url}`);
   }
 
   create(producto: Producto) {
-    return this.http.post<Producto>(`${this.url}/create`, producto, this.httpOptions);
+    return this.http.post<Producto>(`${this.url}`, producto, this.httpOptions).pipe(
+      catchError(err => {
+        return throwError(err);
+      })
+    );
   }
 
   update(producto: Producto) {
@@ -50,5 +56,9 @@ export class ProductoService {
 
   delete(id: number) {
     return this.http.delete(`${this.url}/` + id, this.httpOptions);
+  }
+
+  fire(title: string, msg: string, tipo: SweetAlertType) {
+    return Swal.fire(title, msg, tipo);
   }
 }

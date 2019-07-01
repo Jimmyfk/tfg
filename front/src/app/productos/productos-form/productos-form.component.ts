@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Producto} from '../producto';
 import {ProductoService} from '../../services/producto.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-productos-form',
@@ -12,14 +12,15 @@ export class ProductosFormComponent implements OnInit {
 
   producto: Producto = new Producto();
   titulo = 'Nuevo Producto';
+  errores: string[];
 
   constructor(private productoService: ProductoService,
-              private rutaActiva: ActivatedRoute) {
+              private rutaActiva: ActivatedRoute,
+              private router: Router) {
   }
 
   ngOnInit() {
     this.cargarProducto();
-    console.log(this.producto);
   }
 
   cargarProducto() {
@@ -44,10 +45,26 @@ export class ProductosFormComponent implements OnInit {
   }
 
   create() {
-
+    this.productoService.create(this.producto).subscribe(
+      response => {
+        console.log(response);
+        this.router.navigate(['productos']).then();
+      }, error => {
+        console.log(error);
+        this.errores = error.error.errores as string[];
+      }
+    );
   }
 
   update() {
-
+    this.productoService.update(this.producto).subscribe(
+      response => {
+        console.log(response);
+        this.router.navigate(['productos']).then();
+      }, error => {
+        console.log(error);
+      }
+    )
+    ;
   }
 }

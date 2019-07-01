@@ -37,11 +37,11 @@ export class ClientesFormComponent implements OnInit {
   public create(): void {
     this.clienteService.create(this.cliente).subscribe(
       response => {
-        this.router.navigate(['/clientes']);
-        swal.fire('Nuevo cliente', this.decode(response.mensaje), 'success');
+        this.router.navigate(['/clientes']).then();
+        swal.fire('Nuevo cliente', this.decode(response.mensaje), 'success').then();
       },
       response => {
-        this.errores = response.error.errors as string[];
+        this.errores = response.error.errores as string[];
         console.error(this.errores);
         console.error('Código de error: ' + response.status);
       }
@@ -51,11 +51,11 @@ export class ClientesFormComponent implements OnInit {
   public update(): void {
     this.clienteService.update(this.cliente).subscribe(
        response => {
-         this.router.navigate(['/clientes']);
-         swal.fire('Cliente actualizado', this.decode(response.mensaje), 'success');
+         this.router.navigate(['/clientes']).then();
+         swal.fire('Cliente actualizado', this.decode(response.mensaje), 'success').then();
       },
       response => {
-        this.errores = response.error.errors as string[];
+        this.errores = response.error.errores as string[];
         console.error(this.errores);
         console.error('Código de error: ' + response.status);
       }

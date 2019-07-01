@@ -1,4 +1,9 @@
 <div class="container">
+  <ul class="alert alert-danger" *ngIf="errores">
+    <li *ngFor="let error of errores" class="list-item">
+      {{ error }}
+    </li>
+  </ul>
   <div class="card bg-dark text-white">
     <div class="card-header">{{ titulo }} </div>
     <div class="card-body">

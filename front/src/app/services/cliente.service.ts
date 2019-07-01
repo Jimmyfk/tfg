@@ -49,7 +49,7 @@ export class ClienteService {
           return throwError(e);
         }
 
-        swal.fire('Error al crear el cliente', e.error.error, 'error');
+        swal.fire('Error al crear el cliente', e.error.error, 'error').then();
         return throwError(e);
       })
     );
