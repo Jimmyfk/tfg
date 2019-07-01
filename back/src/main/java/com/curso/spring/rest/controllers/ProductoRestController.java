@@ -150,7 +150,7 @@ public class ProductoRestController {
         try {
             productoService.delete(id);
         } catch (DataAccessException e) {
-            response.put("error", "Error al eliminar el producto");
+            response.put("error", "Error al eliminar el producto: ".concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         response.put("mensaje", "Producto eliminado");

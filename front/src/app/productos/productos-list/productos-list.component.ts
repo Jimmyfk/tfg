@@ -40,6 +40,7 @@ export class ProductosListComponent implements OnInit {
             console.log(response);
           },
           error => {
+            swalButtons.fire('Error', error.error.error, 'error').then();
             console.log(error);
           }
         );
