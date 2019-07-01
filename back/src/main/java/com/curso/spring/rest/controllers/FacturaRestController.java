@@ -31,13 +31,11 @@ public class FacturaRestController {
 
     private final FacturaDao facturaService;
     private final ClienteService clienteService;
-    private final ProductoService productoService;
 
     @Autowired
-    public FacturaRestController(FacturaDao facturaService, ClienteService clienteService, ProductoService productoService) {
+    public FacturaRestController(FacturaDao facturaService, ClienteService clienteService) {
         this.facturaService = facturaService;
         this.clienteService = clienteService;
-        this.productoService = productoService;
     }
 
     @GetMapping(value = "/{id}")

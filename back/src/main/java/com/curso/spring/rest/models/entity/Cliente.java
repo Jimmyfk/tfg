@@ -12,6 +12,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Date;
@@ -30,6 +31,8 @@ public class Cliente  implements Serializable {
     @Length(min = 4)
     private String nombre;
     private String apellidos;
+
+    @Email
     private String email;
 
     @Column(name = "created_at")

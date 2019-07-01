@@ -2,6 +2,7 @@ package com.curso.spring.rest.controllers;
 
 import com.curso.spring.rest.models.entity.Cliente;
 import com.curso.spring.rest.models.services.ClienteService;
+import com.curso.spring.rest.models.services.ErrorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageRequest;
@@ -31,10 +32,12 @@ import java.util.stream.Collectors;
 public class ClienteRestController {
 
     private final ClienteService clienteService;
+    private final ErrorService errorService;
 
     @Autowired
-    public ClienteRestController(ClienteService clienteService) {
+    public ClienteRestController(ClienteService clienteService, ErrorService errorService) {
         this.clienteService = clienteService;
+        this.errorService = errorService;
     }
 
     // todo: Adaptar el front a la paginación
@@ -72,7 +75,7 @@ public class ClienteRestController {
         Map<String, Object> response = new HashMap<>();
 
         if (result.hasErrors())
-            return getErrors(result, response);
+            return errorService.throwErrors(result, response);
 
         try {
             clienteNew = clienteService.save(cliente);
@@ -94,7 +97,7 @@ public class ClienteRestController {
         Map<String, Object> response = new HashMap<>();
 
         if (result.hasErrors())
-            return getErrors(result, response);
+            return errorService.throwErrors(result, response);
 
         if (clienteActual == null) {
             response.put("mensaje", "Error: no se pudo editar, el cliente ID: "
@@ -134,12 +137,4 @@ public class ClienteRestController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    private ResponseEntity<?> getErrors(BindingResult result, Map response) {
-        List<String> errors = result.getFieldErrors()
-                .stream()
-                .map(err -> "El campo '" + err.getField() +"' "+ err.getDefaultMessage())
-                .collect(Collectors.toList());
-        response.put("errors", errors);
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
 }

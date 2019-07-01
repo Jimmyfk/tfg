@@ -1,11 +1,13 @@
 package com.curso.spring.rest.controllers;
 
 import com.curso.spring.rest.models.entity.Producto;
+import com.curso.spring.rest.models.services.ErrorService;
 import com.curso.spring.rest.models.services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,16 +30,33 @@ import java.util.Map;
 public class ProductoRestController {
 
     private ProductoService productoService;
+    private ErrorService errorService;
 
     @Autowired
-    public ProductoRestController(ProductoService productoService) {
+    public ProductoRestController(ProductoService productoService, ErrorService errorService) {
         this.productoService = productoService;
+        this.errorService = errorService;
     }
 
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody Producto producto) {
-        //todo: to doooo
-        return null;
+    public ResponseEntity<?> save(@RequestBody @Valid Producto producto, BindingResult result) {
+
+        Producto productoNuevo;
+        Map<String, Object> response = new HashMap<>();
+
+        if (result.hasErrors()) {
+            return errorService.throwErrors(result, response);
+        }
+
+        try {
+            productoNuevo = productoService.save(producto);
+        } catch (DataAccessException e) {
+            response.put("error", "Error al guardar el producto");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        response.put("mensaje", "Producto guardado");
+        response.put("producto", productoNuevo);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/search/{nombre}")
@@ -45,7 +65,7 @@ public class ProductoRestController {
         return productoService.findByNombreLikeIgnoreCase(nombre);
     }
 
-    @GetMapping(value = "/cargar")
+    @GetMapping()
     public ResponseEntity<?> productos() {
         List<Producto> productos;
         Map<String, Object> response = new HashMap<>();
