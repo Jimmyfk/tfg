@@ -1,6 +1,7 @@
 package com.curso.spring.rest.models.manager;
 
 import com.curso.spring.rest.models.services.ErrorService;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,5 +22,12 @@ public class ErrorManager implements ErrorService {
                 .collect(Collectors.toList());
         response.put("errores", errors);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
+    public ResponseEntity<?> dbError(DataAccessException e, Map<String, Object> response) {
+        response.put("mensaje", "Error al realizar la consulta en la base de datos");
+        response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

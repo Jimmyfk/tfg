@@ -3,6 +3,7 @@ package com.curso.spring.rest.controllers;
 import com.curso.spring.rest.models.entity.Cliente;
 import com.curso.spring.rest.models.entity.Factura;
 import com.curso.spring.rest.models.services.ClienteService;
+import com.curso.spring.rest.models.services.ErrorService;
 import com.curso.spring.rest.models.services.FacturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -28,11 +29,13 @@ public class FacturaRestController {
 
     private final FacturaService facturaService;
     private final ClienteService clienteService;
+    private final ErrorService errorService;
 
     @Autowired
-    public FacturaRestController(FacturaService facturaService, ClienteService clienteService) {
+    public FacturaRestController(FacturaService facturaService, ClienteService clienteService, ErrorService errorService) {
         this.facturaService = facturaService;
         this.clienteService = clienteService;
+        this.errorService = errorService;
     }
 
     @GetMapping(value = "/{id}")
@@ -43,9 +46,7 @@ public class FacturaRestController {
         try {
             factura = facturaService.fetchByIdWithClienteWithItemFacturaWithProducto(id);
         } catch (DataAccessException e) {
-            response.put("mensaje", "Error al realizar la consulta en la base de datos");
-            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return errorService.dbError(e, response);
         }
 
         if (factura == null) {
@@ -63,9 +64,7 @@ public class FacturaRestController {
         try {
             facturas = facturaService.findAllByCliente(clienteService.findById(id));
         } catch (DataAccessException e) {
-            response.put("mensaje", "Error al realizar la consulta en la base de datos");
-            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return errorService.dbError(e, response);
         }
 
         response.put("facturas", facturas);
@@ -80,8 +79,7 @@ public class FacturaRestController {
         try {
             cli = clienteService.findById(cliente);
         } catch (DataAccessException e) {
-            response.put("error", "Error al consultar la base de datos ");
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return errorService.dbError(e, response);
         }
 
         if (cli == null) {
@@ -104,8 +102,7 @@ public class FacturaRestController {
             try {
                 facturaService.delete(id);
             } catch (DataAccessException e) {
-                response.put("error", "Error al eliminar la factura");
-                return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+                return errorService.dbError(e, response);
             }
             response.put("mensaje", "Factura eliminada");
             return new ResponseEntity<>(response, HttpStatus.OK);

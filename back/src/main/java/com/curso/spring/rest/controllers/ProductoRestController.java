@@ -29,8 +29,8 @@ import java.util.Map;
 @RequestMapping(value = "api/productos")
 public class ProductoRestController {
 
-    private ProductoService productoService;
-    private ErrorService errorService;
+    private final ProductoService productoService;
+    private final ErrorService errorService;
 
     @Autowired
     public ProductoRestController(ProductoService productoService, ErrorService errorService) {
@@ -51,8 +51,7 @@ public class ProductoRestController {
         try {
             productoNuevo = productoService.save(producto);
         } catch (DataAccessException e) {
-            response.put("error", "Error al guardar el producto");
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return errorService.dbError(e, response);
         }
         response.put("mensaje", "Producto guardado");
         response.put("producto", productoNuevo);
@@ -73,8 +72,7 @@ public class ProductoRestController {
         try {
             productos = productoService.findProductos();
         } catch (DataAccessException e) {
-            response.put("error", "Error al consultar la base de datos ");
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+           return errorService.dbError(e, response);
         }
         response.put("productos", productos);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -88,8 +86,7 @@ public class ProductoRestController {
         try {
             producto = productoService.findByNombre(nombre);
         } catch (DataAccessException e) {
-            response.put("error", "Error al consultar la base de datos");
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+           return errorService.dbError(e, response);
         }
 
         if (producto == null) {
@@ -108,8 +105,7 @@ public class ProductoRestController {
         try {
             producto = productoService.findById(id);
         } catch (DataAccessException e) {
-            response.put("error", "Error al consultar la base de datos");
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return errorService.dbError(e, response);
         }
 
         if (producto == null) {
@@ -134,8 +130,7 @@ public class ProductoRestController {
             actual.copy(producto);
             productoService.save(actual);
         } catch (DataAccessException e) {
-            response.put("error", "Error al actualizar el producto");
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return errorService.dbError(e, response);
         }
         response.put("producto", actual);
         response.put("mensaje", "Producto actualizado con éxito");
@@ -149,8 +144,7 @@ public class ProductoRestController {
         try {
             productoService.delete(id);
         } catch (DataAccessException e) {
-            response.put("error", "Error al eliminar el producto: ".concat(e.getMostSpecificCause().getMessage()));
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return errorService.dbError(e, response);
         }
         response.put("mensaje", "Producto eliminado");
         return new ResponseEntity<>(response, HttpStatus.OK);

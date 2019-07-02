@@ -55,9 +55,7 @@ public class ClienteRestController {
         try {
             cliente = clienteService.findById(id);
         } catch(DataAccessException e) {
-            response.put("mensaje", "Error al realizar la consulta en la base de datos");
-            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+          return errorService.dbError(e, response);
         }
 
         if(cliente == null) {
@@ -80,9 +78,7 @@ public class ClienteRestController {
         try {
             clienteNew = clienteService.save(cliente);
         } catch(DataAccessException e) {
-            response.put("mensaje", "Error al guardar en la base de datos");
-            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return errorService.dbError(e, response);
         }
 
         response.put("mensaje", "El cliente ha sido creado con éxito");
@@ -109,9 +105,7 @@ public class ClienteRestController {
             clienteActual.copy(cliente);
             clienteUpdated = clienteService.save(clienteActual);
         } catch (DataAccessException e) {
-            response.put("mensaje", "Error al actualizar el cliente en la base de datos");
-            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return errorService.dbError(e, response);
         }
 
         response.put("mensaje", "El cliente ha sido actualizado con éxito!");
@@ -127,9 +121,7 @@ public class ClienteRestController {
         try {
             clienteService.delete(id);
         } catch (DataAccessException e) {
-            response.put("mensaje", "Error al eliminar el cliente de la base de datos");
-            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return errorService.dbError(e, response);
         }
 
         response.put("mensaje", "Cliente eliminado con éxito");

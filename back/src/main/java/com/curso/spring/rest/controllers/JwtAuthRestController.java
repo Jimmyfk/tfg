@@ -22,14 +22,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/auth")
 public class JwtAuthRestController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenUtil jwtTokenUtil;
+    private final JpaUserDetailsService userDetailsService;
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
-    @Autowired
-    private JpaUserDetailsService userDetailsService;
+    public JwtAuthRestController(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil,
+                                 JpaUserDetailsService userDetailsService) {
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenUtil = jwtTokenUtil;
+        this.userDetailsService = userDetailsService;
+    }
 
     @PostMapping(value = "/login")
     public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authRequest) throws Exception {
