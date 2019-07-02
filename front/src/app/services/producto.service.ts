@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {catchError, map} from 'rxjs/operators';
-import {Producto} from '../productos/producto';
+import {Producto} from '../models/producto';
 import {environment} from '../../environments/environment';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';

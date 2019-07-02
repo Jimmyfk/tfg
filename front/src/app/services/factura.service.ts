@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {Factura} from '../facturas/factura';
-import {catchError, map} from 'rxjs/operators';
+import {Factura} from '../models/factura';
+import {catchError} from 'rxjs/operators';
 import {Observable, throwError} from 'rxjs';
 import {SwalService} from './swal.service';
 

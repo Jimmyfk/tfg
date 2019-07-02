@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {Factura} from '../factura';
+import {Factura} from '../../models/factura';
 import {ClienteService} from '../../services/cliente.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatAutocompleteSelectedEvent} from '@angular/material';
 import {FormControl} from '@angular/forms';
 import {FacturaService} from '../../services/factura.service';
 import {debounceTime} from 'rxjs/operators';
-import {ItemFactura} from '../../items-factura/itemFactura';
+import {ItemFactura} from '../../models/itemFactura';
 import swal from 'sweetalert2';
 import {ProductoService} from '../../services/producto.service';
 

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Usuario} from '../usuarios/usuario';
+import {Usuario} from '../../models/usuario';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import Swal from 'sweetalert2';
@@ -24,11 +24,11 @@ export class FormComponent implements OnInit {
   }
 
   register() {
-    this.usuarioService.register(this.usuario).subscribe(response => {
+    this.usuarioService.register(this.usuario).subscribe(() => {
         this.router.navigate(['/inicio']);
       },
-      error => {
-        Swal.fire('Error', 'El nombre de usuario ya está cogido');
+      () => {
+        Swal.fire('Error', 'El nombre de usuario ya está cogido').then();
       });
   }
 

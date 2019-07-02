@@ -1,5 +1,5 @@
-import {Cliente} from '../clientes/cliente';
-import {ItemFactura} from '../items-factura/itemFactura';
+import {Cliente} from './cliente';
+import {ItemFactura} from './itemFactura';
 
 export class Factura {
   private _id: number;

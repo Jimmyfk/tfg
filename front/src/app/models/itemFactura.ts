@@ -1,4 +1,4 @@
-import {Producto} from '../productos/producto';
+import {Producto} from './producto';
 import {OnInit} from '@angular/core';
 
 export class ItemFactura implements OnInit {

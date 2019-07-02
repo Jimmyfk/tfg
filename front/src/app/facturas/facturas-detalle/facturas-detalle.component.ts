@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FacturaService} from '../../services/factura.service';
 import {ActivatedRoute} from '@angular/router';
-import {Factura} from '../factura';
+import {Factura} from '../../models/factura';
 
 @Component({
   selector: 'app-facturas-detalle',

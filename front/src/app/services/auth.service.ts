@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {Usuario} from '../auth/usuarios/usuario';
+import {Usuario} from '../models/usuario';
 import {catchError, map} from 'rxjs/operators';
 import {throwError} from 'rxjs';
 

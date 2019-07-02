@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ClienteService} from '../../services/cliente.service';
-import {Cliente} from '../cliente';
+import {Cliente} from '../../models/cliente';
 import {ActivatedRoute} from '@angular/router';
-import {Factura} from '../../facturas/factura';
+import {Factura} from '../../models/factura';
 import {FacturaService} from '../../services/factura.service';
 import {SwalService} from '../../services/swal.service';
 

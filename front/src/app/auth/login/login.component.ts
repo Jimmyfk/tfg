@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Usuario} from '../usuarios/usuario';
+import {Usuario} from '../../models/usuario';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import Swal from 'sweetalert2';
@@ -19,10 +19,10 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.usuarioService.login(this.usuario.username, this.usuario.password).subscribe(response => {
+    this.usuarioService.login(this.usuario.username, this.usuario.password).subscribe(() => {
       this.usuario.authorities = JSON.parse(sessionStorage.getItem('authorities'));
-      this.router.navigate(['/inicio']);
-    }, error => {
+      this.router.navigate(['/inicio']).then();
+    }, () => {
       Swal.fire('Error', 'Usuario o contraseña incorrectos', 'error').then();
     });
   }

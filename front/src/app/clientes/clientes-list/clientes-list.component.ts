@@ -1,6 +1,6 @@
 import {ClienteService} from '../../services/cliente.service';
 import {Component, OnInit} from '@angular/core';
-import {Cliente} from '../cliente';
+import {Cliente} from '../../models/cliente';
 import {Router} from '@angular/router';
 import {SwalService} from '../../services/swal.service';
 
@@ -46,7 +46,7 @@ export class ClientesListComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.clienteService.delete(cliente).subscribe(
-          response => {
+          () => {
             this.clientes = this.clientes.filter(cli => cli !== cliente);
             this.swalWithBootstrapButtons.fire(
               'Eliminado!',
