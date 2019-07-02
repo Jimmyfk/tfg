@@ -13,6 +13,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -99,4 +100,24 @@ public class FacturaRestController {
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        Factura factura = facturaService.findById(id);
+        Map<String, Object> response = new HashMap<>();
+
+         if (factura != null) {
+             try {
+                 facturaService.delete(id);
+             } catch (DataAccessException e) {
+                response.put("error", "Error al eliminar la factura");
+                return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+             }
+             response.put("mensaje", "Factura eliminada");
+             return new ResponseEntity<>(response, HttpStatus.OK);
+         }
+         response.put("error", "La factura no existe");
+         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
 }

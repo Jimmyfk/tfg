@@ -40,4 +40,14 @@ public class FacturaManager implements FacturaService {
     public Factura save(Factura factura) {
         return facturaDao.save(factura);
     }
+
+    @Override
+    public Factura findById(Long id) {
+        return facturaDao.findById(id).orElse(null);
+    }
+
+    @Override
+    public void delete(Long id) {
+        facturaDao.deleteById(id);
+    }
 }

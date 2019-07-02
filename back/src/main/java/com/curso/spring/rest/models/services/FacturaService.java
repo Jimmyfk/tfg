@@ -21,6 +21,10 @@ public interface FacturaService {
 
     Factura save(Factura factura);
 
+    Factura findById(Long id);
+
+    void delete(Long id);
+
 
 
 
