@@ -3,7 +3,6 @@ package com.curso.spring.rest;
 import com.curso.spring.rest.auth.JwtAuthEntryPoint;
 import com.curso.spring.rest.auth.JwtRequestFilter;
 import com.curso.spring.rest.models.services.JpaUserDetailsService;
-import com.sun.javafx.collections.ImmutableObservableList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

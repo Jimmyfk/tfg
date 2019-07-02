@@ -25,7 +25,7 @@ export class FormComponent implements OnInit {
 
   register() {
     this.usuarioService.register(this.usuario).subscribe(() => {
-        this.router.navigate(['/inicio']);
+        this.router.navigate(['/inicio']).then();
       },
       () => {
         Swal.fire('Error', 'El nombre de usuario ya está cogido').then();

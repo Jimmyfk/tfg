@@ -2,6 +2,7 @@ import {Producto} from './producto';
 import {OnInit} from '@angular/core';
 
 export class ItemFactura implements OnInit {
+
   private _id: number;
   private _producto: Producto;
   private _precio: number;

@@ -1,4 +1,5 @@
 export class Cliente {
+
   private _id: number;
   private _nombre: string;
   private _apellidos: string;

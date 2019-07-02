@@ -42,7 +42,7 @@ public class JwtAuthRestController {
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity<?> saveUser(@RequestBody Usuario user) throws Exception {
+    public ResponseEntity<?> saveUser(@RequestBody Usuario user) {
         return ResponseEntity.ok(userDetailsService.save(user));
     }
 

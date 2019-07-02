@@ -13,7 +13,6 @@ export class Factura {
   constructor(cliente: Cliente) {
     this._cliente = cliente;
     this._items = [];
-    this._total = 0;
   }
 
   get id(): number {
