@@ -1,14 +1,10 @@
 package com.curso.spring.rest.controllers;
 
-import com.curso.spring.rest.models.dao.FacturaDao;
 import com.curso.spring.rest.models.entity.Cliente;
 import com.curso.spring.rest.models.entity.Factura;
-import com.curso.spring.rest.models.entity.Producto;
 import com.curso.spring.rest.models.services.ClienteService;
 import com.curso.spring.rest.models.services.FacturaService;
-import com.curso.spring.rest.models.services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -106,18 +100,18 @@ public class FacturaRestController {
         Factura factura = facturaService.findById(id);
         Map<String, Object> response = new HashMap<>();
 
-         if (factura != null) {
-             try {
-                 facturaService.delete(id);
-             } catch (DataAccessException e) {
+        if (factura != null) {
+            try {
+                facturaService.delete(id);
+            } catch (DataAccessException e) {
                 response.put("error", "Error al eliminar la factura");
                 return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-             }
-             response.put("mensaje", "Factura eliminada");
-             return new ResponseEntity<>(response, HttpStatus.OK);
-         }
-         response.put("error", "La factura no existe");
-         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            }
+            response.put("mensaje", "Factura eliminada");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        response.put("error", "La factura no existe");
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
 }
