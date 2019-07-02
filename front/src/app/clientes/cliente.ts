@@ -54,4 +54,16 @@ export class Cliente {
   set foto(value: string) {
     this._foto = value;
   }
+
+  toJSON() {
+    return {
+      id: this.id,
+      nombre: this.nombre,
+      apellidos: this.apellidos,
+      createdAt: this.createdAt,
+      email: this.email,
+      foto: this.foto
+    };
+
+  }
 }

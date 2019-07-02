@@ -51,4 +51,13 @@ export class ItemFactura implements OnInit {
   setImporte() {
     this._importe = this._producto.precio * this._cantidad;
   }
+
+  toJSON() {
+    return {
+      id: this.id,
+      producto: this.producto,
+      cantidad: this.cantidad,
+      importe: this.importe
+    };
+  }
 }

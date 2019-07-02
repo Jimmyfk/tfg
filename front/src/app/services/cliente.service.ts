@@ -52,7 +52,7 @@ export class ClienteService {
   }
 
   create(cliente: Cliente): Observable<any> {
-    return this.http.post<any>(this.url, cliente, {headers: this.httpHeaders}).pipe(
+    return this.http.post<any>(this.url, cliente.toJSON(), {headers: this.httpHeaders}).pipe(
       catchError(e => {
         if (e.status === 400) {
           return throwError(e);
@@ -65,7 +65,7 @@ export class ClienteService {
   }
 
   update(cliente: Cliente): Observable<any> {
-    return this.http.put<any>(`${this.url}/${cliente.id}`, cliente, {headers: this.httpHeaders}).pipe(
+    return this.http.put<any>(`${this.url}/${cliente.id}`, cliente.toJSON(), {headers: this.httpHeaders}).pipe(
       catchError(e => {
         if (e.status === 400) {
           return throwError(e);

@@ -22,6 +22,7 @@
             <th>Observaciones</th>
             <th>Fecha</th>
             <th>Total</th>
+            <th>Eliminar</th>
           </tr>
           </thead>
           <tbody>
@@ -32,6 +33,9 @@
             <td>{{factura.observacion}}</td>
             <td>{{factura.createdAt | date: 'mediumDate'}}</td>
             <td class="text-right">{{factura.total | number: '1.2-2'}}€</td>
+            <td>
+              <button class="btn btn-danger btn-sm" (click)="delete(factura)">X</button>
+            </td>
           </tr>
           </tbody>
         </table>

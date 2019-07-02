@@ -21,7 +21,7 @@ export class AuthService {
   }
 
   register(usuario: Usuario) {
-    return this.http.post(`${this.url}/register`, usuario, this.httpOptions).pipe(
+    return this.http.post(`${this.url}/register`, usuario.toJSON(), this.httpOptions).pipe(
       catchError(e => {
         return throwError(e);
       })

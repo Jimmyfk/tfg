@@ -37,7 +37,7 @@ export class ClientesListComponent implements OnInit {
   delete(cliente: Cliente): void {
     this.swalWithBootstrapButtons.fire({
       title: 'Eliminar?',
-      text: `¿Eliminar cliente ${cliente.nombre + ' ' + cliente.apellidos}?`,
+      text: `¿Eliminar cliente ${cliente.getNombre + ' ' + cliente.getApellidos}?`,
       type: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, delete it!',
@@ -50,7 +50,7 @@ export class ClientesListComponent implements OnInit {
             this.clientes = this.clientes.filter(cli => cli !== cliente);
             this.swalWithBootstrapButtons.fire(
               'Eliminado!',
-              `cliente ${cliente.nombre + ' ' + cliente.apellidos} eliminado con éxito`,
+              `cliente ${cliente.getNombre + ' ' + cliente.getApellidos} eliminado con éxito`,
               'success'
             );
           }

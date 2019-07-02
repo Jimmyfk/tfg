@@ -35,4 +35,13 @@ export class Producto {
   set createdAt(value: Date) {
     this._createdAt = value;
   }
+
+  toJSON() {
+    return {
+      id: this.id,
+      nombre: this.nombre,
+      precio: this.precio,
+      createdAt: this.createdAt
+    };
+  }
 }

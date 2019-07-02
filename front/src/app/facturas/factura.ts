@@ -80,4 +80,15 @@ export class Factura {
     this._total = Number(this._total.toFixed(2));
   }
 
+  toJSON() {
+    return {
+      id: this.id,
+      cliente: this.cliente,
+      descripcion: this.descripcion,
+      observacion: this.observacion,
+      items: this.items,
+      total: this.total
+    };
+  }
+
 }

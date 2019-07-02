@@ -52,7 +52,7 @@ export class ProductoService {
   }
 
   create(producto: Producto) {
-    return this.http.post<Producto>(`${this.url}`, producto, this.httpOptions).pipe(
+    return this.http.post<Producto>(`${this.url}`, producto.toJSON(), this.httpOptions).pipe(
       catchError(err => {
         return throwError(err);
       })
@@ -60,7 +60,7 @@ export class ProductoService {
   }
 
   update(producto: Producto) {
-    return this.http.put(`${this.url}/${producto.id}`, producto, this.httpOptions);
+    return this.http.put(`${this.url}/${producto.id}`, producto.toJSON(), this.httpOptions);
   }
 
   delete(id: number) {

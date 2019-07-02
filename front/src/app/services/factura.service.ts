@@ -3,7 +3,7 @@ import {environment} from '../../environments/environment';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {Factura} from '../facturas/factura';
-import {catchError} from 'rxjs/operators';
+import {catchError, map} from 'rxjs/operators';
 import {Observable, throwError} from 'rxjs';
 import {SwalService} from './swal.service';
 
@@ -37,13 +37,22 @@ export class FacturaService {
   }
 
   create(factura: Factura): Observable<any> {
-    return this.http.post<any>(`${this.url}/${factura.cliente.id}`, factura, this.httpOptions).pipe(
+    return this.http.post<any>(`${this.url}/${factura.cliente.id}`, factura.toJSON(), this.httpOptions).pipe(
       catchError(e => {
         if (e.status === 400 || e.status === 500) {
           return throwError(e);
         }
-        this.swal.fire('Error al guardar la factura', e.error.error, 'error').then();
-        return throwError(e);
+        return this.swal.fire('Error al guardar la factura', e.error.error, 'error').then(() => throwError(e));
+      })
+    );
+  }
+
+  delete(factura: Factura) {
+    return this.http.delete(`${this.url}/${factura.id}`).pipe(
+      catchError(e => throwError(e)),
+      map(e => {
+        console.log('map');
+        this.router.navigate(['/clientes', factura.cliente.id]).then();
       })
     );
   }
