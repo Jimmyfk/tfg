@@ -97,8 +97,7 @@ public class ProductoRestController {
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
 
-        response.put("producto", producto);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(producto, HttpStatus.OK);
     }
 
     @GetMapping(value = "/id/{id}")

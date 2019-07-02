@@ -30,7 +30,7 @@ export class ClientesFormComponent implements OnInit {
         const id = params.id;
         if (id) {
           this.titulo = 'Editar cliente';
-          this.clienteService.getCliente(id).subscribe( cliente => this.cliente = cliente);
+          this.clienteService.getCliente(id).subscribe(cliente => this.cliente = cliente);
         }
       });
   }

@@ -64,6 +64,5 @@ export class Cliente {
       email: this.email,
       foto: this.foto
     };
-
   }
 }

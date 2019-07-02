@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Cliente} from '../clientes/cliente.js';
 import {Observable, throwError} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
+import {catchError} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
 import {SwalService} from './swal.service';
 
@@ -14,8 +14,6 @@ export class ClienteService {
   private url = environment.baseUrl + 'clientes';
   private httpHeaders = new HttpHeaders({'Content-type': 'application/json'});
 
-  mayus = (x: string): string => x.toUpperCase();
-
   constructor(private http: HttpClient,
               private router: Router,
               private swalService: SwalService) {
@@ -23,12 +21,6 @@ export class ClienteService {
 
   getClientes(): Observable<Cliente[]> {
     return this.http.get<Cliente[]>(this.url).pipe(
-      map(response => {
-        response.forEach(cliente => {
-          cliente.nombre = this.mayus(cliente.nombre);
-        });
-        return response;
-      }),
       catchError(err => {
         if (err.status === 401) {
           this.router.navigate(['login']).then(() =>
@@ -52,7 +44,7 @@ export class ClienteService {
   }
 
   create(cliente: Cliente): Observable<any> {
-    return this.http.post<any>(this.url, cliente.toJSON(), {headers: this.httpHeaders}).pipe(
+    return this.http.post<any>(this.url, cliente, {headers: this.httpHeaders}).pipe(
       catchError(e => {
         if (e.status === 400) {
           return throwError(e);
@@ -65,7 +57,9 @@ export class ClienteService {
   }
 
   update(cliente: Cliente): Observable<any> {
-    return this.http.put<any>(`${this.url}/${cliente.id}`, cliente.toJSON(), {headers: this.httpHeaders}).pipe(
+    console.log(cliente);
+    console.log(cliente.apellidos);
+    return this.http.put<any>(`${this.url}/${cliente.id}`, cliente, {headers: this.httpHeaders}).pipe(
       catchError(e => {
         if (e.status === 400) {
           return throwError(e);
