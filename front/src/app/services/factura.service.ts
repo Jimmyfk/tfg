@@ -49,11 +49,7 @@ export class FacturaService {
 
   delete(factura: Factura) {
     return this.http.delete(`${this.url}/${factura.id}`).pipe(
-      catchError(e => throwError(e)),
-      map(e => {
-        console.log('map');
-        this.router.navigate(['/clientes', factura.cliente.id]).then();
-      })
+      catchError(e => throwError(e))
     );
   }
 }

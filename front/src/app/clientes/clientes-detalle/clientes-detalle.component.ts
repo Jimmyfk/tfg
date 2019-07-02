@@ -46,12 +46,14 @@ export class ClientesDetalleComponent implements OnInit {
       text: '¿Eliminar Factura?',
       showCancelButton: true,
       confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
       type: 'warning'
     }).then(result => {
       if (result.value) {
         this.facturaService.delete(factura).subscribe(
           response => {
             console.log(response);
+            this.facturas = this.facturas.filter(fact => fact !== factura);
             alert.fire('', 'Factura eliminada', 'info').then();
           },
           err => {
