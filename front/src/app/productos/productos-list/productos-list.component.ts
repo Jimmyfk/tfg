@@ -38,6 +38,7 @@ export class ProductosListComponent implements OnInit {
         this.productoService.delete(producto.id).subscribe(
           response => {
             console.log(response);
+            this.productos = this.productos.filter(prods => prods !== producto);
           },
           error => {
             swalButtons.fire('Error', error.error.error, 'error').then();

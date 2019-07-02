@@ -4,12 +4,14 @@ import {OnInit} from '@angular/core';
 export class ItemFactura implements OnInit {
   private _id: number;
   private _producto: Producto;
+  private _precio: number;
   private _cantidad: number;
   private _importe: number;
 
   constructor(producto: Producto) {
     this._producto = producto;
     this._cantidad = 1;
+    this._precio = producto.precio;
     this.setImporte();
   }
 
@@ -49,13 +51,22 @@ export class ItemFactura implements OnInit {
   }
 
   setImporte() {
-    this._importe = this._producto.precio * this._cantidad;
+    return this._importe = this._precio * this._cantidad;
+  }
+
+  get precio(): number {
+    return this._precio;
+  }
+
+  set precio(value: number) {
+    this._precio = value;
   }
 
   toJSON() {
     return {
       id: this.id,
       producto: this.producto,
+      precio: this.precio,
       cantidad: this.cantidad,
       importe: this.importe
     };

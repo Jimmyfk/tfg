@@ -72,7 +72,7 @@
         <tbody>
         <tr *ngFor="let item of factura.items" class="row">
           <td class="col-5">{{item.producto.nombre}}</td>
-          <td class="col-3">{{item.producto.precio}}€</td>
+          <td class="col-3">{{item.precio}}€</td>
           <td class="col-1">
             <input class="form-control" type="number" [(ngModel)]="item.cantidad" [name]="item.producto.id.toString()"
                    min="1" (ngModelChange)="factura.calcularTotal()"/>

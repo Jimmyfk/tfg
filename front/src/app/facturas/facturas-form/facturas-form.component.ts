@@ -54,9 +54,9 @@ export class FacturasFormComponent implements OnInit {
   }
 
   select(event: MatAutocompleteSelectedEvent) {
-    this.productoService.getProducto(event.option.value).subscribe((response: any) => {
-      if (!this.hasProducto(response.producto.id)) {
-        this.factura.items.push(new ItemFactura(response.producto));
+    this.productoService.getProducto(event.option.value).subscribe(response => {
+      if (!this.hasProducto(response.id)) {
+        this.factura.items.push(new ItemFactura(response));
       }
       this.factura.calcularTotal();
       this.buscar.setValue('');

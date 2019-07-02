@@ -25,6 +25,8 @@ public class  ItemFactura implements Serializable {
     @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
     private Producto producto;
 
+    private Double precio;
+
     private Integer cantidad;
 
     private Double importe;
@@ -34,7 +36,8 @@ public class  ItemFactura implements Serializable {
     public ItemFactura(Integer cantidad, Producto producto) {
         this.cantidad = cantidad;
         this.producto = producto;
-        importe = cantidad * producto.getPrecio();
+        this.precio = producto.getPrecio();
+        importe = cantidad * precio;
     }
 
     public Long getId() {
@@ -69,5 +72,13 @@ public class  ItemFactura implements Serializable {
 
     public void setProducto(Producto producto) {
         this.producto = producto;
+    }
+
+    public Double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(Double precio) {
+        this.precio = precio;
     }
 }
