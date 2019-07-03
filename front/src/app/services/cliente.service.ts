@@ -29,12 +29,7 @@ export class ClienteService {
 
   getCliente(id): Observable<Cliente> {
     return this.http.get<Cliente>(`${this.url}/${id}`).pipe(
-      catchError(e => {
-        this.router.navigate(['error', '404']).then(() =>
-          this.swalService.fire('Error', 'El cliente no existe', 'error')
-        );
-        return throwError(e);
-      })
+      catchError(e => throwError(e))
     );
   }
 

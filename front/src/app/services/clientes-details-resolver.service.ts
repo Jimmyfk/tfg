@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
 import {Cliente} from '../models/cliente';
-import {EMPTY, Observable, of} from 'rxjs';
+import {EMPTY, Observable, of, throwError} from 'rxjs';
 import {ClienteService} from './cliente.service';
-import {mergeMap, take} from 'rxjs/operators';
+import {catchError, mergeMap, take} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -19,12 +19,10 @@ export class ClientesDetailsResolverService implements Resolve<Cliente> {
 
     return this.clienteService.getCliente(id).pipe(
       take(1),
-      mergeMap(cliente => {
-        if (cliente) {
-          return of(cliente);
-        } else {
-          this.router.navigate(['/clientes']).then(() => EMPTY);
-        }
+      mergeMap(cliente => of(cliente)),
+      catchError(err => {
+        this.router.navigate(['/clientes']).then(() => EMPTY);
+        return throwError(err);
       })
     );
   }
