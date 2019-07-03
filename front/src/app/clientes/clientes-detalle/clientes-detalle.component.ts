@@ -22,20 +22,8 @@ export class ClientesDetalleComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.cargarDetalles();
-  }
-
-  cargarDetalles() {
-    this.rutaActiva.params.subscribe(params => {
-      const id = params.id;
-      if (id) {
-        this.clienteService.getCliente(id).subscribe(cliente => {
-          this.cliente = cliente;
-        });
-        this.facturaService.getFacturas(id).subscribe(facturas => {
-          this.facturas = facturas;
-        });
-      }
+    this.rutaActiva.data.subscribe((data: { cliente: Cliente }) => {
+      this.cliente = data.cliente;
     });
   }
 

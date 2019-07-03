@@ -20,8 +20,11 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.usuarioService.login(this.usuario.username, this.usuario.password).subscribe(() => {
-      this.usuario.authorities = JSON.parse(sessionStorage.getItem('authorities'));
-      this.router.navigate(['/inicio']).then();
+      if (this.usuarioService.isLogged()) {
+        this.usuario.authorities = JSON.parse(sessionStorage.getItem('authorities'));
+        const redirect = this.usuarioService.redirectUrl ? this.router.parseUrl(this.usuarioService.redirectUrl) : '/inicio';
+        this.router.navigateByUrl(redirect).then();
+      }
     }, () => {
       Swal.fire('Error', 'Usuario o contraseña incorrectos', 'error').then();
     });

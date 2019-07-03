@@ -8,7 +8,9 @@ import {environment} from '../../environments/environment';
 import {SwalService} from './swal.service';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ClienteService {
 
   private url = environment.baseUrl + 'clientes';
@@ -25,7 +27,7 @@ export class ClienteService {
     );
   }
 
-  getCliente(id: number): Observable<Cliente> {
+  getCliente(id): Observable<Cliente> {
     return this.http.get<Cliente>(`${this.url}/${id}`).pipe(
       catchError(e => {
         this.router.navigate(['error', '404']).then(() =>
