@@ -22,11 +22,11 @@ export class FacturaService {
               private swal: SwalService) {
   }
 
-  getFacturas(id: number) {
+  getFacturas(id) {
     return this.http.get<Factura[]>(`${this.url}/ver/${id}`);
   }
 
-  getDetalleFactura(id: number): Observable<Factura> {
+  getDetalleFactura(id): Observable<Factura> {
     return this.http.get<any>(`${this.url}/${id}`).pipe(
       catchError(err => {
         this.router.navigate(['error', err.status]).then(() =>

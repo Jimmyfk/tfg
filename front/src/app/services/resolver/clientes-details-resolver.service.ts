@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
-import {Cliente} from '../models/cliente';
+import {Cliente} from '../../models/cliente';
 import {EMPTY, Observable, of, throwError} from 'rxjs';
-import {ClienteService} from './cliente.service';
+import {ClienteService} from '../cliente.service';
 import {catchError, mergeMap, take} from 'rxjs/operators';
 
 @Injectable({

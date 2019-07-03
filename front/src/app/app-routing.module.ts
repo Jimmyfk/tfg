@@ -12,12 +12,14 @@ const routes: Routes = [
     path: 'clientes',
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
+    canLoad: [AuthGuard],
     loadChildren: () => import('./clientes/clientes-list/clientes-list.module').then(mod => mod.ClientesListModule)
   },
   {
     path: 'factura',
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
+    canLoad: [AuthGuard],
     loadChildren: () => import('./facturas/facturas.module').then(mod => mod.FacturasModule),
   },
   {path: '', redirectTo: 'inicio', pathMatch: 'full'},
@@ -36,6 +38,7 @@ const routes: Routes = [
   {
     path: 'productos',
     canActivate: [AuthGuard],
+    canLoad: [AuthGuard],
     loadChildren: () => import('./productos/productos-list/productos-list.module').then(m => m.ProductosListModule)
   },
   {path: '**', redirectTo: 'error/404'}

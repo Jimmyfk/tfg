@@ -25,6 +25,18 @@ export class ClientesDetalleComponent implements OnInit {
     this.rutaActiva.data.subscribe((data: { cliente: Cliente }) => {
       this.cliente = data.cliente;
     });
+    this.getFacturas();
+  }
+
+  getFacturas() {
+    this.rutaActiva.params.subscribe(params => {
+      const id = params.id;
+      if (id) {
+        this.facturaService.getFacturas(id).subscribe(facturas => {
+          this.facturas = facturas;
+        });
+      }
+    });
   }
 
   delete(factura: Factura) {

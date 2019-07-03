@@ -1,5 +1,14 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  CanActivateChild,
+  CanLoad, Route,
+  Router,
+  RouterStateSnapshot,
+  UrlSegment,
+  UrlTree
+} from '@angular/router';
 import {Observable} from 'rxjs';
 import {AuthService} from '../services/auth.service';
 import {SwalService} from '../services/swal.service';
@@ -7,7 +16,7 @@ import {SwalService} from '../services/swal.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate, CanActivateChild {
+export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
 
   constructor(private authService: AuthService,
               private swal: SwalService,
@@ -34,5 +43,9 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     this.authService.redirectUrl = url;
     this.router.navigate(['login']).then(() => this.swal.fire('No has iniciado sesión', '', 'error'));
     return false;
+  }
+
+  canLoad(route: Route, segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
+    return this.checkLogin(`/${route.path}`);
   }
 }
