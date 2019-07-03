@@ -41,14 +41,7 @@ export class ProductoService {
 
   getProductos() {
     return this.http.get<Producto[]>(`${this.url}`).pipe(
-      catchError(err => {
-        if (err.status === 401) {
-          this.router.navigate(['login']).then(() => {
-            this.swal.fire('Unauthorized', 'Inicia Sesión', 'error').then(() => throwError(err));
-          });
-        }
-        return throwError(err);
-      }));
+      catchError(err => throwError(err)));
   }
 
   create(producto: Producto) {

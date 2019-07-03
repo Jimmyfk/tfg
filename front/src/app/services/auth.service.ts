@@ -15,6 +15,7 @@ export class AuthService {
   httpOptions = {
     headers: new HttpHeaders({'Content-type': 'application/json'})
   };
+  redirectUrl: string;
 
   constructor(private http: HttpClient,
               private router: Router) {

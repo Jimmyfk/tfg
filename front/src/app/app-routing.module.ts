@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
+import {AuthGuard} from './auth/auth.guard';
 
 
 const routes: Routes = [
@@ -9,11 +10,15 @@ const routes: Routes = [
   },
   {
     path: 'clientes',
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     loadChildren: () => import('./clientes/clientes-list/clientes-list.module').then(mod => mod.ClientesListModule)
   },
   {
     path: 'factura',
-    loadChildren: () => import('./facturas/facturas.module').then(mod => mod.FacturasModule)
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+    loadChildren: () => import('./facturas/facturas.module').then(mod => mod.FacturasModule),
   },
   {path: '', redirectTo: 'inicio', pathMatch: 'full'},
   {
@@ -30,6 +35,7 @@ const routes: Routes = [
   },
   {
     path: 'productos',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./productos/productos-list/productos-list.module').then(m => m.ProductosListModule)
   },
   {path: '**', redirectTo: 'error/404'}

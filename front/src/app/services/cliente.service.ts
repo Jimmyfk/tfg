@@ -21,14 +21,7 @@ export class ClienteService {
 
   getClientes(): Observable<Cliente[]> {
     return this.http.get<Cliente[]>(this.url).pipe(
-      catchError(err => {
-        if (err.status === 401) {
-          this.router.navigate(['login']).then(() =>
-            this.swalService.fire('Unauthorized', 'Inicia sesión', 'error').then()
-          );
-          return throwError(err);
-        }
-      })
+      catchError(err => throwError(err))
     );
   }
 
