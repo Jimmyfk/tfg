@@ -33,11 +33,11 @@ export class AuthService {
     return this.http.post(`${this.url}/login`, {username, password}, this.httpOptions).pipe(
       map(
         (userData: any) => {
-          sessionStorage.setItem('username', username);
+          localStorage.setItem('username', username);
           const token = 'Bearer ' + userData.jwtToken;
           const data = JSON.parse(window.atob(token.split('.')[1]));
-          sessionStorage.setItem('token', token);
-          sessionStorage.setItem('authorities', JSON.stringify(data.authorities));
+          localStorage.setItem('token', token);
+          localStorage.setItem('authorities', JSON.stringify(data.authorities));
           return userData;
         }
       ),
@@ -48,18 +48,18 @@ export class AuthService {
   }
 
   logout() {
-    sessionStorage.removeItem('username');
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('authorities');
+    localStorage.removeItem('username');
+    localStorage.removeItem('token');
+    localStorage.removeItem('authorities');
   }
 
   isLogged() {
-    const user = sessionStorage.getItem('username');
+    const user = localStorage.getItem('username');
     return !(user === null);
   }
 
   isAdmin() {
-    return sessionStorage.getItem('authorities').includes('ADMIN');
+    return localStorage.getItem('authorities').includes('ADMIN');
   }
 
 }

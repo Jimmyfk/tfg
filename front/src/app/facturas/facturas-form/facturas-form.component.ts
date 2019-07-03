@@ -47,9 +47,11 @@ export class FacturasFormComponent implements OnInit {
 
   autocomplete() {
     this.buscar.valueChanges.pipe(debounceTime(400)).subscribe(data => {
-      this.productoService.buscarProductos(data).subscribe(response => {
-        this.resultados = response;
-      });
+      if (data.toString().length > 0) {
+        this.productoService.buscarProductos(data).subscribe(response => {
+          this.resultados = response;
+        });
+      }
     });
   }
 
