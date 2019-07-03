@@ -3,6 +3,7 @@ import {Component, OnInit} from '@angular/core';
 import {Cliente} from '../../models/cliente';
 import {Router} from '@angular/router';
 import {SwalService} from '../../services/swal.service';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-clientes',
@@ -20,6 +21,7 @@ export class ClientesListComponent implements OnInit {
 
   constructor(private clienteService: ClienteService,
               private swalService: SwalService,
+              private authService: AuthService,
               private router: Router) {
   }
 
@@ -65,5 +67,9 @@ export class ClientesListComponent implements OnInit {
         );
       }
     });
+  }
+
+  isAdmin(): boolean {
+    return this.authService.isAdmin();
   }
 }

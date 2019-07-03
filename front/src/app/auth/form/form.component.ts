@@ -24,6 +24,9 @@ export class FormComponent implements OnInit {
   }
 
   register() {
+    if (this.router.url.endsWith('admin')) {
+      this.usuario.authorities.push('ADMIN');
+    }
     this.usuarioService.register(this.usuario).subscribe(() => {
         this.router.navigate(['/inicio']).then();
       },

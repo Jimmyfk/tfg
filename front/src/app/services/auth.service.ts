@@ -57,4 +57,8 @@ export class AuthService {
     return !(user === null);
   }
 
+  isAdmin() {
+    return sessionStorage.getItem('authorities').includes('ADMIN');
+  }
+
 }
