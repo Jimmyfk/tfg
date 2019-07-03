@@ -13,7 +13,7 @@
           Fecha de creación: {{cliente.createdAt}}
         </li>
       </ul>
-      <div class="container" *ngIf="facturas && facturas.length > 0; else sinFactura">
+      <div class="container wrapper" *ngIf="facturas && facturas.length > 0; else sinFactura">
         <table class="table table-striped table-bordered table-hover table-sm">
           <caption>Lista de facturas</caption>
           <thead>

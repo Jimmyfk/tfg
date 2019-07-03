@@ -12,3 +12,8 @@ caption {
 input[type='number'][disabled] {
   -moz-appearance:textfield !important;
 }
+
+.wrapper {
+  max-height: 25rem !important;
+  overflow: auto !important;
+}

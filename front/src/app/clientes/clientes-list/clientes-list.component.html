@@ -13,8 +13,9 @@
         <button class="btn btn-success btn-sm btn-rounded" [routerLink]="['/clientes/nuevo']"
           routerLinkActive="router-link-active">Crear cliente</button>
       </div>
-      <table class="table table-bordered table-striped text-primary" *ngIf="clientes?.length > 0">
-        <thead>
+      <div class="wrapper">
+        <table class="table table-bordered table-striped text-primary" *ngIf="clientes?.length > 0">
+          <thead>
           <tr>
             <th>id</th>
             <th>nombre</th>
@@ -23,8 +24,8 @@
             <th>Fecha</th>
             <th *ngIf="isAdmin()">Acciones</th>
           </tr>
-        </thead>
-        <tbody *ngIf="isEnabled">
+          </thead>
+          <tbody *ngIf="isEnabled">
           <tr *ngFor="let cliente of clientes">
             <td>
               <a class="badge badge-primary" [routerLink]="['/clientes/', cliente.id]">{{ cliente.id }}</a>
@@ -35,7 +36,7 @@
             <td>{{ cliente.createdAt | date:"mediumDate"}}</td>
             <td class="text-center" *ngIf="isAdmin()">
               <button class="btn btn-warning btn-xs mx-2" [routerLink]="['/clientes/editar', cliente.id]"
-                routerLinkActive="router-link-active">
+                      routerLinkActive="router-link-active">
                 <!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20"
                      viewBox="0 0 512.001 512.001" style="enable-background:new 0 0 512.001 512.001;" xml:space="preserve">
@@ -168,7 +169,7 @@
                 </svg>
               </button>
               <button class="btn btn-danger btn-xs mx-2" routerLinkActive="router-link-active"
-                (click)="delete(cliente)">
+                      (click)="delete(cliente)">
                 <!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
                 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20"
                      viewBox="0 0 443 443" style="enable-background:new 0 0 443 443;" xml:space="preserve">
@@ -245,8 +246,9 @@
               </button>
             </td>
           </tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </main>
