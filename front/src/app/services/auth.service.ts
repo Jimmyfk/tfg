@@ -53,13 +53,30 @@ export class AuthService {
   }
 
   isAdmin() {
-    return this.getRoles().includes('ADMIN');
+    return JSON.stringify(this.getRoles()).includes('ADMIN');
+  }
+
+  getUser(): Usuario {
+    const user = new Usuario();
+    user.username = this.getData().username;
+    user.authorities = this.getRoles();
+    return user;
   }
 
   getRoles() {
+    const authorities = this.getData().authorities;
+    const roles = [];
+    authorities.forEach(rol => {
+      Object.keys(rol).forEach(key => {
+        roles.push(rol[key]);
+      });
+    });
+    return roles;
+  }
+
+  getData() {
     const token = this.cs.get('token');
-    const data = JSON.parse(window.atob(token.split('.')[1]));
-    return JSON.stringify(data.authorities);
+    return JSON.parse(window.atob(token.split('.')[1]));
   }
 
 }

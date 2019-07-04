@@ -10,8 +10,8 @@ import {
   UrlTree
 } from '@angular/router';
 import {Observable} from 'rxjs';
-import {AuthService} from '../services/auth.service';
-import {SwalService} from '../services/swal.service';
+import {AuthService} from '../auth.service';
+import {SwalService} from '../swal.service';
 
 @Injectable({
   providedIn: 'root'

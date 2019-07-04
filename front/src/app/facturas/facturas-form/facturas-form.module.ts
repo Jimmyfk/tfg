@@ -8,6 +8,7 @@ import {ClienteService} from '../../services/cliente.service';
 import {FacturasFormComponent} from './facturas-form.component';
 import {ProductoService} from '../../services/producto.service';
 import {BackButtonModule} from '../../common/back-button/back-button.module';
+import {RoleGuard} from '../../services/guards/role.guard';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import {BackButtonModule} from '../../common/back-button/back-button.module';
   ],
   providers: [
     ClienteService,
-    ProductoService
+    ProductoService,
+    RoleGuard
   ]
 })
 export class FacturasFormModule { }

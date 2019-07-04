@@ -12,6 +12,9 @@
         <li class="list-group-item">
           Fecha de creación: {{cliente.createdAt}}
         </li>
+        <li class="list-group-item">
+          <button class="btn btn-sm btn-success" [routerLink]="['/factura/nueva', cliente.id]">Crear Factura</button>
+        </li>
       </ul>
       <div class="container wrapper" *ngIf="facturas && facturas.length > 0; else sinFactura">
         <table class="table table-striped table-bordered table-hover table-sm">
