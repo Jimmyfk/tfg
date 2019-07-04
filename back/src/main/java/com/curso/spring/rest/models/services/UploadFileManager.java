@@ -1,6 +1,5 @@
 package com.curso.spring.rest.models.services;
 
-import com.curso.spring.rest.models.services.UploadFileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -22,7 +21,7 @@ public class UploadFileManager implements UploadFileService {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    private final static String UPLOADS_FOLDER = new String("uploads");
+    private final static String UPLOADS_FOLDER = "uploads";
 
     @Override
     public Resource load(String filename) throws MalformedURLException {

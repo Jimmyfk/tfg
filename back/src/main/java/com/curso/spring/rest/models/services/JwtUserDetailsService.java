@@ -18,13 +18,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class JpaUserDetailsService implements UserDetailsService {
+public class JwtUserDetailsService implements UserDetailsService {
 
-    @Autowired
     private UsuarioDao usuarioDao;
+    private BCryptPasswordEncoder encoder;
 
     @Autowired
-    private BCryptPasswordEncoder encoder;
+    public JwtUserDetailsService(UsuarioDao usuarioDao, BCryptPasswordEncoder encoder) {
+        this.usuarioDao = usuarioDao;
+        this.encoder = encoder;
+    }
 
     @Override
     @Transactional(readOnly = true)

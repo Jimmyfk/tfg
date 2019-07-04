@@ -3,7 +3,7 @@ import com.curso.spring.rest.auth.JwtRequest;
 import com.curso.spring.rest.auth.JwtResponse;
 import com.curso.spring.rest.auth.JwtTokenUtil;
 import com.curso.spring.rest.models.entity.Usuario;
-import com.curso.spring.rest.models.services.JpaUserDetailsService;
+import com.curso.spring.rest.models.services.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,11 +24,11 @@ public class JwtAuthRestController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
-    private final JpaUserDetailsService userDetailsService;
+    private final JwtUserDetailsService userDetailsService;
 
     @Autowired
     public JwtAuthRestController(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil,
-                                 JpaUserDetailsService userDetailsService) {
+                                 JwtUserDetailsService userDetailsService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;

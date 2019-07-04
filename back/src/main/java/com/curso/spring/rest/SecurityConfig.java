@@ -2,7 +2,7 @@ package com.curso.spring.rest;
 
 import com.curso.spring.rest.auth.JwtAuthEntryPoint;
 import com.curso.spring.rest.auth.JwtRequestFilter;
-import com.curso.spring.rest.models.services.JpaUserDetailsService;
+import com.curso.spring.rest.models.services.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Autowired
-    public SecurityConfig(JwtAuthEntryPoint jwtAuthEntryPoint, JpaUserDetailsService userDetailsService, BCryptPasswordEncoder encoder,
+    public SecurityConfig(JwtAuthEntryPoint jwtAuthEntryPoint, JwtUserDetailsService userDetailsService, BCryptPasswordEncoder encoder,
                           JwtRequestFilter jwtRequestFilter) {
         this.jwtAuthEntryPoint = jwtAuthEntryPoint;
         this.jwtRequestFilter = jwtRequestFilter;
