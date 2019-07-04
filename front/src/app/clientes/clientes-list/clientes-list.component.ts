@@ -69,6 +69,16 @@ export class ClientesListComponent implements OnInit {
     });
   }
 
+  exportXml() {
+    return this.clienteService.getXml().subscribe(response => {
+       const blob = new Blob([response], {type: 'text/xml'});
+       const url = URL.createObjectURL(blob);
+       window.open(url);
+       URL.revokeObjectURL(url);
+      }
+    );
+  }
+
   isAdmin(): boolean {
     return this.authService.isAdmin();
   }

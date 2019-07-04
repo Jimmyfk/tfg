@@ -3,10 +3,12 @@ package com.curso.spring.rest.controllers;
 import com.curso.spring.rest.models.entity.Cliente;
 import com.curso.spring.rest.models.services.ClienteService;
 import com.curso.spring.rest.models.services.ErrorService;
+import export.ClienteList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,10 +25,9 @@ import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/clientes")
 public class ClienteRestController {
 
     private final ClienteService clienteService;
@@ -39,13 +40,18 @@ public class ClienteRestController {
     }
 
     // todo: Adaptar el front a la paginación
-    @GetMapping(value = "/clientes")
+    @GetMapping()
     public List<Cliente> index(@RequestParam(name = "page", defaultValue = "0") int page,
                                @RequestParam(defaultValue = "1000") int size) {
         return clienteService.findAll(PageRequest.of(page, size)).getContent();
     }
 
-    @GetMapping("/clientes/{id}")
+    @GetMapping(value = "/xml", produces = MediaType.APPLICATION_XML_VALUE)
+    public ClienteList export() {
+        return new ClienteList(clienteService.findAll());
+    }
+
+    @GetMapping("/{id}")
     public ResponseEntity<?> show(@PathVariable Long id) {
         Cliente cliente;
         Map<String, Object> response = new HashMap<>();
@@ -64,7 +70,7 @@ public class ClienteRestController {
         return new ResponseEntity<>(cliente, HttpStatus.OK);
     }
 
-    @PostMapping("/clientes")
+    @PostMapping()
     public ResponseEntity<?> create(@Valid @RequestBody Cliente cliente, BindingResult result) {
 
         Cliente clienteNew;
@@ -84,10 +90,9 @@ public class ClienteRestController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "clientes/{id}")
+    @PutMapping(value = "/{id}")
     public ResponseEntity<?> update(@Valid @RequestBody Cliente cliente, BindingResult result, @PathVariable Long id) {
         Cliente clienteActual = clienteService.findById(id);
-        Cliente clienteUpdated;
         Map<String, Object> response = new HashMap<>();
 
         if (result.hasErrors())
@@ -101,18 +106,18 @@ public class ClienteRestController {
 
         try {
             clienteActual.copy(cliente);
-            clienteUpdated = clienteService.save(clienteActual);
+            clienteActual = clienteService.save(clienteActual);
         } catch (DataAccessException e) {
             return errorService.dbError(e, response);
         }
 
         response.put("mensaje", "El cliente ha sido actualizado con éxito!");
-        response.put("cliente", clienteUpdated);
+        response.put("cliente", clienteActual);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @DeleteMapping(value = "clientes/{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();
 

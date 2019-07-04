@@ -27,6 +27,15 @@ export class ClienteService {
     );
   }
 
+  getXml() {
+    return this.http.get(this.url + '/xml', {
+      headers: new HttpHeaders().set('Content-Type', 'text/xml'),
+      responseType: 'text'
+    }).pipe(
+      catchError(e => throwError(e))
+    );
+  }
+
   getCliente(id): Observable<Cliente> {
     return this.http.get<Cliente>(`${this.url}/${id}`).pipe(
       catchError(e => throwError(e))

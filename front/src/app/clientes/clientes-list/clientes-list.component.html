@@ -12,6 +12,7 @@
         </div>
         <button class="btn btn-success btn-sm btn-rounded" [routerLink]="['/clientes/nuevo']"
           routerLinkActive="router-link-active">Crear cliente</button>
+        <button class="btn btn-primary btn-sm mx-2" (click)="exportXml()">XML</button>
       </div>
       <div class="wrapper">
         <table class="table table-bordered table-striped text-primary" *ngIf="clientes?.length > 0">
