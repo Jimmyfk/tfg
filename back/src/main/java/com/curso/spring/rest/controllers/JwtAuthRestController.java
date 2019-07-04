@@ -11,7 +11,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.Cookie;
 
 @RestController
-@CrossOrigin(value = "http://localhost:4200")
 @RequestMapping(value = "/api/auth")
 public class JwtAuthRestController {
 
@@ -40,7 +38,7 @@ public class JwtAuthRestController {
     public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authRequest) throws Exception {
         authenticate(authRequest.getUsername(), authRequest.getPassword());
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
-        return ResponseEntity.ok(new JwtResponse(new Cookie("token", jwtTokenUtil.generateToken(userDetails)))) ;
+        return ResponseEntity.ok(new JwtResponse(new Cookie("token", "Bearer " + jwtTokenUtil.generateToken(userDetails))));
     }
 
     @PostMapping(value = "/register")

@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {Usuario} from '../models/usuario';
 import {catchError, map} from 'rxjs/operators';
 import {throwError} from 'rxjs';
+import {CookieService} from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +14,13 @@ export class AuthService {
 
   private url = environment.baseUrl + 'auth';
   httpOptions = {
-    headers: new HttpHeaders({'Content-type': 'application/json'})
+    headers: new HttpHeaders({'Content-type': 'application/json'}),
+    withCredentials: true
   };
   redirectUrl: string;
 
   constructor(private http: HttpClient,
+              private cs: CookieService,
               private router: Router) {
   }
 
@@ -33,33 +36,30 @@ export class AuthService {
     return this.http.post(`${this.url}/login`, {username, password}, this.httpOptions).pipe(
       map(
         (userData: any) => {
-          localStorage.setItem('username', username);
-          const token = 'Bearer ' + userData.jwtToken;
-          const data = JSON.parse(window.atob(token.split('.')[1]));
-          localStorage.setItem('token', token);
-          localStorage.setItem('authorities', JSON.stringify(data.authorities));
+          this.cs.set('token', userData.cookie.value, undefined, '/', undefined, location.protocol === 'https:', 'Strict');
           return userData;
         }
       ),
-      catchError(e => {
-        return throwError(e);
-      })
+      catchError(e => throwError(e))
     );
   }
 
   logout() {
-    localStorage.removeItem('username');
-    localStorage.removeItem('token');
-    localStorage.removeItem('authorities');
+    this.cs.delete('token');
   }
 
   isLogged() {
-    const user = localStorage.getItem('username');
-    return !(user === null);
+    return this.cs.check('token');
   }
 
   isAdmin() {
-    return localStorage.getItem('authorities').includes('ADMIN');
+    return this.getRoles().includes('ADMIN');
+  }
+
+  getRoles() {
+    const token = this.cs.get('token');
+    const data = JSON.parse(window.atob(token.split('.')[1]));
+    return JSON.stringify(data.authorities);
   }
 
 }

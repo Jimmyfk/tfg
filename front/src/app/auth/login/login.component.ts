@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   login() {
     this.usuarioService.login(this.usuario.username, this.usuario.password).subscribe(() => {
       if (this.usuarioService.isLogged()) {
-        this.usuario.authorities = JSON.parse(localStorage.getItem('authorities'));
+        this.usuario.authorities = JSON.parse(this.usuarioService.getRoles());
         const redirect = this.usuarioService.redirectUrl ? this.router.parseUrl(this.usuarioService.redirectUrl) : '/inicio';
         this.router.navigateByUrl(redirect).then();
       }
