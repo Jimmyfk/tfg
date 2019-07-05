@@ -30,7 +30,6 @@ export class RoleGuard implements CanActivate {
       }
     }).catch(err => {
       reject(err).then();
-      console.log('rejected');
       this.router.navigate(['/login']).then();
       return err;
     });
