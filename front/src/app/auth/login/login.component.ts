@@ -25,8 +25,12 @@ export class LoginComponent implements OnInit {
         const redirect = this.usuarioService.redirectUrl ? this.router.parseUrl(this.usuarioService.redirectUrl) : '/inicio';
         this.router.navigateByUrl(redirect).then();
       }
-    }, () => {
-      Swal.fire('Error', 'Usuario o contraseña incorrectos', 'error').then();
+    }, error => {
+      if (error.status === 404) {
+        Swal.fire('Error', 'Usuario o contraseña incorrectos', 'error').then();
+      } else {
+        Swal.fire('Error', error.message, 'error').then();
+      }
     });
   }
 

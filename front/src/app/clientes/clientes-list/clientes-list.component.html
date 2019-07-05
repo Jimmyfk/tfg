@@ -1,27 +1,30 @@
 <main class="container">
   <div class="card border-primary mb-3">
-    <div class="card-header">Clientes</div>
+    <div class="card-header text-primary">
+      <h5 class="card-title m-0">Listado de clientes</h5>
+    </div>
     <div class="card-body text-primary">
-      <h5 class="card-title">Listado de clientes</h5>
-      <div class="my-2 text-left">
-        <button type="button" class="btn btn-sm btn-primary" (click)="ocultar()">{{isEnabled ? 'Ocultar' : 'Mostrar'}}</button>
+      <div class="mb-2 text-left">
+        <button type="button" class="btn btn-sm btn-secondary mx-2" (click)="ocultar()">{{isEnabled ? 'Ocultar' : 'Mostrar'}}</button>
+        <button class="btn btn-success btn-sm mx-2" [routerLink]="['/clientes/nuevo']"
+                routerLinkActive="router-link-active">Crear cliente</button>
       </div>
       <div class="my-2">
         <div *ngIf="clientes?.length == 0" class="alert alert-info">
           <span>No hay clientes</span>
         </div>
-        <button class="btn btn-success btn-sm btn-rounded" [routerLink]="['/clientes/nuevo']"
-          routerLinkActive="router-link-active">Crear cliente</button>
-        <button class="btn btn-primary btn-sm mx-2" (click)="exportXml()">XML</button>
+        <span class="mx-2 font-weight-bold">Exportar:</span>
+        <button class="btn btn-secondary btn-sm mx-2" (click)="exportXml()">XML</button>
+        <button class="btn btn-success btn-sm mx-2" (click)="exportXml()">XLS</button>
       </div>
       <div class="wrapper">
         <table class="table table-bordered table-striped text-primary" *ngIf="clientes?.length > 0">
           <thead>
           <tr>
-            <th>id</th>
-            <th>nombre</th>
-            <th>apellido</th>
-            <th>email</th>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Email</th>
             <th>Fecha</th>
             <th *ngIf="isAdmin()" class="text-center">Acciones</th>
           </tr>
