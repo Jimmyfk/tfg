@@ -8,7 +8,7 @@ const routes: Routes = [
     path: '',
     component: ClientesFormComponent,
     canActivate: [RoleGuard],
-    data: {roles: ['ADMIN']}
+    data: {roles: ['ROLE_ADMIN']}
   }
 ];
 

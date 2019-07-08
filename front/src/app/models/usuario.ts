@@ -3,10 +3,9 @@ export class Usuario {
   private _username: string;
   private _password: string;
   private _enabled: boolean;
-  private _authorities: string[] = [];
+  private _roles = [];
 
   constructor() {
-    this._authorities.push('USER');
   }
 
   get id(): number {
@@ -41,12 +40,12 @@ export class Usuario {
     this._enabled = value;
   }
 
-  get authorities(): string[] {
-    return this._authorities;
+  get roles() {
+    return this._roles;
   }
 
-  set authorities(value: string[]) {
-    this._authorities = value;
+  set roles(value) {
+    this._roles = value;
   }
 
   toJSON() {
@@ -55,7 +54,7 @@ export class Usuario {
       username: this.username,
       password: this.password,
       enabled: this.enabled,
-      authorities: this.authorities
+      roles: this.roles
     };
   }
 }

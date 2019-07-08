@@ -25,7 +25,7 @@ export class AuthService {
   }
 
   register(usuario: Usuario) {
-    return this.http.post(`${this.url}/register`, usuario.toJSON(), this.httpOptions).pipe(
+    return this.http.post(`${this.url}/register/false`, usuario.toJSON(), this.httpOptions).pipe(
       catchError(e => {
         return throwError(e);
       })
@@ -53,26 +53,16 @@ export class AuthService {
   }
 
   isAdmin() {
-    return JSON.stringify(this.getRoles()).includes('ADMIN');
+   return JSON.stringify(this.getData().roles).includes('ADMIN');
   }
 
   getUser(): Usuario {
     const user = new Usuario();
     user.username = this.getData().username;
-    user.authorities = this.getRoles();
+    user.roles = this.getData().roles;
     return user;
   }
 
-  getRoles() {
-    const authorities = this.getData().authorities;
-    const roles = [];
-    authorities.forEach(rol => {
-      Object.keys(rol).forEach(key => {
-        roles.push(rol[key]);
-      });
-    });
-    return roles;
-  }
 
   private getData() {
     const token = this.cs.get('token');

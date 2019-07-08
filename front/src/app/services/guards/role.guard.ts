@@ -22,9 +22,11 @@ export class RoleGuard implements CanActivate {
       }
       const user = this.authService.getUser();
       const roles = next.data.roles;
-      if (!roles || user.authorities.toString().indexOf(roles) !== -1) {
+      if (!roles || user.roles.includes(roles)) {
         resolve(true);
       } else {
+        console.log('false 2');
+        console.log(user.roles.includes(roles));
         resolve(false);
         this.router.navigate(['/login']).then();
       }

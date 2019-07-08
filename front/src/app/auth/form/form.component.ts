@@ -24,11 +24,8 @@ export class FormComponent implements OnInit {
   }
 
   register() {
-    if (this.router.url.endsWith('admin')) {
-      this.usuario.authorities.push('ADMIN');
-    }
-    this.usuarioService.register(this.usuario).subscribe(() => {
-        this.router.navigate(['/inicio']).then();
+    this.usuarioService.register(this.usuario).subscribe((response) => {
+        this.router.navigate(['/inicio']).then(() => console.log(response));
       },
       () => {
         Swal.fire('Error', 'El nombre de usuario ya está cogido').then();
