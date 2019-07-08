@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {AuthService} from '../auth.service';
 import {reject} from 'q';
+import {Usuario} from '../../models/usuario';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class RoleGuard implements CanActivate {
       }
       const user = this.authService.getUser();
       const roles = next.data.roles;
-      if (!roles || user.roles.includes(roles)) {
+      if (!roles || this.hasRole(user, roles)) {
         resolve(true);
       } else {
         console.log('false 2');
@@ -35,6 +36,15 @@ export class RoleGuard implements CanActivate {
       this.router.navigate(['/login']).then();
       return err;
     });
+  }
+
+  private hasRole(user: Usuario, rol: string): boolean {
+    for (const rl of user.roles) {
+     if (rl.rol.includes(rol)) {
+       return true;
+     }
+    }
+    return false;
   }
 
 }
