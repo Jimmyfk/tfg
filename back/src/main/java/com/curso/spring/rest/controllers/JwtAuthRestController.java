@@ -35,8 +35,12 @@ public class JwtAuthRestController {
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authRequest) throws Exception {
-        authenticate(authRequest.getUsername(), authRequest.getPassword());
+    public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authRequest)  {
+        try {
+            authenticate(authRequest.getUsername(), authRequest.getPassword());
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
         return ResponseEntity.ok(new JwtResponse(new Cookie("token", "Bearer " + jwtTokenUtil.generateToken(userDetails))));
     }
