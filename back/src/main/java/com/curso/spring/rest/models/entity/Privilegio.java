@@ -1,14 +1,13 @@
 package com.curso.spring.rest.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.Collection;
 
 @Entity
 @Table(name = "privilegios")
@@ -28,6 +27,7 @@ public class Privilegio implements Serializable {
         this.privilegio = privilegio;
     }
 
+    @JsonIgnore
     public Long getId() {
         return id;
     }

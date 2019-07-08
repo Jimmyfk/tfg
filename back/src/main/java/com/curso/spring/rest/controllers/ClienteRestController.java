@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -70,6 +71,7 @@ public class ClienteRestController {
         return new ResponseEntity<>(cliente, HttpStatus.OK);
     }
 
+    @Secured(value = "ROLE_ADMIN")
     @PostMapping()
     public ResponseEntity<?> create(@Valid @RequestBody Cliente cliente, BindingResult result) {
 
@@ -90,6 +92,7 @@ public class ClienteRestController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @Secured(value = "ROLE_ADMIN")
     @PutMapping(value = "/{id}")
     public ResponseEntity<?> update(@Valid @RequestBody Cliente cliente, BindingResult result, @PathVariable Long id) {
         Cliente clienteActual = clienteService.findById(id);

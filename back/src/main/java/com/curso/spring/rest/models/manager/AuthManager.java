@@ -53,4 +53,9 @@ public class AuthManager implements AuthService {
     public Privilegio savePrivilegio(Privilegio privilegio) {
         return privilegioDao.save(privilegio);
     }
+
+    @Override
+    public long countUsuarios() {
+        return usuarioDao.count();
+    }
 }

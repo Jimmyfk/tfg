@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -47,7 +46,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     public Usuario save(Usuario usuario) {
         usuario.setPassword(encoder.encode(usuario.getPassword()));
-        usuario.setRoles(Arrays.asList(authService.findByRol("ROLE_USER")));
+        usuario.addRol(authService.findByRol("ROLE_USER"));
         return authService.saveUsuario(usuario);
     }
 

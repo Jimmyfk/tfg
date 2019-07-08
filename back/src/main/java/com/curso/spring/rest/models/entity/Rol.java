@@ -1,5 +1,7 @@
 package com.curso.spring.rest.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -9,8 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
@@ -34,12 +36,16 @@ public class Rol implements Serializable {
                     name = "privilegio_id", referencedColumnName = "id"))
     private Collection<Privilegio> privilegios;
 
-    public Rol() {}
+    public Rol() {
+        privilegios = new ArrayList<>();
+    }
 
     public Rol(String rol) {
         this.rol = rol;
+        privilegios = new ArrayList<>();
     }
 
+    @JsonIgnore
     public Long getId() {
         return id;
     }
@@ -62,5 +68,9 @@ public class Rol implements Serializable {
 
     public void setPrivilegios(Collection<Privilegio> privilegios) {
         this.privilegios = privilegios;
+    }
+
+    public void addPrivilegio(Privilegio privilegio) {
+        privilegios.add(privilegio);
     }
 }

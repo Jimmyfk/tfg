@@ -13,6 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
@@ -38,6 +39,10 @@ public class Usuario implements Serializable {
             inverseJoinColumns = @JoinColumn(
                     name = "rol_id", referencedColumnName = "id"))
     private Collection<Rol> roles;
+
+    public Usuario() {
+        roles = new ArrayList<>();
+    }
 
     public Long getId() {
         return id;
@@ -77,6 +82,10 @@ public class Usuario implements Serializable {
 
     public void setRoles(Collection<Rol> roles) {
         this.roles = roles;
+    }
+
+    public void addRol(Rol rol) {
+        roles.add(rol);
     }
 
     @PrePersist
