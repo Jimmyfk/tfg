@@ -74,7 +74,7 @@ export class AuthService {
     return roles;
   }
 
-  getData() {
+  private getData() {
     const token = this.cs.get('token');
     return JSON.parse(window.atob(token.split('.')[1]));
   }

@@ -3,7 +3,9 @@ import {
   ActivatedRouteSnapshot,
   CanActivate,
   CanActivateChild,
-  CanLoad, Route,
+  CanDeactivate,
+  CanLoad,
+  Route,
   Router,
   RouterStateSnapshot,
   UrlSegment,
@@ -12,7 +14,6 @@ import {
 import {Observable} from 'rxjs';
 import {AuthService} from '../auth.service';
 import {SwalService} from '../swal.service';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -40,7 +41,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
     if (this.authService.isLogged()) {
       return true;
     }
-    this.authService.redirectUrl = url;
+    this.authService.redirectUrl = url.includes('login') ? undefined : url;
     this.router.navigate(['login']).then(() => this.swal.fire('No has iniciado sesión', '', 'error'));
     return false;
   }
