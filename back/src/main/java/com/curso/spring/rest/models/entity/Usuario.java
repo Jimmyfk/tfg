@@ -8,14 +8,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 
 @Entity
-@Table(schema = "tfg", name = "users")
+@Table(schema = "tfg", name = "usuarios")
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 8091612874764696577L;
@@ -26,14 +27,17 @@ public class Usuario implements Serializable {
 
     @Column(unique = true, length = 100)
     private String username;
-
     private String password;
-
     private Boolean enabled;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private List<Rol> authorities;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "usuarios_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "rol_id", referencedColumnName = "id"))
+    private Collection<Rol> roles;
 
     public Long getId() {
         return id;
@@ -67,12 +71,12 @@ public class Usuario implements Serializable {
         this.enabled = enabled;
     }
 
-    public List<Rol> getAuthorities() {
-        return authorities;
+    public Collection<Rol> getRoles() {
+        return roles;
     }
 
-    public void setAuthorities(List<Rol> authorities) {
-        this.authorities = authorities;
+    public void setRoles(Collection<Rol> roles) {
+        this.roles = roles;
     }
 
     @PrePersist
