@@ -1,11 +1,10 @@
 import {ClienteService} from '../../services/cliente.service';
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Cliente} from '../../models/cliente';
 import {Router} from '@angular/router';
 import {SwalService} from '../../services/swal.service';
 import {AuthService} from '../../services/auth.service';
 import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-clientes',
@@ -13,7 +12,7 @@ import {takeUntil} from 'rxjs/operators';
   styleUrls: ['./clientes.component.css']
 })
 
-export class ClientesListComponent implements OnInit, OnDestroy {
+export class ClientesListComponent implements OnInit {
 
   isEnabled = true;
   clientes: Cliente[];
@@ -27,7 +26,7 @@ export class ClientesListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.clienteService.getClientes().pipe(takeUntil(this.destroySubject$)).subscribe(
+    this.clienteService.getClientes().subscribe(
       clientes => this.clientes = clientes
     );
     this.swalWithBootstrapButtons = this.swalService.getCustomButton();
@@ -48,7 +47,7 @@ export class ClientesListComponent implements OnInit, OnDestroy {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        this.clienteService.delete(cliente).pipe(takeUntil(this.destroySubject$)).subscribe(
+        this.clienteService.delete(cliente).subscribe(
           () => {
             this.clientes = this.clientes.filter(cli => cli !== cliente);
             this.swalWithBootstrapButtons.fire(
@@ -71,7 +70,7 @@ export class ClientesListComponent implements OnInit, OnDestroy {
   }
 
   exportXml() {
-    return this.clienteService.getXml().pipe(takeUntil(this.destroySubject$)).subscribe(response => {
+    return this.clienteService.getXml().subscribe(response => {
         const blob = new Blob([response], {type: 'text/xml'});
         const url = URL.createObjectURL(blob);
         window.open(url);
@@ -88,7 +87,7 @@ export class ClientesListComponent implements OnInit, OnDestroy {
     return this.authService.isAdmin();
   }
 
-  ngOnDestroy(): void {
-    this.destroySubject$.next();
+  tracker(item) {
+    return item.id;
   }
 }

@@ -32,7 +32,7 @@
           </tr>
           </thead>
           <tbody *ngIf="isEnabled">
-          <tr *ngFor="let cliente of clientes">
+          <tr *ngFor="let cliente of clientes; trackBy: tracker">
             <td>
               <a class="badge badge-primary" [routerLink]="['/clientes/', cliente.id]">{{ cliente.id }}</a>
             </td>

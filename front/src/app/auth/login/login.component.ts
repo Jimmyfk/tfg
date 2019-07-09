@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Usuario} from '../../models/usuario';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
@@ -10,7 +10,7 @@ import {Subscription} from 'rxjs';
   templateUrl: './login.component.html',
   styleUrls: []
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
 
   public usuario: Usuario = new Usuario();
   sub: Subscription;
@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    this.sub = this.usuarioService.login(this.usuario.username, this.usuario.password).subscribe(() => {
+    this.usuarioService.login(this.usuario.username, this.usuario.password).subscribe(() => {
       if (this.usuarioService.isLogged()) {
         this.usuario.roles = this.usuarioService.getUser().roles;
         const redirect = this.usuarioService.redirectUrl ? this.router.parseUrl(this.usuarioService.redirectUrl) : '/inicio';
@@ -37,10 +37,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
   }
 
 }

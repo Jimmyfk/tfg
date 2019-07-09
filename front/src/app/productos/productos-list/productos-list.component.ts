@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ProductoService} from '../../services/producto.service';
 import {Producto} from '../../models/producto';
 import {SwalService} from '../../services/swal.service';
@@ -52,6 +52,10 @@ export class ProductosListComponent implements OnInit {
 
   isAdmin() {
     return this.authService.isAdmin();
+  }
+
+  tracker(item) {
+    return item.id;
   }
 
 }

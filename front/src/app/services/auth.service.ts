@@ -53,7 +53,7 @@ export class AuthService {
   }
 
   isAdmin() {
-   return JSON.stringify(this.getData().roles).includes('ADMIN');
+   return this.isLogged() && JSON.stringify(this.getData().roles).includes('ADMIN');
   }
 
   getUser(): Usuario {

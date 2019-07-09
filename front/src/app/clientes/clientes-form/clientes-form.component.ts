@@ -34,13 +34,13 @@ export class ClientesFormComponent implements OnInit, OnDestroy {
       const id = params.id;
       if (id) {
         this.titulo = 'Editar cliente';
-        this.clienteService.getCliente(id).pipe(takeUntil(this.destroySubject$)).subscribe(cliente => this.cliente = cliente);
+        this.clienteService.getCliente(id).subscribe(cliente => this.cliente = cliente);
       }
     });
   }
 
   public create(): void {
-    this.clienteService.create(this.cliente).pipe(takeUntil(this.destroySubject$)).subscribe(
+    this.clienteService.create(this.cliente).subscribe(
       response => {
         this.router.navigate(['/clientes']).then(() => this.swal.fire('Nuevo cliente', this.decode(response.mensaje), 'success'));
       },
@@ -53,7 +53,7 @@ export class ClientesFormComponent implements OnInit, OnDestroy {
   }
 
   public update(): void {
-    this.clienteService.update(this.cliente).pipe(takeUntil(this.destroySubject$)).subscribe(
+    this.clienteService.update(this.cliente).subscribe(
       response => {
         this.router.navigate(['/clientes']).then(() => this.swal.fire('Cliente actualizado', this.decode(response.mensaje), 'success'));
       },

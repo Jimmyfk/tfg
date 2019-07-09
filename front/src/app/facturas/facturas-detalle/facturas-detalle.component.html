@@ -33,7 +33,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let item of factura.items">
+          <tr *ngFor="let item of factura.items; trackBy: tracker">
             <td>{{item.producto.nombre}}</td>
             <td>{{item.precio}}€</td>
             <td>{{item.cantidad}}</td>

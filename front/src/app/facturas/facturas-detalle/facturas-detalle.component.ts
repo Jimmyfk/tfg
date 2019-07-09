@@ -28,7 +28,7 @@ export class FacturasDetalleComponent implements OnInit, OnDestroy {
     this.rutaActiva.params.pipe(takeUntil(this.destroySub$)).subscribe(params => {
       const id = params.id;
       if (id) {
-        this.facturaService.getDetalleFactura(id).pipe(takeUntil(this.destroySub$)).subscribe(factura => {
+        this.facturaService.getDetalleFactura(id).subscribe(factura => {
           this.factura = factura;
         });
       }
@@ -37,6 +37,10 @@ export class FacturasDetalleComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.destroySub$.next();
+  }
+
+  tracker(item) {
+    return item.id;
   }
 
 }

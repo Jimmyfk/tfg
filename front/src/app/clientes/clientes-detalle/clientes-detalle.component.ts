@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {ClienteService} from '../../services/cliente.service';
 import {Cliente} from '../../models/cliente';
 import {ActivatedRoute} from '@angular/router';
@@ -37,7 +37,7 @@ export class ClientesDetalleComponent implements OnInit, OnDestroy {
     this.rutaActiva.params.pipe(takeUntil(this.destroySub$)).subscribe(params => {
       const id = params.id;
       if (id) {
-        this.facturaService.getFacturas(id).pipe(takeUntil(this.destroySub$)).subscribe(facturas => {
+        this.facturaService.getFacturas(id).subscribe(facturas => {
           this.facturas = facturas;
         });
       }
@@ -77,4 +77,7 @@ export class ClientesDetalleComponent implements OnInit, OnDestroy {
     this.destroySub$.next();
   }
 
+  tracker(item) {
+    return item.id;
+  }
 }
