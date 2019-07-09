@@ -16,7 +16,7 @@
         <div *ngIf="clientes.length > 0" class="border border-info rounded py-1">
           <span class="mx-2 font-weight-bold">Exportar:</span>
           <button class="btn btn-secondary btn-sm mx-2" (click)="exportXml()">XML</button>
-          <button class="btn btn-warning btn-sm mx-2" (click)="export()">JSON</button>
+          <button class="btn btn-warning btn-sm mx-2" (click)="open(content)">JSON</button>
         </div>
       </div>
       <div class="wrapper">
@@ -257,3 +257,6 @@
     </div>
   </div>
 </main>
+<ng-template #content let-modal>
+  <div class="modal-body" [innerHTML]="clientes | prettyprint"></div>
+</ng-template>

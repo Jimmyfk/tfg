@@ -4,12 +4,12 @@ import {Cliente} from '../../models/cliente';
 import {Router} from '@angular/router';
 import {SwalService} from '../../services/swal.service';
 import {AuthService} from '../../services/auth.service';
-import {Subject} from 'rxjs';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-clientes',
   templateUrl: './clientes-list.component.html',
-  styleUrls: ['./clientes.component.css']
+  styleUrls: ['./clientes.component.css'],
 })
 
 export class ClientesListComponent implements OnInit {
@@ -17,17 +17,17 @@ export class ClientesListComponent implements OnInit {
   isEnabled = true;
   clientes: Cliente[];
   swalWithBootstrapButtons;
-  destroySubject$: Subject<void> = new Subject();
 
   constructor(private clienteService: ClienteService,
               private swalService: SwalService,
               private authService: AuthService,
+              private modalService: NgbModal,
               private router: Router) {
   }
 
   ngOnInit() {
     this.clienteService.getClientes().subscribe(
-      clientes => this.clientes = clientes
+      (clientes: any) => this.clientes = clientes.clientes
     );
     this.swalWithBootstrapButtons = this.swalService.getCustomButton();
   }
@@ -79,8 +79,8 @@ export class ClientesListComponent implements OnInit {
     );
   }
 
-  export() {
-    return;
+  open(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then();
   }
 
   isAdmin(): boolean {

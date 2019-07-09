@@ -42,9 +42,9 @@ public class ClienteRestController {
 
     // todo: Adaptar el front a la paginación
     @GetMapping()
-    public List<Cliente> index(@RequestParam(name = "page", defaultValue = "0") int page,
+    public ClienteList index(@RequestParam(name = "page", defaultValue = "0") int page,
                                @RequestParam(defaultValue = "1000") int size) {
-        return clienteService.findAll(PageRequest.of(page, size)).getContent();
+        return new ClienteList(clienteService.findAll(PageRequest.of(page, size)).getContent());
     }
 
     @GetMapping(value = "/xml", produces = MediaType.APPLICATION_XML_VALUE)

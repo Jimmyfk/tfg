@@ -28,8 +28,8 @@ registerLocaleData(localeRu, 'ru');
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    AppRoutingModule,
     HeaderModule,
+    AppRoutingModule
   ],
   providers: [
     {provide: LOCALE_ID, useValue: 'es'},
