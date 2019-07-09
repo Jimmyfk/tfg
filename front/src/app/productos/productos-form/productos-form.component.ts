@@ -1,18 +1,20 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Producto} from '../../models/producto';
 import {ProductoService} from '../../services/producto.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {takeWhile} from 'rxjs/operators';
 
 @Component({
   selector: 'app-productos-form',
   templateUrl: './productos-form.component.html',
   styleUrls: []
 })
-export class ProductosFormComponent implements OnInit {
+export class ProductosFormComponent implements OnInit, OnDestroy {
 
   producto: Producto = new Producto();
   titulo = 'Nuevo Producto';
   errores: string[];
+  subscription: boolean;
 
   constructor(private productoService: ProductoService,
               private rutaActiva: ActivatedRoute,
@@ -21,10 +23,11 @@ export class ProductosFormComponent implements OnInit {
 
   ngOnInit() {
     this.cargarProducto();
+    this.subscription = true;
   }
 
   cargarProducto() {
-    this.rutaActiva.params.subscribe(
+    this.rutaActiva.params.pipe(takeWhile(() => this.subscription)).subscribe(
       params => {
         const id = params.id;
         if (id) {
@@ -65,5 +68,9 @@ export class ProductosFormComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription = false;
   }
 }

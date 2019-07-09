@@ -1,9 +1,11 @@
 import {ClienteService} from '../../services/cliente.service';
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Cliente} from '../../models/cliente';
 import {Router} from '@angular/router';
 import {SwalService} from '../../services/swal.service';
 import {AuthService} from '../../services/auth.service';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-clientes',
@@ -11,13 +13,12 @@ import {AuthService} from '../../services/auth.service';
   styleUrls: ['./clientes.component.css']
 })
 
-export class ClientesListComponent implements OnInit {
+export class ClientesListComponent implements OnInit, OnDestroy {
 
   isEnabled = true;
-
   clientes: Cliente[];
-
   swalWithBootstrapButtons;
+  destroySubject$: Subject<void> = new Subject();
 
   constructor(private clienteService: ClienteService,
               private swalService: SwalService,
@@ -26,7 +27,7 @@ export class ClientesListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.clienteService.getClientes().subscribe(
+    this.clienteService.getClientes().pipe(takeUntil(this.destroySubject$)).subscribe(
       clientes => this.clientes = clientes
     );
     this.swalWithBootstrapButtons = this.swalService.getCustomButton();
@@ -47,7 +48,7 @@ export class ClientesListComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        this.clienteService.delete(cliente).subscribe(
+        this.clienteService.delete(cliente).pipe(takeUntil(this.destroySubject$)).subscribe(
           () => {
             this.clientes = this.clientes.filter(cli => cli !== cliente);
             this.swalWithBootstrapButtons.fire(
@@ -63,14 +64,14 @@ export class ClientesListComponent implements OnInit {
         this.swalWithBootstrapButtons.fire(
           'Cancelado',
           'No se eliminará el cliente',
-          'error'
+          'info'
         );
       }
     });
   }
 
   exportXml() {
-    return this.clienteService.getXml().subscribe(response => {
+    return this.clienteService.getXml().pipe(takeUntil(this.destroySubject$)).subscribe(response => {
         const blob = new Blob([response], {type: 'text/xml'});
         const url = URL.createObjectURL(blob);
         window.open(url);
@@ -85,5 +86,9 @@ export class ClientesListComponent implements OnInit {
 
   isAdmin(): boolean {
     return this.authService.isAdmin();
+  }
+
+  ngOnDestroy(): void {
+    this.destroySubject$.next();
   }
 }

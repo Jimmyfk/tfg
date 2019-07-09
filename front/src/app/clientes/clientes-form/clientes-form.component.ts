@@ -1,8 +1,10 @@
 import {ClienteService} from '../../services/cliente.service';
 import {Cliente} from '../../models/cliente';
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SwalService} from '../../services/swal.service';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 
 @Component({
@@ -10,36 +12,37 @@ import {SwalService} from '../../services/swal.service';
   templateUrl: './form.component.html',
   styleUrls: []
 })
-export class ClientesFormComponent implements OnInit {
-
-  constructor(private clienteService: ClienteService,
-              private swal: SwalService,
-              private router: Router,
-              private rutaActiva: ActivatedRoute) { }
+export class ClientesFormComponent implements OnInit, OnDestroy {
 
   public cliente = new Cliente();
   public titulo = 'Nuevo cliente';
   public errores: string[];
+  public destroySubject$: Subject<void> = new Subject();
+
+  constructor(private clienteService: ClienteService,
+              private swal: SwalService,
+              private router: Router,
+              private rutaActiva: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
-   this.cargarCliente();
+    this.cargarCliente();
   }
 
   cargarCliente(): void {
-      this.rutaActiva.params.subscribe(params => {
-        const id = params.id;
-        if (id) {
-          this.titulo = 'Editar cliente';
-          this.clienteService.getCliente(id).subscribe(cliente => this.cliente = cliente);
-        }
-      });
+    this.rutaActiva.params.pipe(takeUntil(this.destroySubject$)).subscribe(params => {
+      const id = params.id;
+      if (id) {
+        this.titulo = 'Editar cliente';
+        this.clienteService.getCliente(id).pipe(takeUntil(this.destroySubject$)).subscribe(cliente => this.cliente = cliente);
+      }
+    });
   }
 
   public create(): void {
-    this.clienteService.create(this.cliente).subscribe(
+    this.clienteService.create(this.cliente).pipe(takeUntil(this.destroySubject$)).subscribe(
       response => {
-        this.router.navigate(['/clientes']).then();
-        this.swal.fire('Nuevo cliente', this.decode(response.mensaje), 'success').then();
+        this.router.navigate(['/clientes']).then(() => this.swal.fire('Nuevo cliente', this.decode(response.mensaje), 'success'));
       },
       response => {
         this.errores = response.error.errores as string[];
@@ -50,10 +53,9 @@ export class ClientesFormComponent implements OnInit {
   }
 
   public update(): void {
-    this.clienteService.update(this.cliente).subscribe(
-       response => {
-         this.router.navigate(['/clientes']).then();
-         this.swal.fire('Cliente actualizado', this.decode(response.mensaje), 'success').then();
+    this.clienteService.update(this.cliente).pipe(takeUntil(this.destroySubject$)).subscribe(
+      response => {
+        this.router.navigate(['/clientes']).then(() => this.swal.fire('Cliente actualizado', this.decode(response.mensaje), 'success'));
       },
       response => {
         this.errores = response.error.errores as string[];
@@ -65,5 +67,9 @@ export class ClientesFormComponent implements OnInit {
 
   private decode(cadena: string): string {
     return decodeURIComponent(escape(cadena));
+  }
+
+  ngOnDestroy(): void {
+    this.destroySubject$.next();
   }
 }

@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Factura} from '../../models/factura';
 import {ClienteService} from '../../services/cliente.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatAutocompleteSelectedEvent} from '@angular/material';
 import {FormControl} from '@angular/forms';
 import {FacturaService} from '../../services/factura.service';
-import {debounceTime} from 'rxjs/operators';
+import {debounceTime, takeWhile} from 'rxjs/operators';
 import {ItemFactura} from '../../models/itemFactura';
 import swal from 'sweetalert2';
 import {ProductoService} from '../../services/producto.service';
@@ -14,13 +14,14 @@ import {ProductoService} from '../../services/producto.service';
   selector: 'app-facturas-form',
   templateUrl: './facturas-form.component.html'
 })
-export class FacturasFormComponent implements OnInit {
+export class FacturasFormComponent implements OnInit, OnDestroy {
 
   public factura: Factura;
 
   buscar: FormControl = new FormControl();
   resultados = [];
   errores = [];
+  subscription: boolean;
 
   constructor(private clienteService: ClienteService,
               private facturaService: FacturaService,
@@ -32,10 +33,15 @@ export class FacturasFormComponent implements OnInit {
   ngOnInit() {
     this.instanciarFactura();
     this.autocomplete();
+    this.subscription = true;
+  }
+
+  ngOnDestroy(): void {
+    this.subscription = false;
   }
 
   instanciarFactura() {
-    this.rutaActiva.params.subscribe(params => {
+    this.rutaActiva.params.pipe(takeWhile(() => this.subscription)).subscribe(params => {
       const id = params.id;
       if (id) {
         this.clienteService.getCliente(id).subscribe(cliente => {
@@ -46,7 +52,7 @@ export class FacturasFormComponent implements OnInit {
   }
 
   autocomplete() {
-    this.buscar.valueChanges.pipe(debounceTime(400)).subscribe(data => {
+    this.buscar.valueChanges.pipe(debounceTime(400), takeWhile(() => this.subscription)).subscribe(data => {
       if (data.toString().length > 0) {
         this.productoService.buscarProductos(data).subscribe(response => {
           this.resultados = response;
