@@ -30,7 +30,12 @@ export class RoleGuard implements CanActivate {
       } else {
         resolve(false);
         this.router.navigate(['/login']).then(() =>
-          this.swal.getCustomButton().fire('Error', 'No tienes permisos para ver esta página', 'error')
+          this.swal.getCustomButton().fire({
+            title: 'Error',
+            text: 'No tienes permisos para ver esta página',
+            type: 'error',
+            imageUrl: ''
+          })
         );
       }
     }).catch(err => {
@@ -42,9 +47,9 @@ export class RoleGuard implements CanActivate {
 
   private hasRole(user: Usuario, rol: string): boolean {
     for (const rl of user.roles) {
-     if (rl.rol.includes(rol)) {
-       return true;
-     }
+      if (rl.rol.includes(rol)) {
+        return true;
+      }
     }
     return false;
   }

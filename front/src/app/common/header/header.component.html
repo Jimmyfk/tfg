@@ -16,7 +16,7 @@
         <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Productos</a>
         <div class="dropdown-menu" aria-labelledby="dropdownId">
           <a class="dropdown-item" routerLink="productos">Listado</a>
-          <a class="dropdown-item" routerLink="productos/nuevo">Nuevo</a>
+          <a class="dropdown-item" routerLink="productos/nuevo" *ngIf="isAdmin()">Nuevo</a>
         </div>
       </li>
       <li class="nav-item dropdown">

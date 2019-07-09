@@ -38,8 +38,7 @@ export class ProductosListComponent implements OnInit {
     }).then(result => {
       if (result.value) {
         this.productoService.delete(producto.id).subscribe(
-          response => {
-            console.log(response);
+          () => {
             this.productos = this.productos.filter(prods => prods !== producto);
           },
           error => {
@@ -47,8 +46,6 @@ export class ProductosListComponent implements OnInit {
             console.log(error);
           }
         );
-      } else if (result.dismiss) {
-        swalButtons.fire('Cancelado', 'No se eliminará el producto', 'info').then();
       }
     });
   }
