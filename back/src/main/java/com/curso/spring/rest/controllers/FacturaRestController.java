@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -70,6 +71,7 @@ public class FacturaRestController {
         return new ResponseEntity<>(facturas, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     @PostMapping(value = "/{cliente}")
     public ResponseEntity<?> create(@PathVariable Long cliente, @RequestBody Factura factura) {
         Cliente cli;
@@ -92,6 +94,7 @@ public class FacturaRestController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         Factura factura = facturaService.findById(id);
