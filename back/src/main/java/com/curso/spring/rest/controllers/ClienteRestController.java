@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -71,7 +72,7 @@ public class ClienteRestController {
         return new ResponseEntity<>(cliente, HttpStatus.OK);
     }
 
-    @Secured(value = "ROLE_ADMIN")
+    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     @PostMapping()
     public ResponseEntity<?> create(@Valid @RequestBody Cliente cliente, BindingResult result) {
 
