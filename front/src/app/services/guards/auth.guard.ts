@@ -3,7 +3,6 @@ import {
   ActivatedRouteSnapshot,
   CanActivate,
   CanActivateChild,
-  CanDeactivate,
   CanLoad,
   Route,
   Router,
@@ -14,6 +13,7 @@ import {
 import {Observable} from 'rxjs';
 import {AuthService} from '../auth.service';
 import {SwalService} from '../swal.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -28,12 +28,16 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.checkLogin(state.url);
+    if (state.url.indexOf('login') !== -1 && state.url.indexOf('register') !== -1) {
+      return this.checkLogin(state.url);
+    }
+    return !this.authService.isLogged();
   }
 
   canActivateChild(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    console.log('activate child');
     return this.canActivate(next, state);
   }
 

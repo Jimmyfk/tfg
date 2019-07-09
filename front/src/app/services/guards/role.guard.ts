@@ -3,6 +3,7 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 import {AuthService} from '../auth.service';
 import {reject} from 'q';
 import {Usuario} from '../../models/usuario';
+import {SwalService} from '../swal.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ import {Usuario} from '../../models/usuario';
 export class RoleGuard implements CanActivate {
 
   constructor(private authService: AuthService,
+              private swal: SwalService,
               private router: Router) {
 
   }
@@ -26,10 +28,10 @@ export class RoleGuard implements CanActivate {
       if (!roles || this.hasRole(user, roles)) {
         resolve(true);
       } else {
-        console.log('false 2');
-        console.log(user.roles.includes(roles));
         resolve(false);
-        this.router.navigate(['/login']).then();
+        this.router.navigate(['/login']).then(() =>
+          this.swal.getCustomButton().fire('Error', 'No tienes permisos para ver esta página', 'error')
+        );
       }
     }).catch(err => {
       reject(err).then();
