@@ -7,15 +7,17 @@
       <div class="mb-2 text-left">
         <button type="button" class="btn btn-sm btn-secondary mx-2" (click)="ocultar()">{{isEnabled ? 'Ocultar' : 'Mostrar'}}</button>
         <button class="btn btn-success btn-sm mx-2" [routerLink]="['/clientes/nuevo']"
-                routerLinkActive="router-link-active">Crear cliente</button>
+                routerLinkActive="router-link-active" *ngIf="isAdmin()">Crear cliente</button>
       </div>
       <div class="my-2">
-        <div *ngIf="clientes?.length == 0" class="alert alert-info">
+        <div *ngIf="clientes?.length == 0" class="alert alert-info p-2">
           <span>No hay clientes</span>
         </div>
-        <span class="mx-2 font-weight-bold">Exportar:</span>
-        <button class="btn btn-secondary btn-sm mx-2" (click)="exportXml()">XML</button>
-        <button class="btn btn-warning btn-sm mx-2" (click)="export()">JSON</button>
+        <div *ngIf="clientes.length > 0" class="border border-info rounded py-1">
+          <span class="mx-2 font-weight-bold">Exportar:</span>
+          <button class="btn btn-secondary btn-sm mx-2" (click)="exportXml()">XML</button>
+          <button class="btn btn-warning btn-sm mx-2" (click)="export()">JSON</button>
+        </div>
       </div>
       <div class="wrapper">
         <table class="table table-bordered table-striped text-primary" *ngIf="clientes?.length > 0">

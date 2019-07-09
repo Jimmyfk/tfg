@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ProductoService} from '../../services/producto.service';
 import {Producto} from '../../models/producto';
 import {SwalService} from '../../services/swal.service';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-productos-list',
@@ -13,6 +14,7 @@ export class ProductosListComponent implements OnInit {
   public productos: Producto[];
 
   constructor(private productoService: ProductoService,
+              private authService: AuthService,
               private swal: SwalService) {
   }
 
@@ -49,6 +51,10 @@ export class ProductosListComponent implements OnInit {
         swalButtons.fire('Cancelado', 'No se eliminará el producto', 'info').then();
       }
     });
+  }
+
+  isAdmin() {
+    return this.authService.isAdmin();
   }
 
 }

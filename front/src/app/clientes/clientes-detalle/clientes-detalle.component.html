@@ -10,9 +10,9 @@
           Email: {{cliente.email}}
         </li>
         <li class="list-group-item">
-          Fecha de creación: {{cliente.createdAt}}
+          Fecha de creación: {{cliente.createdAt | date: 'longDate'}}
         </li>
-        <li class="list-group-item">
+        <li class="list-group-item" *ngIf="isAdmin()">
           <button class="btn btn-sm btn-success" [routerLink]="['/factura/nueva', cliente.id]">Crear Factura</button>
         </li>
       </ul>
@@ -25,7 +25,7 @@
             <th>Observaciones</th>
             <th>Fecha</th>
             <th>Total</th>
-            <th>Eliminar</th>
+            <th *ngIf="isAdmin()">Eliminar</th>
           </tr>
           </thead>
           <tbody>
@@ -36,7 +36,7 @@
             <td>{{factura.observacion}}</td>
             <td>{{factura.createdAt | date: 'mediumDate'}}</td>
             <td class="text-right">{{factura.total | number: '1.2-2'}}€</td>
-            <td class="text-center">
+            <td class="text-center" *ngIf="isAdmin()">
               <button class="btn btn-danger btn-sm" (click)="delete(factura)">X</button>
             </td>
           </tr>

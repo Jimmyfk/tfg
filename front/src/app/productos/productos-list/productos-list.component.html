@@ -4,7 +4,7 @@
       Listado de Productos
     </div>
     <div class="card-body text-primary">
-      <div class="wrapper">
+      <div class="wrapper" *ngIf="productos.length > 0; else noProducto">
         <table class="table table-bordered table-striped table-secondary table-sm">
           <thead>
             <tr>
@@ -25,6 +25,13 @@
           </tbody>
         </table>
       </div>
+      <ng-template #noProducto>
+        <div class="alert alert-primary">
+          <p>
+            No hay productos<span *ngIf="isAdmin()">: <a class="alert-link" routerLink="/productos/nuevo"> añadir nuevo producto </a></span>
+          </p>
+        </div>
+      </ng-template>
     </div>
   </div>
 </main>

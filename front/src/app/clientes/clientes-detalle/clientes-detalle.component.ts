@@ -5,6 +5,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Factura} from '../../models/factura';
 import {FacturaService} from '../../services/factura.service';
 import {SwalService} from '../../services/swal.service';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-clientes-detalle',
@@ -18,6 +19,7 @@ export class ClientesDetalleComponent implements OnInit {
   constructor(private clienteService: ClienteService,
               private facturaService: FacturaService,
               private swal: SwalService,
+              private authService: AuthService,
               private rutaActiva: ActivatedRoute) {
   }
 
@@ -62,6 +64,10 @@ export class ClientesDetalleComponent implements OnInit {
         );
       }
     });
+  }
+
+  isAdmin() {
+    return this.authService.isAdmin();
   }
 
 }

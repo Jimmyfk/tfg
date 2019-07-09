@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../services/auth.service';
-import Swal from 'sweetalert2';
 import {Router} from '@angular/router';
+import {SwalService} from '../services/swal.service';
 
 @Component({
   selector: 'app-auth',
@@ -11,6 +11,7 @@ import {Router} from '@angular/router';
 export class AuthComponent implements OnInit {
 
   constructor(private usuarioService: AuthService,
+              private swal: SwalService,
               private router: Router) {
   }
 
@@ -18,18 +19,16 @@ export class AuthComponent implements OnInit {
   }
 
   logout() {
-    Swal.fire({
+    this.swal.getCustomButton().fire({
       title: '¿Cerrar sesión?',
       type: 'warning',
       showCancelButton: true,
-      confirmButtonClass: 'btn btn-sm',
       confirmButtonText: 'Sí',
-      cancelButtonClass: 'btn btn-sm',
       cancelButtonText: 'No'
     }).then(result => {
       if (result.value) {
         this.usuarioService.logout();
-        this.router.navigate(['inicio']).then(() =>  null);
+        this.router.navigate(['inicio']).then();
       }
     });
   }
