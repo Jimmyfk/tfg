@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Usuario} from '../../models/usuario';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
-import Swal from 'sweetalert2';
 import {Subscription} from 'rxjs';
+import {SwalService} from '../../services/swal.service';
 
 @Component({
   selector: 'app-login',
@@ -13,10 +13,10 @@ import {Subscription} from 'rxjs';
 export class LoginComponent implements OnInit {
 
   public usuario: Usuario = new Usuario();
-  sub: Subscription;
   public titulo = 'Iniciar Sesión';
 
   constructor(private usuarioService: AuthService,
+              private swal: SwalService,
               private router: Router) {
   }
 
@@ -28,12 +28,17 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl(redirect).then(() => console.log(this.usuario));
       }
     }, error => {
-      if (error.status === 404) {
-        Swal.fire('Error', 'Usuario o contraseña incorrectos', 'error').then();
-      } else {
-        Swal.fire('Error', error.message, 'error').then();
+      switch (error.status) {
+        case 0:
+          this.swal.getCustomButton().fire('Error', 'Error al conectar con el servidor', 'error').then(() => console.log(error));
+          break;
+        case 404:
+          this.swal.getCustomButton().fire('Error', 'Usuario o contraseña incorrectos', 'error').then();
+          break;
+        default:
+          this.swal.getCustomButton().fire('Error', error.message, 'error').then(() => console.log(error));
       }
-    }, () => this);
+    });
   }
 
   ngOnInit(): void {

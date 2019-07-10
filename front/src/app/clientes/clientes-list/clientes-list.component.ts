@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {SwalService} from '../../services/swal.service';
 import {AuthService} from '../../services/auth.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-clientes',
@@ -16,12 +17,13 @@ export class ClientesListComponent implements OnInit {
 
   isEnabled = true;
   clientes: Cliente[];
-  swalWithBootstrapButtons;
+  jsonHref: SafeUrl = '';
 
   constructor(private clienteService: ClienteService,
               private swalService: SwalService,
               private authService: AuthService,
               private modalService: NgbModal,
+              private sanitizer: DomSanitizer,
               private router: Router) {
   }
 
@@ -29,7 +31,6 @@ export class ClientesListComponent implements OnInit {
     this.clienteService.getClientes().subscribe(
       (clientes: any) => this.clientes = clientes.clientes
     );
-    this.swalWithBootstrapButtons = this.swalService.getCustomButton();
   }
 
   ocultar(): void {
@@ -37,7 +38,7 @@ export class ClientesListComponent implements OnInit {
   }
 
   delete(cliente: Cliente): void {
-    this.swalWithBootstrapButtons.fire({
+    this.swalService.getCustomButton().fire({
       title: 'Eliminar?',
       text: `¿Eliminar cliente ${cliente.nombre + ' ' + cliente.apellidos}?`,
       type: 'warning',
@@ -50,7 +51,7 @@ export class ClientesListComponent implements OnInit {
         this.clienteService.delete(cliente).subscribe(
           () => {
             this.clientes = this.clientes.filter(cli => cli !== cliente);
-            this.swalWithBootstrapButtons.fire(
+            this.swalService.getCustomButton().fire(
               'Eliminado!',
               `cliente ${cliente.nombre + ' ' + cliente.apellidos} eliminado con éxito`,
               'success'
@@ -60,7 +61,7 @@ export class ClientesListComponent implements OnInit {
       } else if (
         result.dismiss === this.swalService.swal().DismissReason.cancel
       ) {
-        this.swalWithBootstrapButtons.fire(
+        this.swalService.getCustomButton().fire(
           'Cancelado',
           'No se eliminará el cliente',
           'info'
@@ -81,6 +82,14 @@ export class ClientesListComponent implements OnInit {
 
   open(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then();
+    this.prepareDownload();
+  }
+
+  private prepareDownload() {
+    const json = JSON.stringify(this.clientes);
+    const blob = new Blob([json], {type: 'text/json'});
+    const url = URL.createObjectURL(blob);
+    this.jsonHref = this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
   isAdmin(): boolean {

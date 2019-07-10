@@ -42,7 +42,7 @@ public class JwtAuthRestController {
     public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authRequest)  {
         try {
             authenticate(authRequest.getUsername(), authRequest.getPassword());
-        } catch (Exception e) {
+        } catch (BadCredentialsException e) {
             return ResponseEntity.notFound().build();
         }
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
@@ -57,13 +57,11 @@ public class JwtAuthRestController {
         return ResponseEntity.ok(userDetailsService.save(user));
     }
 
-    private void authenticate(String username, String password) throws Exception {
+    private void authenticate(String username, String password) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        } catch (DisabledException e) {
-            throw new Exception("USER_DISABLED", e);
         } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
+            throw new BadCredentialsException("INVALID_CREDENTIALS", e);
         }
     }
 

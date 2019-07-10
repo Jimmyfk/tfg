@@ -258,5 +258,13 @@
   </div>
 </main>
 <ng-template #content let-modal>
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Cerrar" (click)="modal.dismiss('Cross Click')">
+      <span aria-hidden="true">x</span>
+    </button>
+  </div>
   <div class="modal-body" [innerHTML]="clientes | prettyprint"></div>
+  <div class="modal-footer">
+    <a class="btn btn-sm btn-info" [href]="jsonHref" title="Descargar JSON" download="clientes.json">Descargar</a>
+  </div>
 </ng-template>
