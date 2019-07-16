@@ -12,13 +12,13 @@ public interface ProductoService {
 
     List<Producto> findProductos();
 
-    Producto findById(Long id);
+    Producto findById(Integer id);
 
     Producto findByNombre(String nombre);
 
     Producto save(Producto producto);
 
-    void delete(Long id);
+    void delete(Integer id);
 
     ResponseEntity<?> save(Producto producto, BindingResult result);
 
@@ -26,9 +26,9 @@ public interface ProductoService {
 
     ResponseEntity<?> find(String nombre);
 
-    ResponseEntity<?> find(Long id);
+    ResponseEntity<?> find(Integer id);
 
-    ResponseEntity<?> update(Long id, Producto producto);
+    ResponseEntity<?> update(Integer id, Producto producto);
 
-    ResponseEntity<?> remove(Long id);
+    ResponseEntity<?> remove(Integer id);
 }

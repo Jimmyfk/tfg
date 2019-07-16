@@ -20,23 +20,23 @@ public interface ClienteService {
 
     Cliente save(Cliente cliente);
 
-    Cliente findById(Long id);
+    Cliente findById(Integer id);
 
-    void delete(Long id);
+    void delete(Integer id);
 
     void delete(Cliente cliente);
 
-    boolean exists(Long id);
+    boolean exists(Integer id);
 
     ClienteList index(int page, int size);
 
     ClienteList export();
 
-    ResponseEntity<?> show(Long id);
+    ResponseEntity<?> show(Integer id);
 
     ResponseEntity<?> create(Cliente cliente, BindingResult result);
 
-    ResponseEntity<?> update(Cliente cliente, BindingResult result, Long id);
+    ResponseEntity<?> update(Cliente cliente, BindingResult result, Integer id);
 
-    ResponseEntity<?> remove(Long id);
+    ResponseEntity<?> remove(Integer id);
 }

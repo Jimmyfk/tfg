@@ -50,7 +50,7 @@ public class JwtAuthRestController {
     }
 
     @PostMapping(value = "/register/{admin}")
-    public ResponseEntity<?> saveUser(@RequestBody Usuario user, @PathVariable(required = false) boolean admin) {
+    public ResponseEntity<?> saveUser(@RequestBody Usuario user, @PathVariable(required = false) Boolean admin) {
         if (admin || firstUser()) {
             user.addRol(authService.findByRol("ROLE_ADMIN"));
         }

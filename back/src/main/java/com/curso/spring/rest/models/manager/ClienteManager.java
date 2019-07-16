@@ -52,13 +52,13 @@ public class ClienteManager implements ClienteService {
 
     @Override
     @Transactional(readOnly = true)
-    public Cliente findById(Long id) {
+    public Cliente findById(Integer id) {
         return clienteDao.findById(id).orElse(null);
     }
 
     @Override
     @Transactional
-    public void delete(Long id) {
+    public void delete(Integer id) {
         clienteDao.deleteById(id);
     }
 
@@ -70,7 +70,7 @@ public class ClienteManager implements ClienteService {
 
     @Override
     @Transactional(readOnly = true)
-    public boolean exists(Long id) {
+    public boolean exists(Integer id) {
         return clienteDao.existsById(id);
     }
 
@@ -88,7 +88,7 @@ public class ClienteManager implements ClienteService {
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<?> show(Long id) {
+    public ResponseEntity<?> show(Integer id) {
         Cliente cliente;
         Map<String, Object> response = new HashMap<>();
 
@@ -126,7 +126,7 @@ public class ClienteManager implements ClienteService {
     }
 
     @Override
-    public ResponseEntity<?> update(@Valid Cliente cliente, BindingResult result, Long id) {
+    public ResponseEntity<?> update(@Valid Cliente cliente, BindingResult result, Integer id) {
         Cliente clienteActual = this.findById(id);
         Map<String, Object> response = new HashMap<>();
 
@@ -153,7 +153,7 @@ public class ClienteManager implements ClienteService {
     }
 
     @Override
-    public ResponseEntity<?> remove(Long id) {
+    public ResponseEntity<?> remove(Integer id) {
         Map<String, Object> response = new HashMap<>();
 
         try {

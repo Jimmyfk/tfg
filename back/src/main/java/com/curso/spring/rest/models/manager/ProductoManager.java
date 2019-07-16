@@ -44,7 +44,7 @@ public class ProductoManager implements ProductoService {
 
     @Override
     @Transactional(readOnly = true)
-    public Producto findById(Long id) {
+    public Producto findById(Integer id) {
         return productoDao.findById(id).orElse(null);
     }
 
@@ -62,7 +62,7 @@ public class ProductoManager implements ProductoService {
 
     @Override
     @Transactional
-    public void delete(Long id) {
+    public void delete(Integer id) {
         productoDao.deleteById(id);
     }
 
@@ -117,7 +117,7 @@ public class ProductoManager implements ProductoService {
     }
 
     @Override
-    public ResponseEntity<?> find(Long id) {
+    public ResponseEntity<?> find(Integer id) {
         Producto producto;
         Map<String, Object> response = new HashMap<>();
 
@@ -135,7 +135,7 @@ public class ProductoManager implements ProductoService {
     }
 
     @Override
-    public ResponseEntity<?> update(Long id, Producto producto) {
+    public ResponseEntity<?> update(Integer id, Producto producto) {
         Producto actual = this.findById(id);
         Map<String, Object> response = new HashMap<>();
 
@@ -155,7 +155,7 @@ public class ProductoManager implements ProductoService {
     }
 
     @Override
-    public ResponseEntity<?> remove(Long id) {
+    public ResponseEntity<?> remove(Integer id) {
         Map<String, Object> response = new HashMap<>();
 
         try {

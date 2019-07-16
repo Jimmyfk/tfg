@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProductoDao extends JpaRepository<Producto, Long> {
+public interface ProductoDao extends JpaRepository<Producto, Integer> {
 
     List<Producto> findByNombreLikeIgnoreCase(String nombre);
 

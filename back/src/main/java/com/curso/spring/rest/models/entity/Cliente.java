@@ -25,7 +25,7 @@ public class Cliente  implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @NotEmpty
     @Length(min = 4)
@@ -40,11 +40,11 @@ public class Cliente  implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createdAt;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

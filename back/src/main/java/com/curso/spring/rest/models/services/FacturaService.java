@@ -14,7 +14,7 @@ import java.util.List;
 public interface FacturaService {
 
     @Query(value = "select f from Factura f join fetch f.cliente c join fetch f.items i join fetch i.producto where f.id = ?1")
-    Factura fetchByIdWithClienteWithItemFacturaWithProducto(Long id);
+    Factura fetchByIdWithClienteWithItemFacturaWithProducto(Integer id);
 
     Page<Factura> findAllFacturasByClienteOrderById(Cliente cliente, Pageable pageable);
 
@@ -22,17 +22,17 @@ public interface FacturaService {
 
     Factura save(Factura factura);
 
-    Factura findById(Long id);
+    Factura findById(Integer id);
 
-    void delete(Long id);
+    void delete(Integer id);
 
-    ResponseEntity<?> show(Long id);
+    ResponseEntity<?> show(Integer id);
 
-    ResponseEntity<?> getFacturasCliente(Long id);
+    ResponseEntity<?> getFacturasCliente(Integer id);
 
-    ResponseEntity<?> create(Long id, Factura factura);
+    ResponseEntity<?> create(Integer id, Factura factura);
 
-    ResponseEntity<?> remove(Long id);
+    ResponseEntity<?> remove(Integer id);
 
 
 

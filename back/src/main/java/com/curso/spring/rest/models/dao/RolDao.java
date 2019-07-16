@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RolDao extends JpaRepository<Rol, Long> {
+public interface RolDao extends JpaRepository<Rol, Integer> {
     Rol findByRol(String rol);
 }

@@ -25,24 +25,24 @@ public class FacturaRestController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<?> show(@PathVariable Long id) {
+    public ResponseEntity<?> show(@PathVariable Integer id) {
         return this.facturaService.show(id);
     }
 
     @GetMapping(value = "/ver/{id}")
-    public ResponseEntity<?> list(@PathVariable Long id) {
+    public ResponseEntity<?> list(@PathVariable Integer id) {
         return this.facturaService.getFacturasCliente(id);
     }
 
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     @PostMapping(value = "/{cliente}")
-    public ResponseEntity<?> create(@PathVariable Long cliente, @RequestBody Factura factura) {
+    public ResponseEntity<?> create(@PathVariable Integer cliente, @RequestBody Factura factura) {
         return this.facturaService.create(cliente, factura);
     }
 
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
         return this.facturaService.remove(id);
     }
 

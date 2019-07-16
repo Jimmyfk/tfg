@@ -4,8 +4,6 @@ import com.curso.spring.rest.models.entity.Producto;
 import com.curso.spring.rest.models.services.ErrorService;
 import com.curso.spring.rest.models.services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -20,9 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "api/productos")
@@ -44,7 +40,8 @@ public class ProductoRestController {
     }
 
     @GetMapping(value = "/search/{nombre}")
-    public @ResponseBody List<Producto> cargarProducto(@PathVariable String nombre) {
+    public @ResponseBody
+    List<Producto> cargarProducto(@PathVariable String nombre) {
         return productoService.findByNombreLikeIgnoreCase(nombre);
     }
 
@@ -59,19 +56,19 @@ public class ProductoRestController {
     }
 
     @GetMapping(value = "/id/{id}")
-    public ResponseEntity<?> find(@PathVariable Long id) {
+    public ResponseEntity<?> find(@PathVariable Integer id) {
         return this.productoService.find(id);
     }
 
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     @PutMapping(value = "/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Producto producto) {
+    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody Producto producto) {
         return this.productoService.update(id, producto);
     }
 
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
         return this.productoService.remove(id);
     }
 }

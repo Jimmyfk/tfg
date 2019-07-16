@@ -35,7 +35,7 @@ public class FacturaManager implements FacturaService {
 
     @Override
     @Transactional(readOnly = true)
-    public Factura fetchByIdWithClienteWithItemFacturaWithProducto(Long id) {
+    public Factura fetchByIdWithClienteWithItemFacturaWithProducto(Integer id) {
         return facturaDao.fetchByIdWithClienteWithItemFacturaWithProducto(id);
     }
 
@@ -59,19 +59,19 @@ public class FacturaManager implements FacturaService {
 
     @Override
     @Transactional(readOnly = true)
-    public Factura findById(Long id) {
+    public Factura findById(Integer id) {
         return facturaDao.findById(id).orElse(null);
     }
 
     @Override
     @Transactional
-    public void delete(Long id) {
+    public void delete(Integer id) {
         facturaDao.deleteById(id);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<?> show(Long id) {
+    public ResponseEntity<?> show(Integer id) {
         Factura factura;
         Map<String, Object> response = new HashMap<>();
 
@@ -90,7 +90,7 @@ public class FacturaManager implements FacturaService {
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<?> getFacturasCliente(Long id) {
+    public ResponseEntity<?> getFacturasCliente(Integer id) {
         List<Factura> facturas;
         Map<String, Object> response = new HashMap<>();
 
@@ -105,7 +105,7 @@ public class FacturaManager implements FacturaService {
 
     @Override
     @Transactional
-    public ResponseEntity<?> create(Long id, Factura factura) {
+    public ResponseEntity<?> create(Integer id, Factura factura) {
         Cliente cli;
         Map<String, Object> response = new HashMap<>();
 
@@ -128,7 +128,7 @@ public class FacturaManager implements FacturaService {
 
     @Override
     @Transactional
-    public ResponseEntity<?> remove(Long id) {
+    public ResponseEntity<?> remove(Integer id) {
         Factura factura = this.findById(id);
         Map<String, Object> response = new HashMap<>();
 

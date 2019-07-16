@@ -45,7 +45,7 @@ public class ClienteRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> show(@PathVariable Long id) {
+    public ResponseEntity<?> show(@PathVariable Integer id) {
        return this.clienteService.show(id);
     }
 
@@ -57,13 +57,13 @@ public class ClienteRestController {
 
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     @PutMapping(value = "/{id}")
-    public ResponseEntity<?> update(@Valid @RequestBody Cliente cliente, BindingResult result, @PathVariable Long id) {
+    public ResponseEntity<?> update(@Valid @RequestBody Cliente cliente, BindingResult result, @PathVariable Integer id) {
         return this.clienteService.update(cliente, result, id);
     }
 
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
         return this.clienteService.remove(id);
     }
 
