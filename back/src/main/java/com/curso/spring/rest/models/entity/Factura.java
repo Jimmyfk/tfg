@@ -30,6 +30,7 @@ import java.util.List;
 @Table(name = "facturas", schema = "tfg")
 public class Factura implements Serializable {
 
+    /* todo: cambiar Double por BigDecimal */
     private static final long serialVersionUID = -2689278774805093585L;
 
     @Id

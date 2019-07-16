@@ -11,9 +11,6 @@ public class PageRender<T> {
     private Page<T> page;
 
     private int total;
-
-    private int numElementos;
-
     private int paginaActual;
 
     private List<PageItem> paginas;
@@ -21,7 +18,7 @@ public class PageRender<T> {
     public PageRender(String url, Page<T> page) {
         this.url = url;
         this.page = page;
-        this.numElementos = page.getSize();
+        int numElementos = page.getSize();
         this.total = page.getTotalPages();
         this.paginaActual = page.getNumber() + 1;
         this.paginas = new ArrayList<>();
