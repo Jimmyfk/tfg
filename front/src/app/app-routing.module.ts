@@ -8,6 +8,7 @@ const routes: Routes = [
     path: 'inicio',
     loadChildren: () => import('./common/inicio/inicio.module').then(mod => mod.InicioModule)
   },
+  {path: '', redirectTo: 'inicio', pathMatch: 'full'},
   {
     path: 'clientes',
     canActivate: [AuthGuard],
@@ -22,7 +23,6 @@ const routes: Routes = [
     canLoad: [AuthGuard],
     loadChildren: () => import('./facturas/facturas.module').then(mod => mod.FacturasModule),
   },
-  {path: '', redirectTo: 'inicio', pathMatch: 'full'},
   {
     path: 'error',
     loadChildren: () => import('./common/errores/errores.module').then(mod => mod.ErroresModule)
@@ -46,7 +46,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {
-    enableTracing: false,
+    enableTracing: true,
     preloadingStrategy: PreloadAllModules
   })],
   exports: [RouterModule]
