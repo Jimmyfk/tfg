@@ -1,8 +1,8 @@
 package com.curso.spring.rest.controllers;
 
-import com.curso.spring.rest.models.entity.Producto;
-import com.curso.spring.rest.models.services.ErrorService;
-import com.curso.spring.rest.models.services.ProductoService;
+import com.curso.spring.rest.model.entity.Producto;
+import com.curso.spring.rest.model.services.ErrorService;
+import com.curso.spring.rest.model.services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

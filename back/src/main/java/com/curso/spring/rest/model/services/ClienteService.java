@@ -1,6 +1,6 @@
-package com.curso.spring.rest.models.services;
+package com.curso.spring.rest.model.services;
 
-import com.curso.spring.rest.models.entity.Cliente;
+import com.curso.spring.rest.model.entity.Cliente;
 import export.ClienteList;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

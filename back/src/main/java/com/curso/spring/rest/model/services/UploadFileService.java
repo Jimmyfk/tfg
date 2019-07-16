@@ -1,4 +1,4 @@
-package com.curso.spring.rest.models.services;
+package com.curso.spring.rest.model.services;
 
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;

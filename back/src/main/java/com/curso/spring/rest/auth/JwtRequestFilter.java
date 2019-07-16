@@ -1,6 +1,6 @@
 package com.curso.spring.rest.auth;
 
-import com.curso.spring.rest.models.services.JwtUserDetailsService;
+import com.curso.spring.rest.model.services.JwtUserDetailsService;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,7 +33,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         final String requestTokenHeader = request.getHeader("Authorization");
         String username = null;
         String jwtToken = null;
-        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
+        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ") && false) {
             jwtToken = requestTokenHeader.substring(7);
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
@@ -43,8 +43,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
             }
         } else {
-            logger.warn("El token no empieza por Bearer ");
-            logger.info(requestTokenHeader);
+            logger.warn(requestTokenHeader != null ? "El token no empieza por Bearer " : "Error, no hay token");
         }
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);

@@ -1,9 +1,9 @@
-package com.curso.spring.rest.models.manager;
+package com.curso.spring.rest.model.manager;
 
-import com.curso.spring.rest.models.dao.ProductoDao;
-import com.curso.spring.rest.models.entity.Producto;
-import com.curso.spring.rest.models.services.ErrorService;
-import com.curso.spring.rest.models.services.ProductoService;
+import com.curso.spring.rest.model.dao.ProductoDao;
+import com.curso.spring.rest.model.entity.Producto;
+import com.curso.spring.rest.model.services.ErrorService;
+import com.curso.spring.rest.model.services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;

@@ -1,7 +1,7 @@
 package export;
 
 
-import com.curso.spring.rest.models.entity.Cliente;
+import com.curso.spring.rest.model.entity.Cliente;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

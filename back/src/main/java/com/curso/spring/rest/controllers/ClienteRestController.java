@@ -1,8 +1,7 @@
 package com.curso.spring.rest.controllers;
 
-import com.curso.spring.rest.models.entity.Cliente;
-import com.curso.spring.rest.models.services.ClienteService;
-import com.curso.spring.rest.models.services.ErrorService;
+import com.curso.spring.rest.model.entity.Cliente;
+import com.curso.spring.rest.model.services.ClienteService;
 import export.ClienteList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

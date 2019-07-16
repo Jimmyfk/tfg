@@ -1,8 +1,8 @@
-package com.curso.spring.rest.models.dao;
+package com.curso.spring.rest.model.dao;
 
 
-import com.curso.spring.rest.models.entity.Cliente;
-import com.curso.spring.rest.models.entity.Factura;
+import com.curso.spring.rest.model.entity.Cliente;
+import com.curso.spring.rest.model.entity.Factura;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

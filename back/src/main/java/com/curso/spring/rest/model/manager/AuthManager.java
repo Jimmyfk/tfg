@@ -1,12 +1,12 @@
-package com.curso.spring.rest.models.manager;
+package com.curso.spring.rest.model.manager;
 
-import com.curso.spring.rest.models.dao.PrivilegioDao;
-import com.curso.spring.rest.models.dao.RolDao;
-import com.curso.spring.rest.models.dao.UsuarioDao;
-import com.curso.spring.rest.models.entity.Privilegio;
-import com.curso.spring.rest.models.entity.Rol;
-import com.curso.spring.rest.models.entity.Usuario;
-import com.curso.spring.rest.models.services.AuthService;
+import com.curso.spring.rest.model.dao.PrivilegioDao;
+import com.curso.spring.rest.model.dao.RolDao;
+import com.curso.spring.rest.model.dao.UsuarioDao;
+import com.curso.spring.rest.model.entity.Privilegio;
+import com.curso.spring.rest.model.entity.Rol;
+import com.curso.spring.rest.model.entity.Usuario;
+import com.curso.spring.rest.model.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

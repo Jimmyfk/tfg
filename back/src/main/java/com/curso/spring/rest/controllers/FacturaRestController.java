@@ -1,7 +1,7 @@
 package com.curso.spring.rest.controllers;
 
-import com.curso.spring.rest.models.entity.Factura;
-import com.curso.spring.rest.models.services.FacturaService;
+import com.curso.spring.rest.model.entity.Factura;
+import com.curso.spring.rest.model.services.FacturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

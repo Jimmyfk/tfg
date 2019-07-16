@@ -1,9 +1,9 @@
-package com.curso.spring.rest.models.manager;
+package com.curso.spring.rest.model.manager;
 
-import com.curso.spring.rest.models.dao.ClienteDao;
-import com.curso.spring.rest.models.entity.Cliente;
-import com.curso.spring.rest.models.services.ClienteService;
-import com.curso.spring.rest.models.services.ErrorService;
+import com.curso.spring.rest.model.dao.ClienteDao;
+import com.curso.spring.rest.model.entity.Cliente;
+import com.curso.spring.rest.model.services.ClienteService;
+import com.curso.spring.rest.model.services.ErrorService;
 import export.ClienteList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;

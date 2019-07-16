@@ -1,11 +1,11 @@
-package com.curso.spring.rest.models.manager;
+package com.curso.spring.rest.model.manager;
 
-import com.curso.spring.rest.models.dao.FacturaDao;
-import com.curso.spring.rest.models.entity.Cliente;
-import com.curso.spring.rest.models.entity.Factura;
-import com.curso.spring.rest.models.services.ClienteService;
-import com.curso.spring.rest.models.services.ErrorService;
-import com.curso.spring.rest.models.services.FacturaService;
+import com.curso.spring.rest.model.dao.FacturaDao;
+import com.curso.spring.rest.model.entity.Cliente;
+import com.curso.spring.rest.model.entity.Factura;
+import com.curso.spring.rest.model.services.ClienteService;
+import com.curso.spring.rest.model.services.ErrorService;
+import com.curso.spring.rest.model.services.FacturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;

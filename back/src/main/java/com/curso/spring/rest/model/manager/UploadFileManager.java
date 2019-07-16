@@ -1,6 +1,6 @@
-package com.curso.spring.rest.models.manager;
+package com.curso.spring.rest.model.manager;
 
-import com.curso.spring.rest.models.services.UploadFileService;
+import com.curso.spring.rest.model.services.UploadFileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;

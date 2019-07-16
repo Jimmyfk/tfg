@@ -1,4 +1,4 @@
-package com.curso.spring.rest.models.entity;
+package com.curso.spring.rest.model.entity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;

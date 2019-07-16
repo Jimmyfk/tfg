@@ -1,4 +1,4 @@
-package com.curso.spring.rest.models.services;
+package com.curso.spring.rest.model.services;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;

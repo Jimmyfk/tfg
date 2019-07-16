@@ -1,4 +1,4 @@
-package com.curso.spring.rest.models.entity;
+package com.curso.spring.rest.model.entity;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;

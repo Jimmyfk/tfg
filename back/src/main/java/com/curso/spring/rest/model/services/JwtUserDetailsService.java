@@ -1,8 +1,8 @@
-package com.curso.spring.rest.models.services;
+package com.curso.spring.rest.model.services;
 
-import com.curso.spring.rest.models.entity.Privilegio;
-import com.curso.spring.rest.models.entity.Rol;
-import com.curso.spring.rest.models.entity.Usuario;
+import com.curso.spring.rest.model.entity.Privilegio;
+import com.curso.spring.rest.model.entity.Rol;
+import com.curso.spring.rest.model.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -1,8 +1,8 @@
 package com.curso.spring.rest;
 
-import com.curso.spring.rest.models.entity.Privilegio;
-import com.curso.spring.rest.models.entity.Rol;
-import com.curso.spring.rest.models.services.AuthService;
+import com.curso.spring.rest.model.entity.Privilegio;
+import com.curso.spring.rest.model.entity.Rol;
+import com.curso.spring.rest.model.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;

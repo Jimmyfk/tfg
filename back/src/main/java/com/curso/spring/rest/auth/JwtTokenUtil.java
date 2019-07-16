@@ -1,6 +1,6 @@
 package com.curso.spring.rest.auth;
 
-import com.curso.spring.rest.models.entity.Rol;
+import com.curso.spring.rest.model.entity.Rol;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
