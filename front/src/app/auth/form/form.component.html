@@ -27,7 +27,7 @@
           </div>
         </div>
         <div class="alert alert-danger"
-             *ngIf="password.value != confirmar.value && (password.dirty || password.touched || confirmar.dirty || confirmar.touched)">
+             *ngIf="(password.value && confirmar.value) && password.value != confirmar.value && (password.dirty || password.touched || confirmar.dirty || confirmar.touched)">
           Las contraseñas no coinciden
         </div>
         <div class="form-group row">
