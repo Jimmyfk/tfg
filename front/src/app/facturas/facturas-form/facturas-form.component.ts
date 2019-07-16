@@ -5,10 +5,11 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {MatAutocompleteSelectedEvent} from '@angular/material';
 import {FormControl} from '@angular/forms';
 import {FacturaService} from '../../services/factura.service';
-import {debounceTime, takeWhile} from 'rxjs/operators';
+import {debounceTime} from 'rxjs/operators';
 import {ItemFactura} from '../../models/itemFactura';
 import swal from 'sweetalert2';
 import {ProductoService} from '../../services/producto.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-facturas-form',
@@ -21,7 +22,7 @@ export class FacturasFormComponent implements OnInit, OnDestroy {
   buscar: FormControl = new FormControl();
   resultados = [];
   errores = [];
-  subscription: boolean;
+  subcripciones: Subscription[] = [];
 
   constructor(private clienteService: ClienteService,
               private facturaService: FacturaService,
@@ -33,15 +34,10 @@ export class FacturasFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.instanciarFactura();
     this.autocomplete();
-    this.subscription = true;
-  }
-
-  ngOnDestroy(): void {
-    this.subscription = false;
   }
 
   instanciarFactura() {
-    this.rutaActiva.params.pipe(takeWhile(() => this.subscription)).subscribe(params => {
+    this.subcripciones[0] = this.rutaActiva.params.subscribe(params => {
       const id = params.id;
       if (id) {
         this.clienteService.getCliente(id).subscribe(cliente => {
@@ -52,7 +48,7 @@ export class FacturasFormComponent implements OnInit, OnDestroy {
   }
 
   autocomplete() {
-    this.buscar.valueChanges.pipe(debounceTime(400), takeWhile(() => this.subscription)).subscribe(data => {
+    this.subcripciones[1] = this.buscar.valueChanges.pipe(debounceTime(400)).subscribe(data => {
       if (data.toString().length > 0) {
         this.productoService.buscarProductos(data).subscribe(response => {
           this.resultados = response;
@@ -107,5 +103,11 @@ export class FacturasFormComponent implements OnInit, OnDestroy {
 
   private decode(cadena: string): string {
     return decodeURIComponent(escape(cadena));
+  }
+
+  ngOnDestroy(): void {
+    for (const sub of this.subcripciones) {
+      sub.unsubscribe();
+    }
   }
 }

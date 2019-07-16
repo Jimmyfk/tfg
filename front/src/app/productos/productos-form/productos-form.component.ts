@@ -2,7 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Producto} from '../../models/producto';
 import {ProductoService} from '../../services/producto.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {takeWhile} from 'rxjs/operators';
+import {Subscription} from 'rxjs';
+import {SwalService} from '../../services/swal.service';
 
 @Component({
   selector: 'app-productos-form',
@@ -14,27 +15,25 @@ export class ProductosFormComponent implements OnInit, OnDestroy {
   producto: Producto = new Producto();
   titulo = 'Nuevo Producto';
   errores: string[];
-  subscription: boolean;
+  subscription: Subscription;
 
   constructor(private productoService: ProductoService,
               private rutaActiva: ActivatedRoute,
+              private swal: SwalService,
               private router: Router) {
   }
 
   ngOnInit() {
     this.cargarProducto();
-    this.subscription = true;
   }
 
   cargarProducto() {
-    this.rutaActiva.params.pipe(takeWhile(() => this.subscription)).subscribe(
+    this.subscription = this.rutaActiva.params.subscribe(
       params => {
         const id = params.id;
         if (id) {
           this.titulo = 'Editar Producto';
-          this.productoService.getById(id).subscribe((response: any) => {
-            this.producto = response.producto;
-          });
+          this.productoService.getById(id).subscribe(response => this.producto = response);
         }
       }
     );
@@ -49,9 +48,11 @@ export class ProductosFormComponent implements OnInit, OnDestroy {
 
   create() {
     this.productoService.create(this.producto).subscribe(
-      response => {
+      (response: any) => {
         console.log(response);
-        this.router.navigate(['productos']).then();
+        this.router.navigate(['productos']).then(() =>
+          this.swal.getCustomButton().fire('', response.mensaje, 'info')
+        );
       }, error => {
         console.log(error);
         this.errores = error.error.errores as string[];
@@ -61,9 +62,11 @@ export class ProductosFormComponent implements OnInit, OnDestroy {
 
   update() {
     this.productoService.update(this.producto).subscribe(
-      response => {
+      (response: any) => {
         console.log(response);
-        this.router.navigate(['productos']).then();
+        this.router.navigate(['productos']).then(() =>
+          this.swal.getCustomButton().fire('', decodeURIComponent(escape(response.mensaje)), 'info')
+        );
       }, error => {
         console.log(error);
       }
@@ -71,6 +74,6 @@ export class ProductosFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription = false;
+    this.subscription.unsubscribe();
   }
 }

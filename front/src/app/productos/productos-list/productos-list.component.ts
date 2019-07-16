@@ -20,11 +20,7 @@ export class ProductosListComponent implements OnInit {
 
   ngOnInit() {
     this.productos = [];
-    this.productoService.getProductos().subscribe(
-      (response: any) => {
-        this.productos = response.productos;
-      }
-    );
+    this.productoService.getProductos().subscribe(response => this.productos = response);
   }
 
   delete(producto: Producto) {

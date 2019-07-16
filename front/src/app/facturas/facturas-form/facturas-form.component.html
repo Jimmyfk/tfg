@@ -42,7 +42,7 @@
           <label for="buscar" class="col-form-label text-right col-2">Productos</label>
           <div class="col-10">
             <mat-form-field>
-              <input type="text" class="form-control" name="buscar_producto" id="buscar"
+              <input type="text" class="form-control" name="buscar" id="buscar"
                      placeholder="Buscar producto" matInput [formControl]="buscar" [matAutocomplete]="auto"/>
               <mat-autocomplete #auto="matAutocomplete" (optionSelected)="select($event)">
                 <mat-option *ngFor="let item of resultados" [value]="item">
