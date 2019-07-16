@@ -40,115 +40,38 @@ public class ProductoRestController {
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     @PostMapping
     public ResponseEntity<?> save(@RequestBody @Valid Producto producto, BindingResult result) {
-
-        Producto productoNuevo;
-        Map<String, Object> response = new HashMap<>();
-
-        if (result.hasErrors()) {
-            return errorService.throwErrors(result, response);
-        }
-
-        try {
-            productoNuevo = productoService.save(producto);
-        } catch (DataAccessException e) {
-            return errorService.dbError(e, response);
-        }
-        response.put("mensaje", "Producto guardado");
-        response.put("producto", productoNuevo);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return this.productoService.save(producto, result);
     }
 
     @GetMapping(value = "/search/{nombre}")
-    public @ResponseBody
-    List<Producto> cargarProducto(@PathVariable String nombre) {
+    public @ResponseBody List<Producto> cargarProducto(@PathVariable String nombre) {
         return productoService.findByNombreLikeIgnoreCase(nombre);
     }
 
     @GetMapping()
-    public ResponseEntity<?> productos() {
-        List<Producto> productos;
-        Map<String, Object> response = new HashMap<>();
-
-        try {
-            productos = productoService.findProductos();
-        } catch (DataAccessException e) {
-           return errorService.dbError(e, response);
-        }
-        response.put("productos", productos);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<?> findAll() {
+        return this.productoService.findAll();
     }
 
     @GetMapping(value = "/find/{nombre}")
     public ResponseEntity<?> find(@PathVariable String nombre) {
-        Producto producto;
-        Map<String, Object> response = new HashMap();
-
-        try {
-            producto = productoService.findByNombre(nombre);
-        } catch (DataAccessException e) {
-           return errorService.dbError(e, response);
-        }
-
-        if (producto == null) {
-            response.put("error", "El producto no existe");
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>(producto, HttpStatus.OK);
+        return this.productoService.find(nombre);
     }
 
     @GetMapping(value = "/id/{id}")
     public ResponseEntity<?> find(@PathVariable Long id) {
-        Producto producto;
-        Map<String, Object> response = new HashMap();
-
-        try {
-            producto = productoService.findById(id);
-        } catch (DataAccessException e) {
-            return errorService.dbError(e, response);
-        }
-
-        if (producto == null) {
-            response.put("error", "El producto no existe");
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-        }
-
-        response.put("producto", producto);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return this.productoService.find(id);
     }
 
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Producto producto) {
-        Producto actual = productoService.findById(id);
-        Map<String, Object> response = new HashMap<>();
-
-        if (actual == null) {
-            response.put("error", "El producto no existe");
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-        }
-        try {
-            actual.copy(producto);
-            productoService.save(actual);
-        } catch (DataAccessException e) {
-            return errorService.dbError(e, response);
-        }
-        response.put("producto", actual);
-        response.put("mensaje", "Producto actualizado con éxito");
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return this.productoService.update(id, producto);
     }
 
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        Map<String, Object> response = new HashMap<>();
-
-        try {
-            productoService.delete(id);
-        } catch (DataAccessException e) {
-            return errorService.dbError(e, response);
-        }
-        response.put("mensaje", "Producto eliminado");
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return this.productoService.remove(id);
     }
 }

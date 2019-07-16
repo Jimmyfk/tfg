@@ -5,6 +5,7 @@ import com.curso.spring.rest.models.entity.Factura;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -24,6 +25,14 @@ public interface FacturaService {
     Factura findById(Long id);
 
     void delete(Long id);
+
+    ResponseEntity<?> show(Long id);
+
+    ResponseEntity<?> getFacturasCliente(Long id);
+
+    ResponseEntity<?> create(Long id, Factura factura);
+
+    ResponseEntity<?> remove(Long id);
 
 
 

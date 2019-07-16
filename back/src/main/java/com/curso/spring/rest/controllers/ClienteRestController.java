@@ -5,9 +5,6 @@ import com.curso.spring.rest.models.services.ClienteService;
 import com.curso.spring.rest.models.services.ErrorService;
 import export.ClienteList;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,117 +20,51 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/clientes")
 public class ClienteRestController {
 
     private final ClienteService clienteService;
-    private final ErrorService errorService;
 
     @Autowired
-    public ClienteRestController(ClienteService clienteService, ErrorService errorService) {
+    public ClienteRestController(ClienteService clienteService) {
         this.clienteService = clienteService;
-        this.errorService = errorService;
     }
 
     // todo: Adaptar el front a la paginación
     @GetMapping()
-    public ClienteList index(@RequestParam(name = "page", defaultValue = "0") int page,
-                               @RequestParam(defaultValue = "1000") int size) {
-        return new ClienteList(clienteService.findAll(PageRequest.of(page, size)).getContent());
+    public ClienteList index(@RequestParam(name = "page", defaultValue = "0", required = false) int page,
+                               @RequestParam(defaultValue = "1000", required = false) int size) {
+        return this.clienteService.index(page, size);
     }
 
     @GetMapping(value = "/xml", produces = MediaType.APPLICATION_XML_VALUE)
     public ClienteList export() {
-        return new ClienteList(clienteService.findAll());
+        return this.clienteService.export();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> show(@PathVariable Long id) {
-        Cliente cliente;
-        Map<String, Object> response = new HashMap<>();
-
-        try {
-            cliente = clienteService.findById(id);
-        } catch(DataAccessException e) {
-          return errorService.dbError(e, response);
-        }
-
-        if(cliente == null) {
-            response.put("mensaje", "El cliente ID: ".concat(id.toString().concat(" no existe")));
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>(cliente, HttpStatus.OK);
+       return this.clienteService.show(id);
     }
 
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     @PostMapping()
     public ResponseEntity<?> create(@Valid @RequestBody Cliente cliente, BindingResult result) {
-
-        Cliente clienteNew;
-        Map<String, Object> response = new HashMap<>();
-
-        if (result.hasErrors())
-            return errorService.throwErrors(result, response);
-
-        try {
-            clienteNew = clienteService.save(cliente);
-        } catch(DataAccessException e) {
-            return errorService.dbError(e, response);
-        }
-
-        response.put("mensaje", "El cliente ha sido creado con éxito");
-        response.put("cliente", clienteNew);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return this.clienteService.create(cliente, result);
     }
 
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<?> update(@Valid @RequestBody Cliente cliente, BindingResult result, @PathVariable Long id) {
-        Cliente clienteActual = clienteService.findById(id);
-        Map<String, Object> response = new HashMap<>();
-
-        if (result.hasErrors())
-            return errorService.throwErrors(result, response);
-
-        if (clienteActual == null) {
-            response.put("mensaje", "Error: no se pudo editar, el cliente ID: "
-                    .concat(id.toString().concat(" no existe")));
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-        }
-
-        try {
-            clienteActual.copy(cliente);
-            clienteActual = clienteService.save(clienteActual);
-        } catch (DataAccessException e) {
-            return errorService.dbError(e, response);
-        }
-
-        response.put("mensaje", "El cliente ha sido actualizado con éxito!");
-        response.put("cliente", clienteActual);
-
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return this.clienteService.update(cliente, result, id);
     }
 
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        Map<String, Object> response = new HashMap<>();
-
-        try {
-            clienteService.delete(id);
-        } catch (DataAccessException e) {
-            return errorService.dbError(e, response);
-        }
-
-        response.put("mensaje", "Cliente eliminado con éxito");
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return this.clienteService.remove(id);
     }
 
 }
