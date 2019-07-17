@@ -7,14 +7,14 @@
           <label for="nombre" class="col-form-label col-sm-3">Nombre de usuario</label>
           <div class="col-sm-6">
             <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="usuario.username"
-                   required="required" minlength="4"/>
+                   required="required" minlength="4" (input)="isValid()"/>
           </div>
         </div>
         <div class="form-group row">
           <label for="pw" class="col-form-label col-sm-3">Contraseña</label>
           <div class="col-sm-6">
             <input type="password" class="form-control" id="pw" name="pw" [(ngModel)]="usuario.password"
-                   #password="ngModel"
+                   #password="ngModel" (input)="isValid()"
                    required="required" minlength="8"/>
           </div>
         </div>
@@ -22,7 +22,7 @@
           <label for="confirmar" class="col-form-label col-sm-3">Confirmar Contraseña</label>
           <div class="col-sm-6">
             <input type="password" class="form-control" id="confirmar" name="confirmar" [(ngModel)]="this.pw2"
-                   #confirmar="ngModel"
+                   #confirmar="ngModel" (keyup.enter)="esValido ? register() : undefined" (input)="isValid()"
                    required="required" minlength="8"/>
           </div>
         </div>
@@ -31,7 +31,7 @@
           Las contraseñas no coinciden
         </div>
         <div class="form-group row">
-          <input type="button" value="Registrarse" class="btn btn-primary ml-2" (click)="register()" [disabled]="confirmar.value != password.value"/>
+          <input type="button" value="Registrarse" class="btn btn-primary btn-sm ml-2" (click)="register()" [disabled]="!esValido"/>
         </div>
       </form>
     </div>

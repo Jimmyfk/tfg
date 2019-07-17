@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Usuario} from '../../models/usuario';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
-import Swal from 'sweetalert2';
+import {SwalService} from '../../services/swal.service';
 
 @Component({
   selector: 'app-register',
@@ -13,22 +13,30 @@ export class FormComponent implements OnInit {
 
   public usuario: Usuario;
   public pw2: string;
+  esValido: boolean;
 
   constructor(private usuarioService: AuthService,
+              private swal: SwalService,
               private router: Router) {
   }
 
   ngOnInit() {
     this.usuario = new Usuario();
-    this.pw2 = null;
+    this.pw2 = '';
+    this.isValid();
   }
 
   register() {
-    this.usuarioService.register(this.usuario).subscribe((response) => {
-        this.router.navigate(['/inicio']).then(() => console.log(response));
+    this.usuarioService.register(this.usuario).subscribe((response: any) => {
+        this.router.navigate(['/inicio']).then(() =>
+          this.swal.getCustomButton().fire('', decodeURIComponent(escape(response.mensaje)), 'success').then(() => console.log(response)));
       },
       () => {
-        Swal.fire('Error', 'El nombre de usuario ya está cogido').then();
+        this.swal.getCustomButton().fire('Error', 'El nombre de usuario ya está cogido').then();
       });
+  }
+
+  isValid() {
+    this.esValido = this.usuario.password === this.pw2 && this.usuario.username !== null;
   }
 }

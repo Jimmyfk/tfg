@@ -4,8 +4,10 @@ import com.curso.spring.rest.auth.JwtResponse;
 import com.curso.spring.rest.auth.JwtTokenUtil;
 import com.curso.spring.rest.model.entity.Usuario;
 import com.curso.spring.rest.model.services.AuthService;
+import com.curso.spring.rest.model.services.ErrorService;
 import com.curso.spring.rest.model.services.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -18,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/auth")
@@ -27,14 +32,17 @@ public class JwtAuthRestController {
     private final JwtTokenUtil jwtTokenUtil;
     private final JwtUserDetailsService userDetailsService;
     private final AuthService authService;
+    private final ErrorService errorService;
 
     @Autowired
     public JwtAuthRestController(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil,
-                                 JwtUserDetailsService userDetailsService, AuthService authService) {
+                                 JwtUserDetailsService userDetailsService, AuthService authService,
+                                 ErrorService errorService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;
         this.authService = authService;
+        this.errorService = errorService;
     }
 
     @PostMapping(value = "/login")
@@ -50,10 +58,24 @@ public class JwtAuthRestController {
 
     @PostMapping(value = "/register/{admin}")
     public ResponseEntity<?> saveUser(@RequestBody Usuario user, @PathVariable(required = false) Boolean admin) {
+        final Usuario usuario;
+        Map<String, Object> response = new HashMap<>();
         if (admin || firstUser()) {
             user.addRol(authService.findByRol("ROLE_ADMIN"));
         }
-        return ResponseEntity.ok(userDetailsService.save(user));
+
+        try {
+            usuario = this.userDetailsService.save(user);
+        } catch (DataAccessException e) {
+            return this.errorService.dbError(e, response);
+        }
+
+        if (usuario == null) {
+            return ResponseEntity.notFound().build();
+        }
+        response.put("usuario", usuario);
+        response.put("mensaje", "Usuario " + usuario.getUsername() + " registrado con éxito");
+        return ResponseEntity.accepted().body(response);
     }
 
     private void authenticate(String username, String password) {

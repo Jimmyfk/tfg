@@ -14,12 +14,12 @@
           <label for="pw" class="col-form-label col-sm-3">Contraseña</label>
           <div class="col-sm-6">
             <input type="password" class="form-control" id="pw" name="pw" [(ngModel)]="usuario.password"
-                   #password="ngModel"
+                   #password="ngModel" (keyup.enter)="login()"
                    required="required" minlength="8"/>
           </div>
         </div>
         <div class="form-group row">
-          <input type="button" value="Acceder" class="btn btn-primary btn-sm ml-2" (click)="login()"/>
+          <input type="button" value="Acceder" class="btn btn-info btn-sm ml-2" (click)="login()"/>
         </div>
       </form>
     </div>

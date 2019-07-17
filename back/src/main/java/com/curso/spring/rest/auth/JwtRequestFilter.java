@@ -33,7 +33,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         final String requestTokenHeader = request.getHeader("Authorization");
         String username = null;
         String jwtToken = null;
-        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ") && false) {
+        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
             jwtToken = requestTokenHeader.substring(7);
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
@@ -43,7 +43,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
             }
         } else {
-            logger.warn(requestTokenHeader != null ? "El token no empieza por Bearer " : "Error, no hay token");
+            logger.warn(requestTokenHeader != null ? "El token no empieza por Bearer " : "No hay token");
         }
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);

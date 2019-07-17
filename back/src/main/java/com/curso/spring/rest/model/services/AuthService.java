@@ -21,7 +21,4 @@ public interface AuthService {
     Privilegio savePrivilegio(Privilegio privilegio);
 
     long countUsuarios();
-
-
-
 }

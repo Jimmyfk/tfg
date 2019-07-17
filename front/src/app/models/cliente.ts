@@ -5,7 +5,7 @@ export class Cliente {
   private _apellidos: string;
   private _createdAt: Date;
   private _email: string;
-  private _foto: string;
+  private _foto?: string;
 
 
   get id(): number {
