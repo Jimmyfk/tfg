@@ -29,7 +29,7 @@ export class RoleGuard implements CanActivate {
         resolve(true);
       } else {
         resolve(false);
-        this.router.navigate(['/login']).then(() =>
+        this.router.navigate([this.authService.isLogged() ? '/inicio' : '/login']).then(() =>
           this.swal.getCustomButton().fire({
             title: 'Error',
             text: 'No tienes permisos para ver esta página',
@@ -40,7 +40,7 @@ export class RoleGuard implements CanActivate {
       }
     }).catch(err => {
       reject(err).then();
-      this.router.navigate(['/login']).then();
+      this.router.navigate(['/inicio']).then(() => this.swal.getCustomButton().fire('Error', err, 'error'));
       return err;
     });
   }

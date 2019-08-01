@@ -1,7 +1,6 @@
 package com.curso.spring.rest.controllers;
 
 import com.curso.spring.rest.model.entity.Producto;
-import com.curso.spring.rest.model.services.ErrorService;
 import com.curso.spring.rest.model.services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,12 +24,10 @@ import java.util.List;
 public class ProductoRestController {
 
     private final ProductoService productoService;
-    private final ErrorService errorService;
 
     @Autowired
-    public ProductoRestController(ProductoService productoService, ErrorService errorService) {
+    public ProductoRestController(ProductoService productoService) {
         this.productoService = productoService;
-        this.errorService = errorService;
     }
 
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
