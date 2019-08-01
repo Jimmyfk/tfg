@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,11 +55,11 @@ public class JwtAuthRestController {
         return ResponseEntity.ok(new JwtResponse(new Cookie("token", "Bearer " + jwtTokenUtil.generateToken(userDetails, authService.findByUsername(authRequest.getUsername()).getRoles()))));
     }
 
-    @PostMapping(value = "/register/{admin}")
+    @PostMapping(value = {"/register", "/register/{admin}"})
     public ResponseEntity<?> saveUser(@RequestBody Usuario user, @PathVariable(required = false) Boolean admin) {
         final Usuario usuario;
         Map<String, Object> response = new HashMap<>();
-        if (admin || firstUser()) {
+        if ((admin != null && admin) || firstUser()) {
             user.addRol(authService.findByRol("ROLE_ADMIN"));
         }
 

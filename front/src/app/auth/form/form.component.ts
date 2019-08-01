@@ -27,12 +27,19 @@ export class FormComponent implements OnInit {
   }
 
   register() {
-    this.usuarioService.register(this.usuario).subscribe((response: any) => {
+    function getError(error: string) {
+      if (error.includes('Username_UNIQUE')) {
+        return 'El nombre de usuario está cogido';
+      }
+      return 'Error al realizar la consulta';
+    }
+
+    this.usuarioService.register(this.usuario).subscribe(response => {
         this.router.navigate(['/inicio']).then(() =>
           this.swal.getCustomButton().fire('', decodeURIComponent(escape(response.mensaje)), 'success').then(() => console.log(response)));
       },
-      () => {
-        this.swal.getCustomButton().fire('Error', 'El nombre de usuario ya está cogido').then();
+      err => {
+        this.swal.getCustomButton().fire('Error', getError(err.error.error)).then(() => console.error(err));
       });
   }
 

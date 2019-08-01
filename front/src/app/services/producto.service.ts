@@ -4,7 +4,7 @@ import {Producto} from '../models/producto';
 import {environment} from '../../environments/environment';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {throwError} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {SwalService} from './swal.service';
 
 @Injectable({
@@ -31,20 +31,20 @@ export class ProductoService {
       }));
   }
 
-  getProducto(name: string) {
+  getProducto(name: string): Observable<Producto> | Producto | any {
     return this.http.get<Producto>(`${this.url}/find/${name}`);
   }
 
-  getById(id: number) {
+  getById(id: number): Observable<Producto> | Producto | any {
     return this.http.get<Producto>(`${this.url}/id/${id}`);
   }
 
-  getProductos() {
+  getProductos(): Observable<Producto[]> | Producto[] | any {
     return this.http.get<Producto[]>(`${this.url}`).pipe(
       catchError(err => throwError(err)));
   }
 
-  create(producto: Producto) {
+  create(producto: Producto): Observable<Producto> | Producto | any {
     return this.http.post<Producto>(`${this.url}`, producto.toJSON(), this.httpOptions).pipe(
       catchError(err => {
         return throwError(err);
@@ -52,8 +52,8 @@ export class ProductoService {
     );
   }
 
-  update(producto: Producto) {
-    return this.http.put(`${this.url}/${producto.id}`, producto, this.httpOptions).pipe(
+  update(producto: Producto): Observable<Producto> | Producto | any {
+    return this.http.put<Producto>(`${this.url}/${producto.id}`, producto, this.httpOptions).pipe(
       catchError(err => throwError(err))
     );
   }

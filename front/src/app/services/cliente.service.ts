@@ -21,7 +21,7 @@ export class ClienteService {
               private swalService: SwalService) {
   }
 
-  getClientes(): Observable<Cliente[]> {
+  getClientes(): Observable<Cliente[]> | Cliente[] | any {
     return this.http.get<Cliente[]>(this.url).pipe(
       catchError(err => throwError(err))
     );
@@ -36,14 +36,14 @@ export class ClienteService {
     );
   }
 
-  getCliente(id): Observable<Cliente> {
+  getCliente(id): Observable<Cliente> | Cliente | any {
     return this.http.get<Cliente>(`${this.url}/${id}`).pipe(
       catchError(e => throwError(e))
     );
   }
 
-  create(cliente: Cliente): Observable<any> {
-    return this.http.post<any>(this.url, cliente, {headers: this.httpHeaders}).pipe(
+  create(cliente: Cliente): Observable<Cliente> | Cliente | any {
+    return this.http.post<Cliente>(this.url, cliente, {headers: this.httpHeaders}).pipe(
       catchError(e => {
         if (e.status === 400) {
           return throwError(e);
@@ -55,10 +55,10 @@ export class ClienteService {
     );
   }
 
-  update(cliente: Cliente): Observable<any> {
+  update(cliente: Cliente): Observable<Cliente> | Cliente | any {
     console.log(cliente);
     console.log(cliente.apellidos);
-    return this.http.put<any>(`${this.url}/${cliente.id}`, cliente, {headers: this.httpHeaders}).pipe(
+    return this.http.put<Cliente>(`${this.url}/${cliente.id}`, cliente, {headers: this.httpHeaders}).pipe(
       catchError(e => {
         if (e.status === 400) {
           return throwError(e);
@@ -69,7 +69,7 @@ export class ClienteService {
     );
   }
 
-  delete(cliente: Cliente): Observable<any> {
+  delete(cliente: Cliente): Observable<Cliente> | Cliente | any {
     return this.http.delete<Cliente>(`${this.url}/${cliente.id}`, {headers: this.httpHeaders}).pipe(
       catchError(e => {
         this.swalService.fire('Error al eliminar el cliente', e.error.error, 'error').then();

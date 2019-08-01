@@ -4,7 +4,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {Usuario} from '../models/usuario';
 import {catchError, map} from 'rxjs/operators';
-import {throwError} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {CookieService} from 'ngx-cookie-service';
 
 @Injectable({
@@ -24,8 +24,8 @@ export class AuthService {
               private router: Router) {
   }
 
-  register(usuario: Usuario) {
-    return this.http.post(`${this.url}/register/false`, usuario.toJSON(), this.httpOptions).pipe(
+  register(usuario: Usuario): Observable<Usuario> | Usuario | any {
+    return this.http.post<Usuario>(`${this.url}/register`, usuario.toJSON(), this.httpOptions).pipe(
       catchError(e => {
         return throwError(e);
       })
@@ -36,7 +36,7 @@ export class AuthService {
     return this.http.post(`${this.url}/login`, {username, password}, this.httpOptions).pipe(
       map(
         (userData: any) => {
-          this.cs.set('token', userData.cookie.value, undefined, '/', undefined, location.protocol === 'https:', 'Strict');
+          this.cs.set('token', userData.cookie.value, undefined, '/', 'localhost', location.protocol === 'https:', 'Strict');
           return userData;
         }
       ),
@@ -45,7 +45,7 @@ export class AuthService {
   }
 
   logout() {
-    this.cs.delete('token');
+    this.cs.delete('token', '/', 'localhost');
   }
 
   isLogged() {
@@ -53,7 +53,7 @@ export class AuthService {
   }
 
   isAdmin() {
-   return this.isLogged() && JSON.stringify(this.getData().roles).includes('ADMIN');
+    return this.isLogged() && JSON.stringify(this.getData().roles).includes('ADMIN');
   }
 
   getUser(): Usuario {

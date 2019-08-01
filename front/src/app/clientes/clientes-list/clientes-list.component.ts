@@ -29,7 +29,7 @@ export class ClientesListComponent implements OnInit {
 
   ngOnInit() {
     this.clienteService.getClientes().subscribe(
-      (clientes: any) => this.clientes = clientes.clientes
+      clientes => this.clientes = clientes.clientes
     );
   }
 
@@ -86,8 +86,10 @@ export class ClientesListComponent implements OnInit {
   }
 
   private prepareDownload() {
-    const json = JSON.stringify(this.clientes);
-    const blob = new Blob([json], {type: 'text/json'});
+    const json = JSON.stringify(this.clientes, null, '\t');
+    console.log(this.clientes);
+    console.log(json);
+    const blob = new Blob([json], {type: 'application/json'});
     const url = URL.createObjectURL(blob);
     this.jsonHref = this.sanitizer.bypassSecurityTrustUrl(url);
   }

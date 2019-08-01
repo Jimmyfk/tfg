@@ -22,11 +22,11 @@ export class FacturaService {
               private swal: SwalService) {
   }
 
-  getFacturas(id) {
+  getFacturas(id): Observable<Factura[]> | Factura[] | any {
     return this.http.get<Factura[]>(`${this.url}/ver/${id}`);
   }
 
-  getDetalleFactura(id): Observable<Factura> {
+  getDetalleFactura(id): Observable<Factura> | Factura | any {
     return this.http.get<any>(`${this.url}/${id}`).pipe(
       catchError(err => {
         this.router.navigate(['error', err.status]).then(() =>
@@ -36,8 +36,8 @@ export class FacturaService {
     );
   }
 
-  create(factura: Factura): Observable<any> {
-    return this.http.post<any>(`${this.url}/${factura.cliente.id}`, factura.toJSON(), this.httpOptions).pipe(
+  create(factura: Factura): Observable<Factura> | Factura | any {
+    return this.http.post<Factura>(`${this.url}/${factura.cliente.id}`, factura.toJSON(), this.httpOptions).pipe(
       catchError(e => {
         if (e.status === 400 || e.status === 500) {
           return throwError(e);

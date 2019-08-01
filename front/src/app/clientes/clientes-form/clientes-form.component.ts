@@ -69,6 +69,10 @@ export class ClientesFormComponent implements OnInit, OnDestroy {
     return decodeURIComponent(escape(cadena));
   }
 
+  test(val) {
+    console.log(val);
+  }
+
   ngOnDestroy(): void {
     this.destroySubject$.next();
   }

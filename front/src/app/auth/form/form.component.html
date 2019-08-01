@@ -22,7 +22,7 @@
           <label for="confirmar" class="col-form-label col-sm-3">Confirmar Contraseña</label>
           <div class="col-sm-6">
             <input type="password" class="form-control" id="confirmar" name="confirmar" [(ngModel)]="this.pw2"
-                   #confirmar="ngModel" (keyup.enter)="esValido ? register() : undefined" (input)="isValid()"
+                   #confirmar="ngModel" (keyup.enter)="esValido ? register() : false" (input)="isValid()"
                    required="required" minlength="8"/>
           </div>
         </div>
