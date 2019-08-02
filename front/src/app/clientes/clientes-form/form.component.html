@@ -50,12 +50,12 @@
             </div>
           </div>
         </div>
-        <div class="form-group row">
+        <div class="form-group row" tabindex="0">
           <input type="button" value="Guardar" class="btn btn-sm btn-primary mx-2" (click)="create()"
-                 *ngIf="!cliente.id; else elseTemplate" [disabled]="!clienteForm.valid" #createbtn (keydown.enter)="test(createbtn.value)" tabindex="1" />
-          <ng-template #elseTemplate>
-            <input type="button" value="Actualizar" name="update" #updatebtn class="btn btn-sm btn-primary mx-2" (click)="update()" (keydown.enter)="test('update')"
-                   [disabled]="!clienteForm.valid" tabindex="1"/>
+                 *ngIf="!cliente.id; else elseTemplate" [disabled]="!clienteForm.valid" #createbtn (keydown.enter)="test(createbtn.value)" />
+          <ng-template #elseTemplate tabindex="1">
+            <input type="button" value="Actualizar" name="update" class="btn btn-sm btn-primary mx-2" (click)="update()" (keyup.enter)="test('update')"
+                   [disabled]="!clienteForm.valid" />
           </ng-template>
           <app-back-button class="mx-2"></app-back-button>
         </div>

@@ -17,7 +17,7 @@ import java.util.List;
 @Component
 public class InitialDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
-    boolean alreadySetup = false;
+    private boolean alreadySetup;
     private AuthService authService;
     private BCryptPasswordEncoder encoder;
 
@@ -25,6 +25,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     public InitialDataLoader(AuthService authService, BCryptPasswordEncoder encoder) {
         this.authService = authService;
         this.encoder = encoder;
+        this.isSetup();
     }
 
     @Override
@@ -45,21 +46,25 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
     @Transactional
     protected Privilegio createPrivilegeIfNotFound(String name) {
-        Privilegio privilegio = authService.findByPrivilegio(name);
+        Privilegio privilegio = this.authService.findByPrivilegio(name);
         if (privilegio == null) {
-            privilegio = authService.savePrivilegio(new Privilegio(name));
+            privilegio = this.authService.savePrivilegio(new Privilegio(name));
         }
         return privilegio;
     }
 
     @Transactional
     protected Rol createRoleIfNotFound(String name, Collection<Privilegio> privilegios) {
-        Rol rol = authService.findByRol(name);
+        Rol rol = this.authService.findByRol(name);
         if (rol == null) {
             rol = new Rol(name);
             rol.setPrivilegios(privilegios);
-            authService.saveRol(rol);
+            this.authService.saveRol(rol);
         }
         return rol;
+    }
+
+    private void isSetup() {
+        this.alreadySetup = this.authService.countRoles() > 0;
     }
 }

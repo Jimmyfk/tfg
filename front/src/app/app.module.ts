@@ -12,6 +12,7 @@ import localeRu from '@angular/common/locales/ru';
 import {AppRoutingModule} from './app-routing.module';
 import {HttpInterceptorService} from './services/httpInterceptor.service';
 import {HeaderModule} from './common/header/header.module';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 registerLocaleData(localeFr, 'fr');
@@ -27,6 +28,7 @@ registerLocaleData(localeRu, 'ru');
   imports: [
     BrowserModule,
     HttpClientModule,
+    NgbModule,
     FormsModule,
     HeaderModule,
     AppRoutingModule

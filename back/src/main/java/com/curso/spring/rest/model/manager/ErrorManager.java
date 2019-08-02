@@ -5,6 +5,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class ErrorManager implements ErrorService {
     @Override
     public ResponseEntity<?> dbError(DataAccessException e, Map<String, Object> response) {
         response.put("mensaje", "Error al realizar la consulta en la base de datos");
-        response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+        response.put("error", !StringUtils.isEmpty(e.getMessage()) ? e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()) : false);
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

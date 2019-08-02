@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Usuario} from '../../models/usuario';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
-import {Subscription} from 'rxjs';
 import {SwalService} from '../../services/swal.service';
 
 @Component({

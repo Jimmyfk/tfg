@@ -13,7 +13,7 @@
         <div *ngIf="clientes?.length == 0" class="alert alert-info p-2">
           <span>No hay clientes</span>
         </div>
-        <div *ngIf="clientes.length > 0" class="border border-info rounded py-1">
+        <div *ngIf="clientes?.length > 0" class="border border-info rounded py-1">
           <span class="mx-2 font-weight-bold">Exportar:</span>
           <button class="btn btn-secondary btn-sm mx-2" (click)="exportXml()">XML</button>
           <button class="btn btn-warning btn-sm mx-2" (click)="open(content)">JSON</button>

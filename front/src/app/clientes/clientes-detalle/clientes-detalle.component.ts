@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ClienteService} from '../../services/cliente.service';
 import {Cliente} from '../../models/cliente';
 import {ActivatedRoute} from '@angular/router';

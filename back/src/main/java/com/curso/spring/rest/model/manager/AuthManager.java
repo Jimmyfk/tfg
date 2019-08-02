@@ -58,4 +58,9 @@ public class AuthManager implements AuthService {
     public long countUsuarios() {
         return usuarioDao.count();
     }
+
+    @Override
+    public long countRoles() {
+        return rolDao.count();
+    }
 }
