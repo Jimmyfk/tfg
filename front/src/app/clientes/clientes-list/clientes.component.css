@@ -1,3 +1,5 @@
 .modal-body {
   font-family: monospace;
+  height: 30em !important;
+  overflow-y: auto !important;
 }

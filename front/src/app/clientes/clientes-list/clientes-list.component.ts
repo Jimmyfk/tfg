@@ -58,14 +58,6 @@ export class ClientesListComponent implements OnInit {
             );
           }
         );
-      } else if (
-        result.dismiss === this.swalService.swal().DismissReason.cancel
-      ) {
-        this.swalService.getCustomButton().fire(
-          'Cancelado',
-          'No se eliminará el cliente',
-          'info'
-        );
       }
     });
   }
@@ -87,8 +79,6 @@ export class ClientesListComponent implements OnInit {
 
   private prepareDownload() {
     const json = JSON.stringify(this.clientes, null, '\t');
-    console.log(this.clientes);
-    console.log(json);
     const blob = new Blob([json], {type: 'application/json'});
     const url = URL.createObjectURL(blob);
     this.jsonHref = this.sanitizer.bypassSecurityTrustUrl(url);
