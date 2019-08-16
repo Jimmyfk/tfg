@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { AuthRoutingModule } from './auth-routing.module';
-import { AuthComponent } from './auth.component';
+import {AuthRoutingModule} from './auth-routing.module';
+import {AuthComponent} from './auth.component';
 import {CookieService} from 'ngx-cookie-service';
 
 @NgModule({
@@ -14,8 +14,11 @@ import {CookieService} from 'ngx-cookie-service';
     CommonModule,
     AuthRoutingModule
   ],
+  entryComponents: [AuthComponent],
   providers: [
     CookieService
   ]
 })
-export class AuthModule { }
+export class AuthModule {
+  static entry = AuthComponent;
+}

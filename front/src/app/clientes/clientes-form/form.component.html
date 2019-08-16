@@ -12,7 +12,7 @@
           <label for="nombre" class="col-form-label col-sm-2">Nombre</label>
           <div class="col-sm-6">
             <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="cliente.nombre"
-                   required="required" minlength="4" #nombre="ngModel"/>
+                   required="required" minlength="4" #nombre="ngModel" (keyup.enter)="cliente.id ? update() : create()"/>
             <div class="alert alert-danger" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
               <div *ngIf="nombre?.errors.required">
                 El nombre es requerido
@@ -27,7 +27,7 @@
           <label for="apellidos" class="col-form-label col-sm-2">Apellidos</label>
           <div class="col-sm-6">
             <input type="text" class="form-control" id="apellidos" name="apellidos" [(ngModel)]="cliente.apellidos"
-                   required="required" #apellidos="ngModel"/>
+                   required="required" #apellidos="ngModel" (keyup.enter)="cliente.id ? update() : create()"/>
             <div class="alert alert-danger" *ngIf="apellidos.invalid && (apellidos.dirty || apellidos.touched)">
               <div *ngIf="apellidos?.errors.required">
                 Los apellidos son requeridos
@@ -39,7 +39,7 @@
           <label for="email" class="col-form-label col-sm-2">Correo</label>
           <div class="col-sm-6">
             <input type="text" class="form-control" id="email" name="email" [(ngModel)]="cliente.email" email="true"
-                   required="required" #email="ngModel"/>
+                   required="required" #email="ngModel" (keyup.enter)="cliente.id ? update() : create()"/>
             <div class="alert alert-danger" *ngIf="email.invalid && (email.dirty || email.touched)">
               <div *ngIf="email?.errors.required">
                 El email es requerido
@@ -54,7 +54,7 @@
           <input type="button" value="Guardar" class="btn btn-sm btn-primary mx-2" (click)="create()"
                  *ngIf="!cliente.id; else elseTemplate" [disabled]="!clienteForm.valid" #createbtn (keydown.enter)="test(createbtn.value)" />
           <ng-template #elseTemplate tabindex="1">
-            <input type="button" value="Actualizar" name="update" class="btn btn-sm btn-primary mx-2" (click)="update()" (keyup.enter)="test('update')"
+            <input type="button" value="Actualizar" name="update" class="btn btn-sm btn-primary mx-2" (click)="update()"
                    [disabled]="!clienteForm.valid" />
           </ng-template>
           <app-back-button class="mx-2"></app-back-button>

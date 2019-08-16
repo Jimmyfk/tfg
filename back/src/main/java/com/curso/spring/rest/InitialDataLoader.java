@@ -19,12 +19,10 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
     private boolean alreadySetup;
     private AuthService authService;
-    private BCryptPasswordEncoder encoder;
 
     @Autowired
-    public InitialDataLoader(AuthService authService, BCryptPasswordEncoder encoder) {
+    public InitialDataLoader(AuthService authService) {
         this.authService = authService;
-        this.encoder = encoder;
         this.isSetup();
     }
 

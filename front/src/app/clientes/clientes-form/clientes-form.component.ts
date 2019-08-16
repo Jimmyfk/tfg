@@ -70,8 +70,7 @@ export class ClientesFormComponent implements OnInit, OnDestroy {
   }
 
   test(val) {
-    console.log('test');
-    console.log(val);
+    console.log('test', val);
   }
 
   ngOnDestroy(): void {
