@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.Cookie;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,7 +51,7 @@ public class JwtAuthRestController {
             return ResponseEntity.notFound().build();
         }
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
-        return ResponseEntity.ok(new JwtResponse(new Cookie("token", "Bearer " + jwtTokenUtil.generateToken(userDetails, authService.findByUsername(authRequest.getUsername()).getRoles()))));
+        return ResponseEntity.ok(new JwtResponse("Bearer " + this.jwtTokenUtil.generateToken(userDetails, authService.findByUsername(authRequest.getUsername()).getRoles())));
     }
 
     @PostMapping(value = {"/register", "/register/{admin}"})

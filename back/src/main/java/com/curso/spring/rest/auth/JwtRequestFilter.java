@@ -43,7 +43,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
             }
         } else {
-            logger.warn(requestTokenHeader != null ? "El token no empieza por Bearer " : "No hay token");
+            logger.warn(requestTokenHeader != null ? "El token no empieza por Bearer " + requestTokenHeader : "No hay token");
         }
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);

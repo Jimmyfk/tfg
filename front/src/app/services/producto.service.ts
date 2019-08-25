@@ -12,7 +12,7 @@ import {SwalService} from './swal.service';
 })
 export class ProductoService {
 
-  private url = environment.baseUrl + 'productos';
+  private url = environment.api.url + 'productos';
   private httpOptions = {
     headers: new HttpHeaders({'Content-type': 'application/json'})
   };

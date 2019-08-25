@@ -20,6 +20,7 @@ export class RoleGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Promise<boolean> {
     return new Promise<boolean>(resolve => {
+      console.log('new promise');
       if (!this.authService.isLogged()) {
         resolve(false);
       }

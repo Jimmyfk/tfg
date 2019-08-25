@@ -5,14 +5,13 @@ import {Router} from '@angular/router';
 import {Usuario} from '../models/usuario';
 import {catchError, map} from 'rxjs/operators';
 import {Observable, throwError} from 'rxjs';
-import {CookieService} from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private url = environment.baseUrl + 'auth';
+  private url = environment.api.url + 'auth';
   httpOptions = {
     headers: new HttpHeaders({'Content-type': 'application/json'}),
     withCredentials: true
@@ -20,7 +19,6 @@ export class AuthService {
   redirectUrl: string;
 
   constructor(private http: HttpClient,
-              private cs: CookieService,
               private router: Router) {
   }
 
@@ -36,7 +34,7 @@ export class AuthService {
     return this.http.post(`${this.url}/login`, {username, password}, this.httpOptions).pipe(
       map(
         (userData: any) => {
-          this.cs.set('token', userData.cookie.value, undefined, '/', 'localhost', location.protocol === 'https:', 'Strict');
+          environment.api.token = userData.jwtToken;
           return userData;
         }
       ),
@@ -45,11 +43,15 @@ export class AuthService {
   }
 
   logout() {
-    this.cs.delete('token', '/', 'localhost');
+    environment.api.token = '';
   }
 
-  isLogged() {
-    return this.cs.check('token');
+  isLogged(): boolean {
+    return !!environment.api.token && this.isTokenValid();
+  }
+
+  isTokenValid(): boolean {
+    return true;
   }
 
   isAdmin() {
@@ -63,10 +65,8 @@ export class AuthService {
     return user;
   }
 
-
   private getData() {
-    const token = this.cs.get('token');
-    return JSON.parse(window.atob(token.split('.')[1]));
+    return JSON.parse(window.atob(environment.api.token.split('.')[1]));
   }
 
 }

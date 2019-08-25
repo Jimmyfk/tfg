@@ -12,7 +12,7 @@ import {SwalService} from './swal.service';
 })
 export class FacturaService {
 
-  private url = environment.baseUrl + 'facturas';
+  private url = environment.api.url + 'facturas';
   private httpOptions = {
     headers: new HttpHeaders({'Content-type': 'application/json'})
   };

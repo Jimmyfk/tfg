@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
       if (this.usuarioService.isLogged()) {
         this.usuario.roles = this.usuarioService.getUser().roles;
         const redirect = this.usuarioService.redirectUrl ? this.router.parseUrl(this.usuarioService.redirectUrl) : '/inicio';
-        this.router.navigateByUrl(redirect).then(() => console.log(this.usuario));
+        this.router.navigateByUrl(redirect).then();
       }
     }, error => {
       switch (error.status) {

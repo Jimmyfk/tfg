@@ -13,7 +13,7 @@ import {SwalService} from './swal.service';
 })
 export class ClienteService {
 
-  private url = environment.baseUrl + 'clientes';
+  private url = environment.api.url + 'clientes';
   private httpHeaders = new HttpHeaders({'Content-type': 'application/json'});
 
   constructor(private http: HttpClient,
