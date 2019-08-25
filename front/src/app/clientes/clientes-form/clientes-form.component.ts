@@ -1,28 +1,32 @@
 import {ClienteService} from '../../services/cliente.service';
 import {Cliente} from '../../models/cliente';
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SwalService} from '../../services/swal.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {LazyloaderService} from '../../services/lazy/lazyloader.service';
 
 
 @Component({
   selector: 'app-form',
-  templateUrl: './form.component.html',
+  templateUrl: './clientes-form.component.html',
   styleUrls: []
 })
-export class ClientesFormComponent implements OnInit, OnDestroy {
+export class ClientesFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public cliente = new Cliente();
   public titulo = 'Nuevo cliente';
   public errores: string[];
   public destroySubject$: Subject<void> = new Subject();
+  @ViewChild('botonAtras', {read: ViewContainerRef, static: false})
+  botonAtras: ViewContainerRef;
 
   constructor(private clienteService: ClienteService,
               private swal: SwalService,
               private router: Router,
-              private rutaActiva: ActivatedRoute) {
+              private rutaActiva: ActivatedRoute,
+              private loader: LazyloaderService) {
   }
 
   ngOnInit(): void {
@@ -75,5 +79,9 @@ export class ClientesFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.destroySubject$.next();
+  }
+
+  ngAfterViewInit(): void {
+    this.loader.load('back-btn', this.botonAtras).then();
   }
 }

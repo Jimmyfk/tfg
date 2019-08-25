@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { ClientesDetalleRoutingModule } from './clientes-detalle-routing.module';
 import { ClientesDetalleComponent } from './clientes-detalle.component';
-import {BackButtonModule} from '../../common/back-button/back-button.module';
 
 @NgModule({
   declarations: [
@@ -11,8 +10,7 @@ import {BackButtonModule} from '../../common/back-button/back-button.module';
   ],
   imports: [
     CommonModule,
-    ClientesDetalleRoutingModule,
-    BackButtonModule
+    ClientesDetalleRoutingModule
   ]
 })
 export class ClientesDetalleModule { }

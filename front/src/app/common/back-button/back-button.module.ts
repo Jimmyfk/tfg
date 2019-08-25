@@ -11,6 +11,11 @@ import { BackButtonComponent } from './back-button.component';
   ],
   imports: [
     CommonModule
+  ],
+  entryComponents: [
+    BackButtonComponent
   ]
 })
-export class BackButtonModule { }
+export class BackButtonModule {
+  static entry = BackButtonComponent;
+}

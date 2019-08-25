@@ -1,25 +1,29 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {Producto} from '../../models/producto';
 import {ProductoService} from '../../services/producto.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {SwalService} from '../../services/swal.service';
+import {LazyloaderService} from '../../services/lazy/lazyloader.service';
 
 @Component({
   selector: 'app-productos-form',
   templateUrl: './productos-form.component.html',
   styleUrls: []
 })
-export class ProductosFormComponent implements OnInit, OnDestroy {
+export class ProductosFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
   producto: Producto = new Producto();
   titulo = 'Nuevo Producto';
   errores: string[];
   subscription: Subscription;
+  @ViewChild('botonAtras', {read: ViewContainerRef, static: false})
+  botonAtras: ViewContainerRef;
 
   constructor(private productoService: ProductoService,
               private rutaActiva: ActivatedRoute,
               private swal: SwalService,
+              private loader: LazyloaderService,
               private router: Router) {
   }
 
@@ -75,5 +79,9 @@ export class ProductosFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  ngAfterViewInit(): void {
+    this.loader.load('back-btn', this.botonAtras).then();
   }
 }

@@ -57,7 +57,7 @@
             <input type="button" value="Actualizar" name="update" class="btn btn-sm btn-primary mx-2" (click)="update()"
                    [disabled]="!clienteForm.valid" />
           </ng-template>
-          <app-back-button class="mx-2"></app-back-button>
+          <ng-container #botonAtras class="mx-2"></ng-container>
         </div>
       </form>
     </div>

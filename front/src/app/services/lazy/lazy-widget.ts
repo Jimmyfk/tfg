@@ -8,6 +8,14 @@ export const lazyWidgets: { path: string, loadChildren: () => Promise<NgModuleFa
   {
     path: 'auth',
     loadChildren: () => import('../../auth/auth.module').then(m => m.AuthModule)
+  },
+  {
+    path: 'footer',
+    loadChildren: () => import('../../common/footer/footer.module').then(m => m.FooterModule)
+  },
+  {
+    path: 'back-btn',
+    loadChildren: () => import('../../common/back-button/back-button.module').then(m => m.BackButtonModule)
   }
 ];
 

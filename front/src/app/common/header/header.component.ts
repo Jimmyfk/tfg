@@ -8,8 +8,8 @@ import {LazyloaderService} from '../../services/lazy/lazyloader.service';
   styleUrls: []
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
-  @ViewChild('container', {read: ViewContainerRef, static: false})
-  container: ViewContainerRef;
+  @ViewChild('auth', {read: ViewContainerRef, static: false})
+  auth: ViewContainerRef;
   constructor(private authService: AuthService,
               private loader: LazyloaderService) {
   }
@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.loader.load('auth', this.container).then();
+    this.loader.load('auth', this.auth).then();
   }
 
 }

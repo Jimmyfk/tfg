@@ -7,8 +7,13 @@ import {LazyloaderService} from './services/lazy/lazyloader.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, AfterViewInit {
-  @ViewChild('container', {read: ViewContainerRef, static: false})
-  container: ViewContainerRef;
+
+  @ViewChild('header', {read: ViewContainerRef, static: false})
+  header: ViewContainerRef;
+
+  @ViewChild('footer', {read: ViewContainerRef, static: false})
+  footer: ViewContainerRef;
+
   title = 'front';
 
   constructor(private loader: LazyloaderService) {  }
@@ -17,7 +22,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.loader.load('header', this.container).then();
+    this.loader.load('header', this.header).then(() => this.loader.load('footer', this.footer));
   }
+
 
 }

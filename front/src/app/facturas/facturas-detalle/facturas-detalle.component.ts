@@ -1,21 +1,25 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {FacturaService} from '../../services/factura.service';
 import {ActivatedRoute} from '@angular/router';
 import {Factura} from '../../models/factura';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {LazyloaderService} from '../../services/lazy/lazyloader.service';
 
 @Component({
   selector: 'app-facturas-detalle',
   templateUrl: './facturas-detalle.component.html',
   styleUrls: []
 })
-export class FacturasDetalleComponent implements OnInit, OnDestroy {
+export class FacturasDetalleComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public factura: Factura;
+  @ViewChild('botonAtras', {read: ViewContainerRef, static: false})
+  botonAtras: ViewContainerRef;
   destroySub$: Subject<void> = new Subject();
 
   constructor(private facturaService: FacturaService,
+              private loader: LazyloaderService,
               private rutaActiva: ActivatedRoute) {
 
   }
@@ -41,6 +45,10 @@ export class FacturasDetalleComponent implements OnInit, OnDestroy {
 
   tracker(item) {
     return item.id;
+  }
+
+  ngAfterViewInit(): void {
+    this.loader.load('back-btn', this.botonAtras).then();
   }
 
 }

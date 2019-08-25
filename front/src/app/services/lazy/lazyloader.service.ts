@@ -1,5 +1,5 @@
 import {Compiler, Inject, Injectable, Injector, NgModuleFactory, Type, ViewContainerRef} from '@angular/core';
-import {LAZY_WIDGETS} from './tokens';
+import {LAZY_WIDGETS} from './lazy-tokens';
 
 
 @Injectable()

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {Factura} from '../../models/factura';
 import {ClienteService} from '../../services/cliente.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -10,14 +10,17 @@ import {ItemFactura} from '../../models/itemFactura';
 import swal from 'sweetalert2';
 import {ProductoService} from '../../services/producto.service';
 import {Subscription} from 'rxjs';
+import {LazyloaderService} from '../../services/lazy/lazyloader.service';
 
 @Component({
   selector: 'app-facturas-form',
   templateUrl: './facturas-form.component.html'
 })
-export class FacturasFormComponent implements OnInit, OnDestroy {
+export class FacturasFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public factura: Factura;
+  @ViewChild('botonAtras', {read: ViewContainerRef, static: false})
+  botonAtras: ViewContainerRef;
 
   buscar: FormControl = new FormControl();
   resultados = [];
@@ -28,6 +31,7 @@ export class FacturasFormComponent implements OnInit, OnDestroy {
               private facturaService: FacturaService,
               private productoService: ProductoService,
               private rutaActiva: ActivatedRoute,
+              private loader: LazyloaderService,
               private router: Router) {
   }
 
@@ -109,5 +113,9 @@ export class FacturasFormComponent implements OnInit, OnDestroy {
     for (const sub of this.subcripciones) {
       sub.unsubscribe();
     }
+  }
+
+  ngAfterViewInit(): void {
+    this.loader.load('back-btn', this.botonAtras).then();
   }
 }

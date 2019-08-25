@@ -1,7 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {LOCALE_ID, NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
-import {FooterComponent} from './common/footer/footer.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {registerLocaleData} from '@angular/common';
@@ -12,7 +11,7 @@ import localeRu from '@angular/common/locales/ru';
 import {AppRoutingModule} from './app-routing.module';
 import {HttpInterceptorService} from './services/httpInterceptor.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {LAZY_WIDGETS} from './services/lazy/tokens';
+import {LAZY_WIDGETS} from './services/lazy/lazy-tokens';
 import {lazyWidgets, lazyArrayToObj} from './services/lazy/lazy-widget';
 import {LazyloaderService} from './services/lazy/lazyloader.service';
 import {provideRoutes} from '@angular/router';
@@ -26,8 +25,7 @@ registerLocaleData(localeRu, 'ru');
 
 @NgModule({
   declarations: [
-    AppComponent,
-    FooterComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,

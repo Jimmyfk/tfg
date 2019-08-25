@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {ClienteService} from '../../services/cliente.service';
 import {Cliente} from '../../models/cliente';
 import {ActivatedRoute} from '@angular/router';
@@ -8,21 +8,25 @@ import {SwalService} from '../../services/swal.service';
 import {AuthService} from '../../services/auth.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {LazyloaderService} from '../../services/lazy/lazyloader.service';
 
 @Component({
   selector: 'app-clientes-detalle',
   templateUrl: './clientes-detalle.component.html'
 })
-export class ClientesDetalleComponent implements OnInit, OnDestroy {
+export class ClientesDetalleComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public cliente: Cliente;
   public facturas: Factura[];
+  @ViewChild('botonAtras', {read: ViewContainerRef, static: false})
+  botonAtras: ViewContainerRef;
   destroySub$: Subject<void> = new Subject();
 
   constructor(private clienteService: ClienteService,
               private facturaService: FacturaService,
               private swal: SwalService,
               private authService: AuthService,
+              private loader: LazyloaderService,
               private rutaActiva: ActivatedRoute) {
   }
 
@@ -79,5 +83,9 @@ export class ClientesDetalleComponent implements OnInit, OnDestroy {
 
   tracker(item) {
     return item.id;
+  }
+
+  ngAfterViewInit(): void {
+    this.loader.load('back-btn', this.botonAtras).then();
   }
 }
