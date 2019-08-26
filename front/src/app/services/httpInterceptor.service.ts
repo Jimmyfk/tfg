@@ -15,7 +15,7 @@ export class HttpInterceptorService implements HttpInterceptor {
     if (this.auth.isLogged()) {
       req = req.clone({
         setHeaders: {
-          Authorization: environment.api.token
+          Authorization: this.auth.getToken()
         }
       });
     }

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BackButtonComponent } from './back-button.component';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -10,7 +11,8 @@ import { BackButtonComponent } from './back-button.component';
     BackButtonComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule.forChild([])
   ],
   entryComponents: [
     BackButtonComponent
