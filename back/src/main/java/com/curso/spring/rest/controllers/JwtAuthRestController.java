@@ -51,7 +51,7 @@ public class JwtAuthRestController {
             return ResponseEntity.notFound().build();
         }
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
-        return ResponseEntity.ok(new JwtResponse("Bearer " + this.jwtTokenUtil.generateToken(userDetails, authService.findByUsername(authRequest.getUsername()).getRoles())));
+        return ResponseEntity.ok(new JwtResponse(this.jwtTokenUtil.generateToken(userDetails, authService.findByUsername(authRequest.getUsername()).getRoles())));
     }
 
     @PostMapping(value = {"/register", "/register/{admin}"})

@@ -118,4 +118,8 @@ export class FacturasFormComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit(): void {
     this.loader.load('back-btn', this.botonAtras).then();
   }
+
+  log(): void {
+    console.log(this.factura);
+  }
 }
