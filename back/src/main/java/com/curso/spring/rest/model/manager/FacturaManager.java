@@ -117,7 +117,7 @@ public class FacturaManager implements FacturaService {
 
         if (cli == null) {
             response.put("error", "El cliente " + id + " no existe");
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
         this.save(factura);
         response.put("factura", factura);

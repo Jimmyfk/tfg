@@ -24,7 +24,7 @@ export class Factura {
   }
 
   get descripcion(): string {
-    return this._descripcion;
+    return !!this._descripcion ? this._descripcion : '';
   }
 
   set descripcion(value: string) {

@@ -27,10 +27,6 @@ public class  ItemFactura implements Serializable {
     @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
     private Producto producto;
 
-    // todo: esta variable puede no ser necesaria, revisar
-    @Min(value = 1, message = "tiene que ser mayor que 0")
-    private BigDecimal precio;
-
     @Min(value = 1, message = "tiene que ser mayor que 0")
     private Integer cantidad;
 
@@ -41,7 +37,6 @@ public class  ItemFactura implements Serializable {
     public ItemFactura(Integer cantidad, Producto producto) {
         this.cantidad = cantidad;
         this.producto = producto;
-        this.precio = producto.getPrecio();
         setImporte(getPrecioPorCantidad());
     }
 
@@ -79,14 +74,6 @@ public class  ItemFactura implements Serializable {
 
     public void setProducto(Producto producto) {
         this.producto = producto;
-    }
-
-    public BigDecimal getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(BigDecimal precio) {
-        this.precio = precio;
     }
 
     private BigDecimal getPrecioPorCantidad() {

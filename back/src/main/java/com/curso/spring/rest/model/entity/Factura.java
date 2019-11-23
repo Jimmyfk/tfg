@@ -22,7 +22,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -129,6 +128,6 @@ public class Factura implements Serializable {
         for (ItemFactura item : items) {
             total = total.add(item.getImporte());
         }
-        return new BigDecimal(new DecimalFormat("0.00").format(total));
+        return total;
     }
 }

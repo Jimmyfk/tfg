@@ -91,6 +91,7 @@ export class FacturasFormComponent implements OnInit, OnDestroy, AfterViewInit {
         this.errores = response.error.message as string[];
         console.error(this.errores);
         console.error('Código de error: ' + response.status);
+        console.log(response);
       }
     );
   }
