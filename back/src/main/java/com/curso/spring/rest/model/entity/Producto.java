@@ -35,6 +35,16 @@ public class Producto implements Serializable {
     @Column(name = "created_at")
     private Date createdAt;
 
+    public Producto() {}
+
+    // constructor que hace una copia del producto
+    public Producto(Producto producto) {
+        setId(producto.id);
+        setNombre(producto.nombre);
+        setPrecio(producto.precio);
+        setCreatedAt(producto.createdAt);
+    }
+
     @PrePersist
     private void prePersist() {
         createdAt = new Date();

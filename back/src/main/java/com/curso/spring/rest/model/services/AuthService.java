@@ -16,6 +16,8 @@ public interface AuthService {
 
     Usuario saveUsuario(Usuario usuario);
 
+    void deleteUsuario(Usuario usuario);
+
     Rol saveRol(Rol rol);
 
     Privilegio savePrivilegio(Privilegio privilegio);

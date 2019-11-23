@@ -44,6 +44,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         return new User(usuario.getUsername(), usuario.getPassword(), usuario.getEnabled(), true, true, true, getAuthorities(usuario.getRoles()));
     }
 
+    @Transactional
     public Usuario save(Usuario usuario) {
         usuario.setPassword(encoder.encode(usuario.getPassword()));
         usuario.addRol(authService.findByRol("ROLE_USER"));

@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,11 +55,11 @@ public class JwtAuthRestController {
         return ResponseEntity.ok(new JwtResponse(this.jwtTokenUtil.generateToken(userDetails, authService.findByUsername(authRequest.getUsername()).getRoles())));
     }
 
-    @PostMapping(value = {"/register", "/register/{admin}"})
-    public ResponseEntity<?> saveUser(@RequestBody Usuario user, @PathVariable(required = false) Boolean admin) {
+    @PostMapping(value = {"/register"})
+    public ResponseEntity<?> saveUser(@RequestBody Usuario user) {
         final Usuario usuario;
         Map<String, Object> response = new HashMap<>();
-        if ((admin != null && admin) || firstUser()) {
+        if (firstUser()) {
             user.addRol(authService.findByRol("ROLE_ADMIN"));
         }
 
@@ -74,6 +75,11 @@ public class JwtAuthRestController {
         response.put("usuario", usuario);
         response.put("mensaje", "Usuario " + usuario.getUsername() + " registrado con éxito");
         return ResponseEntity.accepted().body(response);
+    }
+
+    @DeleteMapping(value = "/delete/{userId}")
+    public ResponseEntity<?> deleteUser(@PathVariable Integer userId) {
+        return null;
     }
 
     private void authenticate(String username, String password) {

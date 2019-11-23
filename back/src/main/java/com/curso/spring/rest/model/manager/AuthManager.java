@@ -45,6 +45,15 @@ public class AuthManager implements AuthService {
     }
 
     @Override
+    public void deleteUsuario(Usuario usuario) {
+        try {
+            this.usuarioDao.delete(usuario);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public Rol saveRol(Rol rol) {
         return rolDao.save(rol);
     }

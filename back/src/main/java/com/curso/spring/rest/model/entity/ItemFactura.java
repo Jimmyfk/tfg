@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -26,8 +27,11 @@ public class  ItemFactura implements Serializable {
     @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
     private Producto producto;
 
+    // todo: esta variable puede no ser necesaria, revisar
+    @Min(value = 1, message = "tiene que ser mayor que 0")
     private BigDecimal precio;
 
+    @Min(value = 1, message = "tiene que ser mayor que 0")
     private Integer cantidad;
 
     private BigDecimal importe;
@@ -38,7 +42,7 @@ public class  ItemFactura implements Serializable {
         this.cantidad = cantidad;
         this.producto = producto;
         this.precio = producto.getPrecio();
-        importe = precio.multiply(BigDecimal.valueOf(cantidad));
+        setImporte(getPrecioPorCantidad());
     }
 
     public Long getId() {
@@ -58,13 +62,15 @@ public class  ItemFactura implements Serializable {
     }
 
     public BigDecimal getImporte() {
-        if (importe != null)
-            return this.importe;
-        return getProducto().getPrecio().multiply(BigDecimal.valueOf(cantidad));
+        return this.importe;
     }
 
     public void setImporte(BigDecimal importe) {
         this.importe = importe;
+    }
+
+    public void calcularImporte() {
+        setImporte(getPrecioPorCantidad());
     }
 
     public Producto getProducto() {
@@ -81,5 +87,9 @@ public class  ItemFactura implements Serializable {
 
     public void setPrecio(BigDecimal precio) {
         this.precio = precio;
+    }
+
+    private BigDecimal getPrecioPorCantidad() {
+        return getProducto().getPrecio().multiply(BigDecimal.valueOf(cantidad));
     }
 }
