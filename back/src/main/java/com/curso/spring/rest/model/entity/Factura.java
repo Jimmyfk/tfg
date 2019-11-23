@@ -21,6 +21,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -123,12 +124,11 @@ public class Factura implements Serializable {
         items.add(item);
     }
 
-    public Double getTotal() {
-        DecimalFormat df = new DecimalFormat("#.00");
-        Double total = 0.0;
+    public BigDecimal getTotal() {
+        BigDecimal total = BigDecimal.ZERO;
         for (ItemFactura item : items) {
-            total += item.getImporte();
+            total = total.add(item.getImporte());
         }
-        return Double.valueOf(df.format(total).replace(',', '.'));
+        return new BigDecimal(new DecimalFormat("0.00").format(total));
     }
 }

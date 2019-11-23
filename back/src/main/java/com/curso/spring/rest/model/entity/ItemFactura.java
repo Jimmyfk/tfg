@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Entity
 @Table(schema = "tfg", name = "facturas_items")
@@ -25,11 +26,11 @@ public class  ItemFactura implements Serializable {
     @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
     private Producto producto;
 
-    private Double precio;
+    private BigDecimal precio;
 
     private Integer cantidad;
 
-    private Double importe;
+    private BigDecimal importe;
 
     public ItemFactura() {}
 
@@ -37,7 +38,7 @@ public class  ItemFactura implements Serializable {
         this.cantidad = cantidad;
         this.producto = producto;
         this.precio = producto.getPrecio();
-        importe = cantidad * precio;
+        importe = precio.multiply(BigDecimal.valueOf(cantidad));
     }
 
     public Long getId() {
@@ -56,13 +57,13 @@ public class  ItemFactura implements Serializable {
         this.cantidad = cantidad;
     }
 
-    public Double getImporte() {
+    public BigDecimal getImporte() {
         if (importe != null)
             return this.importe;
-        return cantidad * producto.getPrecio();
+        return getProducto().getPrecio().multiply(BigDecimal.valueOf(cantidad));
     }
 
-    public void setImporte(Double importe) {
+    public void setImporte(BigDecimal importe) {
         this.importe = importe;
     }
 
@@ -74,11 +75,11 @@ public class  ItemFactura implements Serializable {
         this.producto = producto;
     }
 
-    public Double getPrecio() {
+    public BigDecimal getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Double precio) {
+    public void setPrecio(BigDecimal precio) {
         this.precio = precio;
     }
 }

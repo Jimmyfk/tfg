@@ -60,6 +60,7 @@ export class ProductosFormComponent implements OnInit, OnDestroy, AfterViewInit 
       }, error => {
         console.log(error);
         this.errores = error.error.errores as string[];
+        this.swal.getCustomButton().fire('Error al guardar el producto', error.error.mensaje, 'error');
       }
     );
   }
@@ -83,5 +84,10 @@ export class ProductosFormComponent implements OnInit, OnDestroy, AfterViewInit 
 
   ngAfterViewInit(): void {
     this.loader.load('back-btn', this.botonAtras).then();
+  }
+
+  setPrecio =  (val, o)  => {
+    console.log(val, Number(val), parseFloat(val), o);
+    this.producto.precio = Number(val);
   }
 }
