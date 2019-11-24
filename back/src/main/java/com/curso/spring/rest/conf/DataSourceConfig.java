@@ -133,12 +133,12 @@ public class DataSourceConfig {
             PropertiesConfiguration conf = new PropertiesConfiguration(rutaProperties);
             conf.setProperty("db.esquema.creado", creado);
             conf.save();
+            this.creado = creado;
             LOG.info("db.esquema.creado = " + creado);
         } catch (ConfigurationException e) {
             e.printStackTrace();
             LOG.error("Error al cambiar la configuración del fichero datasource.properties");
         }
-        this.creado = creado;
     }
 
     private Properties configuracionesAdicionales() {
@@ -160,6 +160,7 @@ public class DataSourceConfig {
         } catch (SQLException e) {
             e.printStackTrace();
             setEsquemaCreado(false);
+            crearEsquema(dataSource);
             return false;
         }
     }

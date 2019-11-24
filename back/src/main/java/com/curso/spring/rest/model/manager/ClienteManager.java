@@ -45,7 +45,6 @@ public class ClienteManager implements ClienteService {
     }
 
     @Override
-    @Transactional
     public Cliente save(Cliente cliente) {
         return clienteDao.save(cliente);
     }
@@ -57,7 +56,6 @@ public class ClienteManager implements ClienteService {
     }
 
     @Override
-    @Transactional
     public void delete(Integer id) {
         clienteDao.deleteById(id);
     }
@@ -107,6 +105,7 @@ public class ClienteManager implements ClienteService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<?> create(@Valid Cliente cliente, BindingResult result) {
         Cliente clienteNew;
         Map<String, Object> response = new HashMap<>();
@@ -126,6 +125,7 @@ public class ClienteManager implements ClienteService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<?> update(@Valid Cliente cliente, BindingResult result, Integer id) {
         Cliente clienteActual = this.findById(id);
         Map<String, Object> response = new HashMap<>();
@@ -153,6 +153,7 @@ public class ClienteManager implements ClienteService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<?> remove(Integer id) {
         Map<String, Object> response = new HashMap<>();
 
@@ -165,6 +166,25 @@ public class ClienteManager implements ClienteService {
         response.put("mensaje", "Cliente eliminado con éxito");
 
         return ResponseEntity.ok(response);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ResponseEntity<?> existenClientes() {
+        Map<String, Object> body = new HashMap<>();
+        try {
+            Integer numCLientes = countAll();
+            body.put("existenClientes", numCLientes > 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            body.put("existenClientes", false);
+        }
+        return ResponseEntity.ok(body);
+    }
+
+    @Override
+    public Integer countAll() {
+        return clienteDao.findAll().size();
     }
 
 }

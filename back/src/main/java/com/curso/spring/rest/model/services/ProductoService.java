@@ -31,4 +31,8 @@ public interface ProductoService {
     ResponseEntity<?> update(Integer id, Producto producto);
 
     ResponseEntity<?> remove(Integer id);
+
+    ResponseEntity<?> existenProductos();
+
+    Integer countAll();
 }

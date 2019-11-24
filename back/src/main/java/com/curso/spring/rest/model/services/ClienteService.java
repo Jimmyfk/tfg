@@ -36,4 +36,8 @@ public interface ClienteService {
     ResponseEntity<?> update(Cliente cliente, BindingResult result, Integer id);
 
     ResponseEntity<?> remove(Integer id);
+
+    ResponseEntity<?> existenClientes();
+
+    Integer countAll();
 }

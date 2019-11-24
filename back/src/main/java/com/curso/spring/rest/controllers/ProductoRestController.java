@@ -57,6 +57,11 @@ public class ProductoRestController {
         return this.productoService.find(id);
     }
 
+    @GetMapping()
+    public ResponseEntity<?> existenProductos() {
+        return productoService.existenProductos();
+    }
+
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody Producto producto) {

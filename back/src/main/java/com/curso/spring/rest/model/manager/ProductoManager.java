@@ -55,7 +55,6 @@ public class ProductoManager implements ProductoService {
     }
 
     @Override
-    @Transactional
     public Producto save(Producto producto) {
         return productoDao.save(producto);
     }
@@ -67,6 +66,7 @@ public class ProductoManager implements ProductoService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<?> save(Producto producto, BindingResult result) {
         Producto productoNuevo;
         Map<String, Object> response = new HashMap<>();
@@ -135,6 +135,7 @@ public class ProductoManager implements ProductoService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<?> update(Integer id, Producto producto) {
         Producto actual = this.findById(id);
         Map<String, Object> response = new HashMap<>();
@@ -165,5 +166,24 @@ public class ProductoManager implements ProductoService {
         }
         response.put("mensaje", "Producto eliminado");
         return ResponseEntity.ok(response);
+    }
+
+    @Override
+    public ResponseEntity<?> existenProductos() {
+        Map<String, Object> body = new HashMap<>();
+        try {
+            Integer countProductos = this.countAll();
+            body.put("existenProductos", countProductos > 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            body.put("existenProductos", false);
+        }
+
+        return ResponseEntity.ok(body);
+    }
+
+    @Override
+    public Integer countAll() {
+        return productoDao.findAll().size();
     }
 }

@@ -48,6 +48,11 @@ public class ClienteRestController {
        return this.clienteService.show(id);
     }
 
+    @GetMapping("existen")
+    public ResponseEntity<?> existenClientes() {
+        return clienteService.existenClientes();
+    }
+
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     @PostMapping()
     public ResponseEntity<?> create(@Valid @RequestBody Cliente cliente, BindingResult result) {
