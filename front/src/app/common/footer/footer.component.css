@@ -1,0 +1,22 @@
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: .05em;
+}
+
+.indigo {
+  background-color: #3f51b5 !important;;
+}
+
+.light-blue {
+  background-color: lightskyblue;
+}
+
+.footer-copyright {
+  background-color: rgba(0,0,0,0.2);
+}
+
+.footer-copyright a {
+  color: blue;
+}
