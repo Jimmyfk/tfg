@@ -77,4 +77,9 @@ export class ClienteService {
       })
     );
   }
+
+  existenClientes() {
+    return this.http.get<any>(`${this.url}/existen`).pipe(catchError(e => throwError(e))
+    );
+  }
 }

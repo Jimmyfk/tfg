@@ -57,7 +57,7 @@ public class ProductoRestController {
         return this.productoService.find(id);
     }
 
-    @GetMapping()
+    @GetMapping("/existen")
     public ResponseEntity<?> existenProductos() {
         return productoService.existenProductos();
     }

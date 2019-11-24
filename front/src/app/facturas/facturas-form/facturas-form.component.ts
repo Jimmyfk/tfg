@@ -5,11 +5,11 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {MatAutocompleteSelectedEvent} from '@angular/material';
 import {FormControl} from '@angular/forms';
 import {FacturaService} from '../../services/factura.service';
-import {debounceTime} from 'rxjs/operators';
+import {debounceTime, take} from 'rxjs/operators';
 import {ItemFactura} from '../../models/itemFactura';
 import swal from 'sweetalert2';
 import {ProductoService} from '../../services/producto.service';
-import {Subscription} from 'rxjs';
+import {interval, Observable, Subscription} from 'rxjs';
 import {LazyloaderService} from '../../services/lazy/lazyloader.service';
 
 @Component({
@@ -26,6 +26,9 @@ export class FacturasFormComponent implements OnInit, OnDestroy, AfterViewInit {
   resultados = [];
   errores = [];
   subcripciones: Subscription[] = [];
+  hayProductos: boolean;
+  hayClientes: boolean;
+  puedeCrearFactura: boolean;
 
   constructor(private clienteService: ClienteService,
               private facturaService: FacturaService,
@@ -38,6 +41,7 @@ export class FacturasFormComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
     this.instanciarFactura();
     this.autocomplete();
+    this.checkProductosYClientes();
   }
 
   instanciarFactura() {
@@ -122,5 +126,19 @@ export class FacturasFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
   log(): void {
     console.log(this.factura);
+  }
+
+  checkProductosYClientes() {
+    this.productoService.existenProductos().subscribe(res => this.hayProductos = res.existenProductos);
+    this.clienteService.existenClientes().subscribe(res => this.hayClientes = res.existenClientes);
+    this.checkPuedeCrearFactura();
+  }
+
+  checkPuedeCrearFactura() {
+    if (this.hayProductos === undefined || this.hayClientes === undefined) {
+      interval(150).subscribe(() => this.checkPuedeCrearFactura());
+      return;
+    }
+    this.puedeCrearFactura = this.hayClientes === true && this.hayProductos === true;
   }
 }

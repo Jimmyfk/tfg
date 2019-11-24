@@ -48,7 +48,7 @@ public class ClienteRestController {
        return this.clienteService.show(id);
     }
 
-    @GetMapping("existen")
+    @GetMapping("/existen")
     public ResponseEntity<?> existenClientes() {
         return clienteService.existenClientes();
     }

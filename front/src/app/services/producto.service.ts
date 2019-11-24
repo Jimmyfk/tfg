@@ -61,4 +61,9 @@ export class ProductoService {
   delete(id: number) {
     return this.http.delete(`${this.url}/` + id, this.httpOptions);
   }
+
+  existenProductos() {
+      return this.http.get<any>(`${this.url}/existen`).pipe(catchError(e => throwError(e))
+    );
+  }
 }
