@@ -1,4 +1,4 @@
-package com.curso.spring.rest;
+package com.curso.spring.rest.conf;
 
 import com.curso.spring.rest.auth.JwtAuthEntryPoint;
 import com.curso.spring.rest.auth.JwtRequestFilter;

@@ -1,4 +1,4 @@
-package com.curso.spring.rest;
+package com.curso.spring.rest.conf;
 
 import export.ClienteList;
 import org.springframework.context.annotation.Bean;
