@@ -14,14 +14,6 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
-import org.springframework.util.DefaultPropertiesPersister;
-import org.springframework.util.PropertiesPersister;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Properties;
 
 @PropertySource(value = "classpath:datasource.properties")
 @Configuration
@@ -50,6 +42,9 @@ public class DataSourceConfig {
     @Value(value = "${db.esquema.creado}")
     private Boolean creado;
 
+    @Value(value = "${ruta.datasource.properties}")
+    private String rutaProperties;
+
     @Bean(name = "dataSource")
     public DriverManagerDataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource(url, username, password);
@@ -76,31 +71,13 @@ public class DataSourceConfig {
 
     private void setEsquemaCreado(Boolean creado) {
         try {
-            PropertiesConfiguration conf = new PropertiesConfiguration("datasource.properties");
+            PropertiesConfiguration conf = new PropertiesConfiguration(rutaProperties);
             conf.setProperty("db.esquema.creado", creado);
-            persistProperties(conf, creado);
-            this.creado = creado;
-        } catch (ConfigurationException | IOException e) {
+            conf.save();
+            LOG.info("db.esquema.creado = " + creado);
+        } catch (ConfigurationException e) {
             e.printStackTrace();
             LOG.error("Error al cambiar la configuración del fichero datasource.properties");
         }
     }
-
-    private void persistProperties(PropertiesConfiguration conf, Boolean creado) throws IOException, ConfigurationException {
-        PropertiesPersister persister = new DefaultPropertiesPersister();
-        OutputStream os = new FileOutputStream(new File("src/main/resources/datasource.properties"));
-
-        Properties properties = new Properties();
-        properties.setProperty("db.esquema.creado", creado.toString());
-
-        persister.store(properties, os, "Se modifica la propiedad 'db.esquema.creado'");
-        conf.save();
-
-        os.flush();
-        os.close();
-
-        LOG.info("db.esquema.creado = " + creado);
-    }
-
-
 }
