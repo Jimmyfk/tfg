@@ -65,7 +65,13 @@ public class AuthManager implements AuthService {
 
     @Override
     public long countUsuarios() {
-        return usuarioDao.count();
+        try {
+            return usuarioDao.count();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+
     }
 
     @Override

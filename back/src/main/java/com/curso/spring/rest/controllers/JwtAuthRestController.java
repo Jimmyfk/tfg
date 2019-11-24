@@ -1,4 +1,5 @@
 package com.curso.spring.rest.controllers;
+
 import com.curso.spring.rest.auth.JwtRequest;
 import com.curso.spring.rest.auth.JwtResponse;
 import com.curso.spring.rest.auth.JwtTokenUtil;
@@ -70,7 +71,7 @@ public class JwtAuthRestController {
         }
 
         if (usuario == null) {
-            return ResponseEntity.notFound().build();
+            return null;
         }
         response.put("usuario", usuario);
         response.put("mensaje", "Usuario " + usuario.getUsername() + " registrado con éxito");

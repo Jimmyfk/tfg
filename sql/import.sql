@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `tfg`.`Roles` (
   `ID` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `Rol` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`ID`),
-  UNIQUE INDEX `Rol_UNIQUE` (`Rol` ASC) VISIBLE)
+  UNIQUE INDEX `Rol_UNIQUE` (`Rol` ASC) )
 ENGINE = InnoDB;
 
 
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `tfg`.`Clientes` (
   `Created_At` DATE NOT NULL,
   `Foto` VARCHAR(50) NULL,
   PRIMARY KEY (`ID`),
-  UNIQUE INDEX `Email_UNIQUE` (`Email` ASC) VISIBLE)
+  UNIQUE INDEX `Email_UNIQUE` (`Email` ASC) )
 ENGINE = InnoDB;
 
 
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `tfg`.`Facturas` (
   `Created_At` DATE NOT NULL,
   `Cliente_ID` SMALLINT UNSIGNED NOT NULL,
   PRIMARY KEY (`ID`),
-  INDEX `FK_Facturas_Clientes_idx` (`Cliente_ID` ASC) VISIBLE,
+  INDEX `FK_Facturas_Clientes_idx` (`Cliente_ID` ASC) ,
   CONSTRAINT `FK_Facturas_Clientes`
     FOREIGN KEY (`Cliente_ID`)
     REFERENCES `tfg`.`Clientes` (`ID`)
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `tfg`.`Productos` (
   `Precio` DECIMAL(8,2) NOT NULL,
   `Created_At` DATE NOT NULL,
   PRIMARY KEY (`ID`),
-  UNIQUE INDEX `Nombre_UNIQUE` (`Nombre` ASC) VISIBLE)
+  UNIQUE INDEX `Nombre_UNIQUE` (`Nombre` ASC) )
 ENGINE = InnoDB;
 
 
@@ -84,13 +84,12 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `tfg`.`Facturas_Items` (
   `ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `Cantidad` TINYINT UNSIGNED NOT NULL,
-  `Precio` DECIMAL(8,2) NULL,
   `Importe` DECIMAL(8,2) NULL,
   `Factura_ID` MEDIUMINT UNSIGNED NULL,
   `Producto_ID` SMALLINT UNSIGNED NOT NULL,
   PRIMARY KEY (`ID`),
-  INDEX `FK_FI_Facturas_idx` (`Factura_ID` ASC) VISIBLE,
-  INDEX `FK_FI_Productos_idx` (`Producto_ID` ASC) VISIBLE,
+  INDEX `FK_FI_Facturas_idx` (`Factura_ID` ASC) ,
+  INDEX `FK_FI_Productos_idx` (`Producto_ID` ASC) ,
   CONSTRAINT `FK_FI_Facturas`
     FOREIGN KEY (`Factura_ID`)
     REFERENCES `tfg`.`Facturas` (`ID`)
@@ -113,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `tfg`.`Usuarios` (
   `Password` VARCHAR(255) NOT NULL,
   `Enabled` TINYINT NULL DEFAULT 1,
   PRIMARY KEY (`ID`),
-  UNIQUE INDEX `Username_UNIQUE` (`Username` ASC) VISIBLE)
+  UNIQUE INDEX `Username_UNIQUE` (`Username` ASC) )
 ENGINE = InnoDB;
 
 
@@ -125,8 +124,8 @@ CREATE TABLE IF NOT EXISTS `tfg`.`Usuarios_Roles` (
   `User_ID` SMALLINT UNSIGNED NULL,
   `Rol_ID` TINYINT UNSIGNED NULL,
   PRIMARY KEY (`ID`),
-  UNIQUE INDEX `Usuario_Rol_UNIQUE` (`User_ID` ASC, `Rol_ID` ASC) VISIBLE,
-  INDEX `FK_UR_Roles_idx` (`Rol_ID` ASC) VISIBLE,
+  UNIQUE INDEX `Usuario_Rol_UNIQUE` (`User_ID` ASC, `Rol_ID` ASC) ,
+  INDEX `FK_UR_Roles_idx` (`Rol_ID` ASC) ,
   CONSTRAINT `FK_UR_Usuarios`
     FOREIGN KEY (`User_ID`)
     REFERENCES `tfg`.`Usuarios` (`ID`)
@@ -147,7 +146,7 @@ CREATE TABLE IF NOT EXISTS `tfg`.`Privilegios` (
   `ID` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `Privilegio` VARCHAR(50) NULL,
   PRIMARY KEY (`ID`),
-  UNIQUE INDEX `Privilegio_UNIQUE` (`Privilegio` ASC) VISIBLE)
+  UNIQUE INDEX `Privilegio_UNIQUE` (`Privilegio` ASC) )
 ENGINE = InnoDB;
 
 
@@ -159,8 +158,8 @@ CREATE TABLE IF NOT EXISTS `tfg`.`Privilegios_Roles` (
   `Rol_ID` TINYINT UNSIGNED NULL,
   `Privilegio_ID` TINYINT UNSIGNED NULL,
   PRIMARY KEY (`ID`),
-  UNIQUE INDEX `Rol_Pivilegio_UNIQUE` (`Rol_ID` ASC, `Privilegio_ID` ASC) VISIBLE,
-  INDEX `FK_PR_Privilegios_idx` (`Privilegio_ID` ASC) VISIBLE,
+  UNIQUE INDEX `Rol_Pivilegio_UNIQUE` (`Rol_ID` ASC, `Privilegio_ID` ASC) ,
+  INDEX `FK_PR_Privilegios_idx` (`Privilegio_ID` ASC) ,
   CONSTRAINT `FK_PR_Roles`
     FOREIGN KEY (`Rol_ID`)
     REFERENCES `tfg`.`Roles` (`ID`)
