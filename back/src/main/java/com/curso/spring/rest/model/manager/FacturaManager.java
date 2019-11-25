@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 
 import java.util.HashMap;
 import java.util.List;
@@ -105,9 +106,13 @@ public class FacturaManager implements FacturaService {
 
     @Override
     @Transactional
-    public ResponseEntity<?> create(Integer id, Factura factura) {
+    public ResponseEntity<?> create(Integer id, Factura factura, BindingResult bindingResult) {
         Cliente cli;
         Map<String, Object> response = new HashMap<>();
+
+        if (bindingResult.hasErrors()) {
+            return errorService.throwErrors(bindingResult, response);
+        }
 
         try {
             cli = this.clienteService.findById(id);
@@ -119,8 +124,8 @@ public class FacturaManager implements FacturaService {
             response.put("error", "El cliente " + id + " no existe");
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
-        this.save(factura);
-        response.put("factura", factura);
+
+        save(factura);
         response.put("mensaje", "Factura creada correctamente");
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);

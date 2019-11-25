@@ -92,10 +92,7 @@ export class FacturasFormComponent implements OnInit, OnDestroy, AfterViewInit {
           swal.fire('Nueva factura', this.decode(response.mensaje), 'success'));
       },
       response => {
-        this.errores = response.error.message as string[];
-        console.error(this.errores);
-        console.error('Código de error: ' + response.status);
-        console.log(response);
+        this.errores = response.error.errores as string[];
       }
     );
   }

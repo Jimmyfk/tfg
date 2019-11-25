@@ -53,12 +53,10 @@ export class ProductosFormComponent implements OnInit, OnDestroy, AfterViewInit 
   create() {
     this.productoService.create(this.producto).subscribe(
       (response: any) => {
-        console.log(response);
         this.router.navigate(['productos']).then(() =>
           this.swal.getCustomButton().fire('', response.mensaje, 'info')
         );
       }, error => {
-        console.log(error);
         this.errores = error.error.errores as string[];
         this.swal.getCustomButton().fire('Error al guardar el producto', error.error.mensaje, 'error');
       }
@@ -68,12 +66,12 @@ export class ProductosFormComponent implements OnInit, OnDestroy, AfterViewInit 
   update() {
     this.productoService.update(this.producto).subscribe(
       (response: any) => {
-        console.log(response);
         this.router.navigate(['productos']).then(() =>
           this.swal.getCustomButton().fire('', decodeURIComponent(escape(response.mensaje)), 'info')
         );
       }, error => {
-        console.log(error);
+        this.errores = error.error.errores as string[];
+        this.swal.getCustomButton().fire('Error al modificar el producto', error.error.mensaje, 'error');
       }
     );
   }
@@ -86,8 +84,7 @@ export class ProductosFormComponent implements OnInit, OnDestroy, AfterViewInit 
     this.loader.load('back-btn', this.botonAtras).then();
   }
 
-  setPrecio =  (val, o)  => {
-    console.log(val, Number(val), parseFloat(val), o);
+  setPrecio =  (val)  => {
     this.producto.precio = Number(val);
   }
 }

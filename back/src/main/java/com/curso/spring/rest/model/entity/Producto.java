@@ -11,6 +11,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -26,9 +27,11 @@ public class Producto implements Serializable {
     private Integer id;
 
     @NotEmpty(message = "no puede ser null")
+    @Column(unique = true)
     private String nombre;
 
     @Min(value = 1, message = "tiene que ser mayor que 0")
+    @NotNull(message = "es obligatorio")
     private BigDecimal precio;
 
     @Temporal(TemporalType.DATE)

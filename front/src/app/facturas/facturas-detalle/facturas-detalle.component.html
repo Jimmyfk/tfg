@@ -14,7 +14,7 @@
         <li class="list-group-item list-group-item-primary">Detalles de la factura</li>
         <li class="list-group-item">Número: {{factura.id}}</li>
         <li class="list-group-item">Descripción: {{factura.descripcion}}</li>
-        <li class="list-group-item">Fecha: {{factura.createdAt | date : 'mediumDate'}}</li>
+        <li class="list-group-item">Fecha de creación: {{factura.createdAt | date : 'mediumDate'}}</li>
         <li class="list-group-item" *ngIf="factura.observacion">Observaciones: {{factura.observacion}}</li>
       </ul>
       <div class="alert alert-info my-4" *ngIf="!factura.items || factura.items.length == 0">

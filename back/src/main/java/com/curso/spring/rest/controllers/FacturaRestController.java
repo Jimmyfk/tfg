@@ -5,6 +5,7 @@ import com.curso.spring.rest.model.services.FacturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/facturas")
@@ -36,8 +39,9 @@ public class FacturaRestController {
 
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     @PostMapping(value = "/{cliente}")
-    public ResponseEntity<?> create(@PathVariable Integer cliente, @RequestBody Factura factura) {
-        return this.facturaService.create(cliente, factura);
+    public ResponseEntity<?> create(@PathVariable Integer cliente, @RequestBody @Valid Factura factura,
+                                    BindingResult bindingResult) {
+        return this.facturaService.create(cliente, factura, bindingResult);
     }
 
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")

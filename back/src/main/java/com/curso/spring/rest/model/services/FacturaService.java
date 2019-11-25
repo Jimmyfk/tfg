@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public interface FacturaService {
 
     ResponseEntity<?> getFacturasCliente(Integer id);
 
-    ResponseEntity<?> create(Integer id, Factura factura);
+    ResponseEntity<?> create(Integer id, Factura factura, BindingResult bindingResult);
 
     ResponseEntity<?> remove(Integer id);
 

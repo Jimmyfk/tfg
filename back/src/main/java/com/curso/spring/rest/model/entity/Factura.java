@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -30,14 +31,13 @@ import java.util.List;
 @Table(name = "facturas", schema = "tfg")
 public class Factura implements Serializable {
 
-    /* todo: cambiar Double por BigDecimal */
     private static final long serialVersionUID = -2689278774805093585L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotEmpty
+    @NotEmpty(message = "es obligatorio")
     private String descripcion;
 
     private String observacion;
@@ -49,10 +49,12 @@ public class Factura implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
+    @NotNull
     private Cliente cliente;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "factura_id")
+    @NotEmpty(message = "no se puede crear una factura sin productos")
     private List<ItemFactura> items;
 
     public Factura() {
