@@ -19,16 +19,15 @@ public class ErrorManager implements ErrorService {
     public ResponseEntity<?> throwErrors(BindingResult result, Map<String, Object> response) {
         List<String> errors = result.getFieldErrors()
                 .stream()
-                .map(err -> !isList(result) ? "El campo '" + err.getField() + "' " + err.getDefaultMessage()
-                        : err.getField() + " " + err.getDefaultMessage())
+                .map(err -> !isList(err.getField()) ? "El campo '" + err.getField() + "' " + err.getDefaultMessage()
+                        : err.getDefaultMessage())
                 .collect(Collectors.toList());
         response.put("errores", errors);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    private boolean isList(BindingResult result) {
-
-        return false;
+    private boolean isList(String field) {
+        return field.equals("items");
     }
 
     @Override
