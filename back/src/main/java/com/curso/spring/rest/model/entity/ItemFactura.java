@@ -30,14 +30,14 @@ public class  ItemFactura implements Serializable {
     @Min(value = 1, message = "tiene que ser mayor que 0")
     private Integer cantidad;
 
-    private BigDecimal importe;
+    private BigDecimal precio;
 
     public ItemFactura() {}
 
     public ItemFactura(Integer cantidad, Producto producto) {
-        this.cantidad = cantidad;
-        this.producto = producto;
-        setImporte(getPrecioPorCantidad());
+        setCantidad(cantidad);
+        setProducto(producto);
+        setPrecio(producto.getPrecio());
     }
 
     public Long getId() {
@@ -56,16 +56,12 @@ public class  ItemFactura implements Serializable {
         this.cantidad = cantidad;
     }
 
-    public BigDecimal getImporte() {
-        return this.importe;
+    public BigDecimal getPrecio() {
+        return precio;
     }
 
-    public void setImporte(BigDecimal importe) {
-        this.importe = importe;
-    }
-
-    public void calcularImporte() {
-        setImporte(getPrecioPorCantidad());
+    public void setPrecio(BigDecimal precio) {
+        this.precio = precio;
     }
 
     public Producto getProducto() {
@@ -76,7 +72,7 @@ public class  ItemFactura implements Serializable {
         this.producto = producto;
     }
 
-    private BigDecimal getPrecioPorCantidad() {
-        return getProducto().getPrecio().multiply(BigDecimal.valueOf(cantidad));
+    public BigDecimal getImporte() {
+        return precio.multiply(BigDecimal.valueOf(cantidad));
     }
 }

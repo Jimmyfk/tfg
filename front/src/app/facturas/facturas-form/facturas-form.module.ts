@@ -8,6 +8,7 @@ import {ClienteService} from '../../services/cliente.service';
 import {FacturasFormComponent} from './facturas-form.component';
 import {ProductoService} from '../../services/producto.service';
 import {RoleGuard} from '../../services/guards/role.guard';
+import {BackButtonModule} from '../../common/back-button/back-button.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {RoleGuard} from '../../services/guards/role.guard';
     ReactiveFormsModule,
     MatInputModule,
     MatAutocompleteModule,
-    FacturasFormRoutingModule
+    FacturasFormRoutingModule,
+    BackButtonModule
   ],
   providers: [
     ClienteService,

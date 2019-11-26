@@ -1,4 +1,10 @@
-<div class="row">
+  <div class="alert-warning p-1" *ngIf="!puedeCrearFactura">
+    <p>
+      No se pueden crear facturas porque no hay
+      <span *ngIf="!hayClientes">clientes </span><span *ngIf="!hayClientes && !hayProductos">ni </span><span *ngIf="!hayProductos">productos</span>
+    </p>
+  </div>
+<div class="row" #form *ngIf="puedeCrearFactura">
   <form class="col-12 pt-3" method="post"
         enctype="multipart/form-data" #facturaForm="ngForm">
     <div class="row justify-content-center">
@@ -55,11 +61,10 @@
         <div class="form-group row justify-content-center">
           <input type="submit" class="btn btn-sm btn-primary" value="Crear" (click)="create()" *ngIf="puedeCrearFactura"
             [ngClass]="{'mx-1' : puedeCrearFactura}"/>
-          <ng-container #botonAtras></ng-container>
         </div>
       </div>
     </div>
-    <div class="row justify-content-center" *ngIf="puedeCrearFactura; else noPuedeCrearFactura">
+    <div class="row justify-content-center">
       <table class="table col-10 mb-0" id="items">
         <thead>
         <tr class="bg-info row">
@@ -73,7 +78,7 @@
         <tbody>
         <tr *ngFor="let item of factura.items" class="row">
           <td class="col-5">{{item.producto.nombre}}</td>
-          <td class="col-3">{{item.producto.precio}}€</td>
+          <td class="col-3">{{item.precio}}€</td>
           <td class="col-1">
             <input class="form-control" type="number" [(ngModel)]="item.cantidad" [name]="item.producto.id.toString()"
                    min="1" (ngModelChange)="factura.calcularTotal()"/>
@@ -105,13 +110,7 @@
         </ul>
       </div>
     </div>
-    <ng-template #noPuedeCrearFactura>
-      <div class="alert-warning p-1">
-        <p>
-          No se pueden crear facturas porque no hay
-          <span *ngIf="!hayClientes">clientes </span><span *ngIf="!hayClientes && !hayProductos">ni </span><span *ngIf="!hayProductos">productos</span>
-        </p>
-      </div>
-    </ng-template>
   </form>
 </div>
+<ng-container #botonAtras></ng-container>
+

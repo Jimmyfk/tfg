@@ -5,12 +5,21 @@ export class ItemFactura implements OnInit {
 
   private _id: number;
   private _producto: Producto;
+  private _precio: number;
   private _cantidad: number;
   private _importe: number;
 
-  constructor(producto: Producto) {
-    this._producto = producto;
-    this._cantidad = 1;
+  constructor(producto?: Producto, item?: ItemFactura) {
+    if (producto) {
+      this.producto = producto;
+      this.cantidad = 1;
+      this.precio = producto.precio;
+    } else {
+      this.id = item.id;
+      this.producto = item.producto;
+      this.cantidad = item.cantidad;
+      this.precio = item.precio;
+    }
     this.setImporte();
   }
 
@@ -50,13 +59,22 @@ export class ItemFactura implements OnInit {
   }
 
   setImporte() {
-    return this._importe = this.producto.precio * this._cantidad;
+    return this._importe = this.precio * this._cantidad;
+  }
+
+  get precio(): number {
+    return this._precio;
+  }
+
+  set precio(value: number) {
+    this._precio = value;
   }
 
   toJSON() {
     return {
       id: this.id,
       producto: this.producto,
+      precio: this.precio,
       cantidad: this.cantidad,
       importe: this.importe
     };

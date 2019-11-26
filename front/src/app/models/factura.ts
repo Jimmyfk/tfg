@@ -51,6 +51,10 @@ export class Factura {
     return this._items;
   }
 
+  public push(value: ItemFactura) {
+    this.items.push(value);
+  }
+
   set items(value: ItemFactura[]) {
     this._items = value;
   }
