@@ -47,6 +47,15 @@ public class DataSourceConfig {
     @Value(value = "${db.schema}")
     private String esquema;
 
+    @Value(value = "${db.conector}")
+    private String conector;
+
+    @Value(value = "${db.host}")
+    private String host;
+
+    @Value(value = "${db.params}")
+    private String params;
+
     @Value(value = "${db.driver}")
     private String driver;
 
@@ -73,12 +82,14 @@ public class DataSourceConfig {
 
     @Bean(name = "dataSource")
     public DriverManagerDataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource(url, username, password);
+        DriverManagerDataSource dataSource = new DriverManagerDataSource(getUrl(), username, password);
         dataSource.setDriverClassName(driver);
 
         // crear base de datos
         if (!creado) {
             crearEsquema(dataSource);
+            setUrl();
+            dataSource.setUrl(url);
         }
 
         comprobarCreacion(dataSource);
@@ -129,12 +140,34 @@ public class DataSourceConfig {
     }
 
     private void setEsquemaCreado(Boolean creado) {
+        guardarConf("db.esquema.creado", creado);
+        this.creado = creado;
+    }
+
+    private String getUrl() {
+        if (url.isEmpty()) {
+            setUrl();
+        }
+        return url;
+    }
+
+    private void setUrl() {
+        if (creado) {
+            url = conector + host + esquema + params;
+        } else {
+            url =  conector + host + params;
+        }
+
+        guardarConf("db.url", url);
+    }
+
+    private void guardarConf(String propiedad, Object valor) {
+
         try {
             PropertiesConfiguration conf = new PropertiesConfiguration(rutaProperties);
-            conf.setProperty("db.esquema.creado", creado);
+            conf.setProperty(propiedad, valor);
             conf.save();
-            this.creado = creado;
-            LOG.info("db.esquema.creado = " + creado);
+            LOG.info(propiedad + " = " + valor);
         } catch (ConfigurationException e) {
             e.printStackTrace();
             LOG.error("Error al cambiar la configuración del fichero datasource.properties");
