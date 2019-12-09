@@ -12,6 +12,7 @@ export class LazyloaderService {
 
   async load(path: string, container: ViewContainerRef) {
     const ngModule = await this.lazyWidgets[path]();
+    console.log(path, container);
     const moduleFactory = ngModule instanceof NgModuleFactory ? ngModule : await this.compiler.compileModuleAsync(ngModule);
     const entryComponent = (moduleFactory.moduleType as any).entry;
     const moduleRef = moduleFactory.create(this.injector);

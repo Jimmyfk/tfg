@@ -44,6 +44,6 @@ export class FormComponent implements OnInit {
   }
 
   isValid() {
-    this.esValido = this.usuario.password === this.pw2 && this.usuario.username !== null;
+    this.esValido = this.usuario.password === this.pw2 && !!this.usuario.username && this.usuario.username.length > 2;
   }
 }

@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -27,12 +27,15 @@ public class Cliente  implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotEmpty
+    @NotNull(message = "es obligatorio")
     @Length(min = 4)
     private String nombre;
+
+    @NotNull(message = "es obligatorio")
     private String apellidos;
 
     @Email
+    @NotNull(message = "es obligatorio")
     private String email;
 
     @Column(name = "created_at")

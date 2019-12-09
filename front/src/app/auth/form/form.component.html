@@ -7,7 +7,7 @@
           <label for="nombre" class="col-form-label col-sm-3">Nombre de usuario</label>
           <div class="col-sm-6">
             <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="usuario.username"
-                   required="required" minlength="4" (input)="isValid()"/>
+                   required minlength="4" (input)="isValid()"/>
           </div>
         </div>
         <div class="form-group row">
@@ -15,7 +15,7 @@
           <div class="col-sm-6">
             <input type="password" class="form-control" id="pw" name="pw" [(ngModel)]="usuario.password"
                    #password="ngModel" (input)="isValid()"
-                   required="required" minlength="8"/>
+                   required minlength="8"/>
           </div>
         </div>
         <div class="form-group row">

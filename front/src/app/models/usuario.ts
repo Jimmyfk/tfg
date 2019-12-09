@@ -2,6 +2,7 @@ export class Usuario {
   private _id: number;
   private _username: string;
   private _password: string;
+  private _email: string;
   private _enabled: boolean;
   private _roles = [];
 
@@ -48,12 +49,21 @@ export class Usuario {
     this._roles = value;
   }
 
+  get email(): string {
+    return this._email;
+  }
+
+  set email(value: string) {
+    this._email = value;
+  }
+
   toJSON() {
     return {
       id: this.id,
       username: this.username,
       password: this.password,
       enabled: this.enabled,
+      email: this.email,
       roles: this.roles
     };
   }
