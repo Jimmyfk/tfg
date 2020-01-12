@@ -3,7 +3,7 @@ import {Factura} from '../../models/factura';
 import {ClienteService} from '../../services/cliente.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatAutocompleteSelectedEvent} from '@angular/material';
-import {FormControl} from '@angular/forms';
+import {FormControl, Validators} from '@angular/forms';
 import {FacturaService} from '../../services/factura.service';
 import {debounceTime, take} from 'rxjs/operators';
 import {ItemFactura} from '../../models/itemFactura';
@@ -11,6 +11,7 @@ import swal from 'sweetalert2';
 import {ProductoService} from '../../services/producto.service';
 import {interval, Observable, Subscription} from 'rxjs';
 import {LazyloaderService} from '../../services/lazy/lazyloader.service';
+import {Producto} from '../../models/producto';
 
 @Component({
   selector: 'app-facturas-form',
@@ -18,11 +19,21 @@ import {LazyloaderService} from '../../services/lazy/lazyloader.service';
 })
 export class FacturasFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
+  constructor(private clienteService: ClienteService,
+              private facturaService: FacturaService,
+              private productoService: ProductoService,
+              private rutaActiva: ActivatedRoute,
+              private loader: LazyloaderService,
+              private router: Router) {
+  }
+
   public factura: Factura;
+  item: ItemFactura;
   @ViewChild('botonAtras', {read: ViewContainerRef, static: false})
   botonAtras: ViewContainerRef;
 
   buscar: FormControl = new FormControl();
+  cantidad: FormControl = new FormControl(1, Validators.min(1));
   resultados = [];
   errores = [];
   subcripciones: Subscription[] = [];
@@ -30,12 +41,8 @@ export class FacturasFormComponent implements OnInit, OnDestroy, AfterViewInit {
   hayClientes: boolean;
   puedeCrearFactura: boolean;
 
-  constructor(private clienteService: ClienteService,
-              private facturaService: FacturaService,
-              private productoService: ProductoService,
-              private rutaActiva: ActivatedRoute,
-              private loader: LazyloaderService,
-              private router: Router) {
+  private static decode(cadena: string): string {
+    return decodeURIComponent(escape(cadena));
   }
 
   ngOnInit() {
@@ -65,15 +72,21 @@ export class FacturasFormComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  select(event: MatAutocompleteSelectedEvent) {
-    this.productoService.getProducto(event.option.value).subscribe(response => {
-      if (!this.hasProducto(response.id)) {
-        this.factura.push(new ItemFactura(response));
-        console.log(response);
-      }
-      this.factura.calcularTotal();
-      this.buscar.setValue('');
+  select(value: string) {
+    this.productoService.getProducto(value).subscribe(response => {
+        this.item = new ItemFactura(response as Producto);
     });
+  }
+
+  pushItem() {
+    if (!this.factura.checkProducto(this.item.producto.id, this.cantidad.value)) {
+      this.item.cantidad = this.cantidad.value;
+      this.factura.items.push(this.item);
+      this.item = null;
+    }
+    this.factura.calcularTotal();
+    this.buscar.reset();
+    this.cantidad.setValue(1);
   }
 
   removeItem(it: ItemFactura) {
@@ -90,26 +103,12 @@ export class FacturasFormComponent implements OnInit, OnDestroy, AfterViewInit {
     this.facturaService.create(this.factura).subscribe(
       response => {
         this.router.navigate(['/clientes', this.factura.cliente.id]).then(() =>
-          swal.fire('Nueva factura', this.decode(response.mensaje), 'success'));
+          swal.fire('Nueva factura', FacturasFormComponent.decode(response.mensaje), 'success'));
       },
       response => {
         this.errores = response.error.errores as string[];
       }
     );
-  }
-
-  private hasProducto(id: number): boolean {
-    for (const item of this.factura.items) {
-      if (item.producto.id === id) {
-        item.cantidad++;
-        return true;
-      }
-    }
-    return false;
-  }
-
-  private decode(cadena: string): string {
-    return decodeURIComponent(escape(cadena));
   }
 
   ngOnDestroy(): void {
@@ -119,7 +118,14 @@ export class FacturasFormComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.loader.load('back-btn', this.botonAtras).then();
+    if (this.botonAtras) {
+      this.loader.load('back-btn', this.botonAtras).then();
+    } else {
+      const sub = interval(250).subscribe(() => {
+        this.ngAfterViewInit();
+        sub.unsubscribe();
+      });
+    }
   }
 
   log(): void {

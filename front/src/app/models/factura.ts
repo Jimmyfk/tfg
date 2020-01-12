@@ -51,12 +51,12 @@ export class Factura {
     return this._items;
   }
 
-  public push(value: ItemFactura) {
-    this.items.push(value);
-  }
-
   set items(value: ItemFactura[]) {
     this._items = value;
+  }
+
+  public push(value: ItemFactura) {
+    this.items.push(value);
   }
 
   get createdAt(): Date {
@@ -81,6 +81,22 @@ export class Factura {
       this._total += item.importe;
     }
     this._total = Number(this._total.toFixed(2));
+  }
+
+  /**
+   * método que comprueba si un producto existe en la factura, incrementa la cantidad del item cuando existe
+   * @param productoId id del producto a comprobar
+   * @param cantidad cantidad de items a comprobar, para sumar si ya existen
+   * @return true si la factura ya tiene el producto, false si no
+   */
+  checkProducto(productoId: number, cantidad: number) {
+    for (const item of this.items) {
+      if (item.producto.id === productoId) {
+        item.cantidad +=  cantidad;
+        return true;
+      }
+    }
+    return false;
   }
 
   toJSON() {
