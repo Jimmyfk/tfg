@@ -120,7 +120,7 @@ ENGINE = InnoDB;
 -- Table `tfg`.`Usuarios_Roles`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `tfg`.`Usuarios_Roles` (
-  `ID` SMALLINT NOT NULL AUTO_INCREMENT,
+  `ID` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `User_ID` SMALLINT UNSIGNED NULL,
   `Rol_ID` TINYINT UNSIGNED NULL,
   PRIMARY KEY (`ID`),
@@ -144,7 +144,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `tfg`.`Privilegios` (
   `ID` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `Privilegio` VARCHAR(50) NULL,
+  `Privilegio` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE INDEX `Privilegio_UNIQUE` (`Privilegio` ASC) )
 ENGINE = InnoDB;
@@ -155,8 +155,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `tfg`.`Privilegios_Roles` (
   `ID` SMALLINT NOT NULL AUTO_INCREMENT,
-  `Rol_ID` TINYINT UNSIGNED NULL,
-  `Privilegio_ID` TINYINT UNSIGNED NULL,
+  `Rol_ID` TINYINT UNSIGNED NOT NULL,
+  `Privilegio_ID` TINYINT UNSIGNED NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE INDEX `Rol_Pivilegio_UNIQUE` (`Rol_ID` ASC, `Privilegio_ID` ASC) ,
   INDEX `FK_PR_Privilegios_idx` (`Privilegio_ID` ASC) ,

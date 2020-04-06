@@ -59,10 +59,12 @@ public class Factura implements Serializable {
 
     public Factura() {
         items = new ArrayList<>();
+        cliente = new Cliente();
+        createdAt = new Date();
     }
 
     public Factura(Cliente cliente) {
-        items = new ArrayList<>();
+        this();
         this.cliente = cliente;
     }
 
