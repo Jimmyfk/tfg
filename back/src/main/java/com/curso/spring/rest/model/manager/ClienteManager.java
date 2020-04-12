@@ -1,6 +1,9 @@
 package com.curso.spring.rest.model.manager;
 
+import com.curso.spring.rest.exception.CustomException;
+import com.curso.spring.rest.exception.RestApiErrorCode;
 import com.curso.spring.rest.model.dao.ClienteDao;
+import com.curso.spring.rest.model.dao.FacturaDao;
 import com.curso.spring.rest.model.entity.Cliente;
 import com.curso.spring.rest.model.services.ClienteService;
 import com.curso.spring.rest.model.services.ErrorService;
@@ -25,11 +28,13 @@ import java.util.Map;
 public class ClienteManager implements ClienteService {
 
     private final ClienteDao clienteDao;
+    private final FacturaDao facturaDao;
     private final ErrorService errorService;
 
     @Autowired
-    public ClienteManager(ClienteDao clienteDao, ErrorService errorService) {
+    public ClienteManager(ClienteDao clienteDao, ErrorService errorService, FacturaDao facturaDao) {
         this.clienteDao = clienteDao;
+        this.facturaDao = facturaDao;
         this.errorService = errorService;
     }
 
@@ -53,17 +58,6 @@ public class ClienteManager implements ClienteService {
     @Transactional(readOnly = true)
     public Cliente findById(Integer id) {
         return clienteDao.findById(id).orElse(null);
-    }
-
-    @Override
-    public void delete(Integer id) {
-        clienteDao.deleteById(id);
-    }
-
-    @Override
-    @Transactional
-    public void delete(Cliente cliente) {
-        clienteDao.delete(cliente);
     }
 
     @Override
@@ -157,15 +151,16 @@ public class ClienteManager implements ClienteService {
     public ResponseEntity<?> remove(Integer id) {
         Map<String, Object> response = new HashMap<>();
 
-        try {
-            this.delete(id);
-        } catch (DataAccessException e) {
-            return errorService.dbError(e, response);
+        // si el cliente no tiene facturas, lo eliminamos
+        if (facturaDao.countAllByClienteId(id) == 0) {
+            clienteDao.deleteById(id);
+            response.put("mensaje", "Cliente eliminado con éxito");
+            return ResponseEntity.ok(response);
+        } else {
+            throw new CustomException(RestApiErrorCode.CLIENTE_CON_FACTURAS);
         }
 
-        response.put("mensaje", "Cliente eliminado con éxito");
 
-        return ResponseEntity.ok(response);
     }
 
     @Override

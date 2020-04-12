@@ -12,4 +12,5 @@ public interface ProductoDao extends JpaRepository<Producto, Integer> {
     List<Producto> findByNombreLikeIgnoreCase(String nombre);
 
     Producto findByNombreIgnoreCase(String nombre);
+
 }

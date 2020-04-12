@@ -72,7 +72,7 @@ export class ClienteService {
   delete(cliente: Cliente): Observable<Cliente> | Cliente | any {
     return this.http.delete<Cliente>(`${this.url}/${cliente.id}`, {headers: this.httpHeaders}).pipe(
       catchError(e => {
-        this.swalService.fire('Error al eliminar el cliente', e.error.error, 'error').then();
+        this.swalService.fire('Error al eliminar el cliente', e.error.message, 'error').then();
         return throwError(e);
       })
     );

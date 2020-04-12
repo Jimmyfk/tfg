@@ -1,5 +1,8 @@
 package com.curso.spring.rest.model.manager;
 
+import com.curso.spring.rest.exception.CustomException;
+import com.curso.spring.rest.exception.RestApiErrorCode;
+import com.curso.spring.rest.model.dao.ItemFacturaDao;
 import com.curso.spring.rest.model.dao.ProductoDao;
 import com.curso.spring.rest.model.entity.Producto;
 import com.curso.spring.rest.model.services.ErrorService;
@@ -21,11 +24,13 @@ import java.util.Map;
 public class ProductoManager implements ProductoService {
 
     private final ProductoDao productoDao;
+    private final ItemFacturaDao itemFacturaDao;
     private final ErrorService errorService;
 
     @Autowired
-    public ProductoManager(ProductoDao productoDao, ErrorService errorService) {
+    public ProductoManager(ProductoDao productoDao, ItemFacturaDao itemFacturaDao, ErrorService errorService) {
         this.productoDao = productoDao;
+        this.itemFacturaDao = itemFacturaDao;
         this.errorService = errorService;
     }
 
@@ -57,12 +62,6 @@ public class ProductoManager implements ProductoService {
     @Override
     public Producto save(Producto producto) {
         return productoDao.save(producto);
-    }
-
-    @Override
-    @Transactional
-    public void delete(Integer id) {
-        productoDao.deleteById(id);
     }
 
     @Override
@@ -156,16 +155,17 @@ public class ProductoManager implements ProductoService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<?> remove(Integer id) {
         Map<String, Object> response = new HashMap<>();
 
-        try {
-            this.delete(id);
-        } catch (DataAccessException e) {
-            return errorService.dbError(e, response);
+        if (itemFacturaDao.countAllByProductoId(id) == 0) {
+            productoDao.deleteById(id);
+            response.put("mensaje", "Producto eliminado");
+            return ResponseEntity.ok(response);
+        } else {
+            throw new CustomException(RestApiErrorCode.PRODUCTO_EXISTE_EN_FACTURA);
         }
-        response.put("mensaje", "Producto eliminado");
-        return ResponseEntity.ok(response);
     }
 
     @Override

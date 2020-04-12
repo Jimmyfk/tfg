@@ -20,4 +20,6 @@ public interface FacturaDao extends JpaRepository<Factura, Integer> {
     Page<Factura> findAllFacturasByClienteOrderById(Cliente cliente, Pageable pageable);
 
     List<Factura> findAllByCliente(Cliente cliente);
+
+    Long countAllByClienteId(Integer clienteId);
 }

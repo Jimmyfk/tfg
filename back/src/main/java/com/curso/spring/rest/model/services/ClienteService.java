@@ -19,10 +19,6 @@ public interface ClienteService {
 
     Cliente findById(Integer id);
 
-    void delete(Integer id);
-
-    void delete(Cliente cliente);
-
     boolean exists(Integer id);
 
     ClienteList index(int page, int size);

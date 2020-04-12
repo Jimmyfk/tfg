@@ -38,7 +38,7 @@ export class ProductosListComponent implements OnInit {
             this.productos = this.productos.filter(prods => prods !== producto);
           },
           error => {
-            swalButtons.fire('Error', error.error.error, 'error').then();
+            swalButtons.fire('Error', error.error.message, 'error').then();
             console.log(error);
           }
         );

@@ -18,8 +18,6 @@ public interface ProductoService {
 
     Producto save(Producto producto);
 
-    void delete(Integer id);
-
     ResponseEntity<?> save(Producto producto, BindingResult result);
 
     ResponseEntity<?> findAll();
