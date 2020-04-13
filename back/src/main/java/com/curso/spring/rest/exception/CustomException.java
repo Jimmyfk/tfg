@@ -8,7 +8,7 @@ public class CustomException extends RuntimeException {
     private RestApiErrorCode error;
 
     public CustomException(RestApiErrorCode error) {
-        super(error.getMessage());
+        super(error.getError());
         this.error = error;
     }
 

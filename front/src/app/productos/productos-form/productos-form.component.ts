@@ -56,9 +56,6 @@ export class ProductosFormComponent implements OnInit, OnDestroy, AfterViewInit 
         this.router.navigate(['productos']).then(() =>
           this.swal.getCustomButton().fire('', response.mensaje, 'info')
         );
-      }, error => {
-        this.errores = error.error.errores as string[];
-        this.swal.getCustomButton().fire('Error al guardar el producto', error.error.mensaje, 'error');
       }
     );
   }
@@ -69,9 +66,6 @@ export class ProductosFormComponent implements OnInit, OnDestroy, AfterViewInit 
         this.router.navigate(['productos']).then(() =>
           this.swal.getCustomButton().fire('', decodeURIComponent(escape(response.mensaje)), 'info')
         );
-      }, error => {
-        this.errores = error.error.errores as string[];
-        this.swal.getCustomButton().fire('Error al modificar el producto', error.error.mensaje, 'error');
       }
     );
   }
@@ -84,7 +78,4 @@ export class ProductosFormComponent implements OnInit, OnDestroy, AfterViewInit 
     this.loader.load('back-btn', this.botonAtras).then();
   }
 
-  setPrecio =  (val)  => {
-    this.producto.precio = Number(val);
-  }
 }

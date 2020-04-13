@@ -2,10 +2,10 @@ export class Producto {
 
   private _id: number;
   private _nombre: string;
-  private _precio: number;
+  private _precio: number | string;
   private _createdAt: Date;
 
-  get id(): number {
+  get id(): number  {
     return this._id;
   }
 
@@ -21,11 +21,11 @@ export class Producto {
     this._nombre = value;
   }
 
-  get precio(): number {
+  get precio(): number | string {
     return this._precio;
   }
 
-  set precio(value: number) {
+  set precio(value: number | string) {
     this._precio = value;
   }
 

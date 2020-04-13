@@ -13,4 +13,6 @@ public interface ProductoDao extends JpaRepository<Producto, Integer> {
 
     Producto findByNombreIgnoreCase(String nombre);
 
+    Boolean existsByNombreAndIdNot(String nombre, Integer productoId);
+
 }

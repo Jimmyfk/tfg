@@ -61,7 +61,11 @@ public class ProductoManager implements ProductoService {
 
     @Override
     public Producto save(Producto producto) {
-        return productoDao.save(producto);
+        // commprobamos si el producto existe
+        if (!productoDao.existsByNombreAndIdNot(producto.getNombre(), producto.getId() == null ? 0 : producto.getId())) {
+            return productoDao.save(producto);
+        }
+        throw new CustomException(RestApiErrorCode.PRODUCTO_NOMBRE_DUPLICADO);
     }
 
     @Override

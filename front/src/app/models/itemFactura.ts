@@ -13,7 +13,7 @@ export class ItemFactura implements OnInit {
     if (producto) {
       this.producto = producto;
       this.cantidad = 1;
-      this.precio = producto.precio;
+      this.precio = producto.precio as number;
     } else if (item) {
       this.id = item.id;
       this.producto = item.producto;
