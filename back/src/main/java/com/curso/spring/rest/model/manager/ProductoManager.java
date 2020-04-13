@@ -1,7 +1,7 @@
 package com.curso.spring.rest.model.manager;
 
 import com.curso.spring.rest.exception.CustomException;
-import com.curso.spring.rest.exception.RestApiErrorCode;
+import com.curso.spring.rest.exception.errors.RestApiErrorCode;
 import com.curso.spring.rest.model.dao.ItemFacturaDao;
 import com.curso.spring.rest.model.dao.ProductoDao;
 import com.curso.spring.rest.model.entity.Producto;
@@ -60,6 +60,7 @@ public class ProductoManager implements ProductoService {
     }
 
     @Override
+    @Transactional()
     public Producto save(Producto producto) {
         // commprobamos si el producto existe
         if (!productoDao.existsByNombreAndIdNot(producto.getNombre(), producto.getId() == null ? 0 : producto.getId())) {
@@ -69,7 +70,6 @@ public class ProductoManager implements ProductoService {
     }
 
     @Override
-    @Transactional
     public ResponseEntity<?> save(Producto producto, BindingResult result) {
         Producto productoNuevo;
         Map<String, Object> response = new HashMap<>();
@@ -138,7 +138,6 @@ public class ProductoManager implements ProductoService {
     }
 
     @Override
-    @Transactional
     public ResponseEntity<?> update(Integer id, Producto producto) {
         Producto actual = this.findById(id);
         Map<String, Object> response = new HashMap<>();

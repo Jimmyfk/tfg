@@ -1,7 +1,7 @@
 package com.curso.spring.rest.model.manager;
 
 import com.curso.spring.rest.exception.CustomException;
-import com.curso.spring.rest.exception.RestApiErrorCode;
+import com.curso.spring.rest.exception.errors.RestApiErrorCode;
 import com.curso.spring.rest.model.dao.ClienteDao;
 import com.curso.spring.rest.model.dao.FacturaDao;
 import com.curso.spring.rest.model.entity.Cliente;

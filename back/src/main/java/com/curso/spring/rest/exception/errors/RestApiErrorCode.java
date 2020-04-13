@@ -1,4 +1,4 @@
-package com.curso.spring.rest.exception;
+package com.curso.spring.rest.exception.errors;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -14,19 +14,19 @@ public enum RestApiErrorCode {
     ;
 
     private final Integer value;
-    private final String error;
+    private final String message;
 
-    RestApiErrorCode(Integer value, String error) {
+    RestApiErrorCode(Integer value, String message) {
         this.value = value;
-        this.error = error;
+        this.message = message;
     }
 
     public Integer getValue() {
         return value;
     }
 
-    public String getError() {
-        return error;
+    public String getMessage() {
+        return message;
     }
 
     public static <T extends Enum<T>> T valueOf(Class<T> enumType, String name) {

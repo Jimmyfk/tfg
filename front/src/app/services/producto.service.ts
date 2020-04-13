@@ -56,7 +56,7 @@ export class ProductoService {
   update(producto: Producto): Observable<Producto> | Producto | any {
     return this.http.put<Producto>(`${this.url}/${producto.id}`, producto, this.httpOptions).pipe(
       catchError(err => {
-        this.swal.fire('Error al modificar el producto', err.error.error , 'error');
+        this.swal.fire('Error al modificar el producto', err.error.message , 'error');
         return throwError(err);
       })
     );
