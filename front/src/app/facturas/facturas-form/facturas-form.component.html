@@ -1,9 +1,3 @@
-  <div class="alert-warning p-1" *ngIf="!puedeCrearFactura">
-    <p>
-      No se pueden crear facturas porque no hay
-      <span *ngIf="!hayClientes">clientes </span><span *ngIf="!hayClientes && !hayProductos">ni </span><span *ngIf="!hayProductos">productos</span>
-    </p>
-  </div>
 <div class="row" #form *ngIf="puedeCrearFactura">
   <form class="col-12 pt-3" method="post"
         enctype="multipart/form-data" #facturaForm="ngForm">

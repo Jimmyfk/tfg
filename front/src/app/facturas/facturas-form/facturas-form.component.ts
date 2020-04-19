@@ -7,11 +7,11 @@ import {FormControl, Validators} from '@angular/forms';
 import {FacturaService} from '../../services/factura.service';
 import {debounceTime, take} from 'rxjs/operators';
 import {ItemFactura} from '../../models/itemFactura';
-import swal from 'sweetalert2';
 import {ProductoService} from '../../services/producto.service';
 import {interval, Observable, Subscription} from 'rxjs';
 import {LazyloaderService} from '../../services/lazy/lazyloader.service';
 import {Producto} from '../../models/producto';
+import {SwalService} from '../../services/swal.service';
 
 @Component({
   selector: 'app-facturas-form',
@@ -24,6 +24,7 @@ export class FacturasFormComponent implements OnInit, OnDestroy, AfterViewInit {
               private productoService: ProductoService,
               private rutaActiva: ActivatedRoute,
               private loader: LazyloaderService,
+              private swal: SwalService,
               private router: Router) {
   }
 
@@ -103,7 +104,7 @@ export class FacturasFormComponent implements OnInit, OnDestroy, AfterViewInit {
     this.facturaService.create(this.factura).subscribe(
       response => {
         this.router.navigate(['/clientes', this.factura.cliente.id]).then(() =>
-          swal.fire('Nueva factura', FacturasFormComponent.decode(response.mensaje), 'success'));
+          this.swal.fire('Nueva factura', FacturasFormComponent.decode(response.mensaje), 'success'));
       },
       response => {
         this.errores = response.error.errores as string[];
@@ -138,11 +139,36 @@ export class FacturasFormComponent implements OnInit, OnDestroy, AfterViewInit {
     this.checkPuedeCrearFactura();
   }
 
-  checkPuedeCrearFactura() {
+  /**
+   * Función recursiva que comprueba si existen clientes y productos para poder crear facturas
+   * Redirige al inicio en caso de que no se puedan crear facturas
+   * @param subscription suscripción creada en el mismo método para cancelarla una vez hechas las comprobaciones
+   */
+  checkPuedeCrearFactura(subscription: Subscription = null) {
     if (this.hayProductos === undefined || this.hayClientes === undefined) {
-      interval(150).subscribe(() => this.checkPuedeCrearFactura());
+      const sub = interval(150).subscribe(() => this.checkPuedeCrearFactura(sub));
       return;
+    } else {
+      subscription.unsubscribe();
     }
     this.puedeCrearFactura = this.hayClientes === true && this.hayProductos === true;
+
+    if (!this.puedeCrearFactura) {
+      this.swal.getCustomButton().fire('Error', this.getMensaje(), 'warning').then(() => this.router.navigate(['/inicio']));
+    }
+  }
+
+  private getMensaje(): string {
+    let mensaje = 'No se pueden crear facturas: ';
+
+    if (this.hayClientes && !this.hayProductos) {
+      mensaje += 'no hay productos';
+    } else if (!this.hayClientes && this.hayProductos) {
+      mensaje += 'no hay clientes';
+    } else if (!this.hayClientes && !this.hayProductos) {
+      mensaje += 'no hay clientes ni productos';
+    }
+
+    return mensaje;
   }
 }
