@@ -85,9 +85,12 @@ export class FacturasFormComponent implements OnInit, OnDestroy, AfterViewInit {
       this.factura.items.push(this.item);
       this.item = null;
     }
-    this.factura.calcularTotal();
-    this.buscar.reset();
+    this.buscar.reset('');
     this.cantidad.setValue(1);
+    const sub = interval(50).subscribe(() => {
+      this.factura.calcularTotal();
+      sub.unsubscribe();
+    });
   }
 
   removeItem(it: ItemFactura) {
