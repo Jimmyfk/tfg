@@ -14,13 +14,14 @@ import {AuthService} from './auth.service';
 export class FacturaService {
 
   private url = environment.api.url + 'facturas';
-  private httpOptions = {};
+  private httpOptions = {
+    headers: new HttpHeaders({'Content-type': 'application/json'})
+  };
 
   constructor(private http: HttpClient,
               private router: Router,
               private swal: SwalService,
               private authService: AuthService) {
-    this.httpOptions = authService.getOptions();
   }
 
   getFacturas(id): Observable<Factura[]> | Factura[] | any {
