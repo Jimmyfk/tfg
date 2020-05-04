@@ -33,7 +33,7 @@ export class FacturasDetalleComponent implements OnInit, OnDestroy, AfterViewIni
       const id = params.id;
       if (id) {
         this.facturaService.getDetalleFactura(id).subscribe(factura => {
-          this.factura = factura;
+          this.factura = Object.assign(new Factura(), factura);
         });
       }
     });
@@ -45,6 +45,14 @@ export class FacturasDetalleComponent implements OnInit, OnDestroy, AfterViewIni
 
   tracker(item) {
     return item.id;
+  }
+
+  exportarPdf() {
+    this.facturaService.getPdf(this.factura.id).subscribe((response) => {
+      console.log(response);
+    }, error => {
+      console.log(error, 'error');
+    });
   }
 
   ngAfterViewInit(): void {

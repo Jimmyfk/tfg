@@ -6,6 +6,7 @@ import {Factura} from '../models/factura';
 import {catchError} from 'rxjs/operators';
 import {Observable, throwError} from 'rxjs';
 import {SwalService} from './swal.service';
+import {AuthService} from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +14,13 @@ import {SwalService} from './swal.service';
 export class FacturaService {
 
   private url = environment.api.url + 'facturas';
-  private httpOptions = {
-    headers: new HttpHeaders({'Content-type': 'application/json'})
-  };
+  private httpOptions = {};
 
   constructor(private http: HttpClient,
               private router: Router,
-              private swal: SwalService) {
+              private swal: SwalService,
+              private authService: AuthService) {
+    this.httpOptions = authService.getOptions();
   }
 
   getFacturas(id): Observable<Factura[]> | Factura[] | any {
@@ -39,6 +40,7 @@ export class FacturaService {
   create(factura: Factura): Observable<Factura> | Factura | any {
     return this.http.post<Factura>(`${this.url}/${factura.cliente.id}`, factura.toJSON(), this.httpOptions).pipe(
       catchError(e => {
+        console.log(e);
         if (e.status === 400 || e.status === 500) {
           return throwError(e);
         }
@@ -51,5 +53,11 @@ export class FacturaService {
     return this.http.delete(`${this.url}/${factura.id}`).pipe(
       catchError(e => throwError(e))
     );
+  }
+
+  getPdf(facturaId: number) {
+    const url = `${this.url}/exportar-pdf/${facturaId}`;
+
+    return this.authService.blob(url);
   }
 }

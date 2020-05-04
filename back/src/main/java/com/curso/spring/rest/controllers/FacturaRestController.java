@@ -3,6 +3,7 @@ package com.curso.spring.rest.controllers;
 import com.curso.spring.rest.model.entity.Factura;
 import com.curso.spring.rest.model.services.FacturaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -50,4 +51,8 @@ public class FacturaRestController {
         return this.facturaService.remove(id);
     }
 
+    @GetMapping(value = "/exportar-pdf/{facturaId}", produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<?> exportarPdf(@PathVariable Integer facturaId){
+        return facturaService.exportPdf(facturaId);
+    }
 }

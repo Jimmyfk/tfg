@@ -28,6 +28,9 @@ dependencies {
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.15'
     compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 
-// https://mvnrepository.com/artifact/commons-configuration/commons-configuration
+    // https://mvnrepository.com/artifact/commons-configuration/commons-configuration
     compile group: 'commons-configuration', name: 'commons-configuration', version: '1.7'
+    // https://mvnrepository.com/artifact/com.itextpdf/itextpdf
+    compile group: 'com.itextpdf', name: 'itextpdf', version: '5.5.13.1'
+
 }
