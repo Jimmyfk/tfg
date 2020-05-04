@@ -12,6 +12,11 @@ import {CookieService} from 'ngx-cookie-service';
 })
 export class AuthService {
 
+  constructor(private http: HttpClient,
+              private cs: CookieService,
+              private router: Router) {
+  }
+
   private url = environment.api.url + 'auth';
   httpOptions = {
     headers: new HttpHeaders({'Content-type': 'application/json'}),
@@ -19,9 +24,19 @@ export class AuthService {
   };
   redirectUrl: string;
 
-  constructor(private http: HttpClient,
-              private cs: CookieService,
-              private router: Router) {
+  private static createHeaders(responseType: string = null) {
+    return new HttpHeaders({
+      'Content-type': 'application/json',
+      Authorization: `Beaver ${environment.api.token}`,
+      responseType: responseType
+    });
+  }
+
+  private static createOptions(responseType: string = null) {
+    return {
+      withCredentials: true,
+      headers: AuthService.createHeaders(responseType)
+    };
   }
 
   register(usuario: Usuario): Observable<Usuario> | Usuario | any {
@@ -38,6 +53,7 @@ export class AuthService {
         (userData: any) => {
           environment.api.token = userData.jwtToken;
           this.cs.set('token', environment.api.token, undefined, '/', 'localhost', location.protocol === 'https:', 'Strict');
+          this.httpOptions = AuthService.createOptions(null);
           return userData;
         }
       ),
@@ -69,8 +85,17 @@ export class AuthService {
     return this.cs.get('token');
   }
 
+  getOptions(): object {
+    return this.httpOptions;
+  }
+
+  blob(url: string) {
+    const options = AuthService.createOptions('blob');
+    console.log(options);
+    return this.http.get(url, options);
+  }
+
   private getData() {
     return JSON.parse(window.atob(this.cs.get('token').split('.')[1]));
   }
-
 }

@@ -10,9 +10,11 @@ export class Factura {
   private _createdAt: Date;
   private _total: number;
 
-  constructor(cliente: Cliente) {
-    this._cliente = cliente;
-    this._items = [];
+  constructor(cliente?: Cliente) {
+    if (cliente) {
+      this._cliente = cliente;
+      this._items = [];
+    }
   }
 
   get id(): number {
@@ -99,7 +101,11 @@ export class Factura {
     return false;
   }
 
-  toJSON() {
+  public stringify() {
+    return JSON.stringify(this).replace(/_/g, '');
+  }
+
+  public toJSON() {
     return {
       id: this.id,
       cliente: this.cliente,

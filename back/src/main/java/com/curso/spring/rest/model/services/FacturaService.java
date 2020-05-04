@@ -36,6 +36,8 @@ public interface FacturaService {
 
     ResponseEntity<?> remove(Integer id);
 
+    ResponseEntity<?> exportPdf(Integer facturaId);
+
 
 
 
