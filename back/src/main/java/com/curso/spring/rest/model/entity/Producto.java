@@ -16,6 +16,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * Entidad que representa un producto en la base de datos
+ */
 @Entity
 @Table(schema = "tfg", name = "productos")
 public class Producto implements Serializable {
@@ -48,6 +51,10 @@ public class Producto implements Serializable {
         setCreatedAt(producto.createdAt);
     }
 
+    /**
+     * Instancia una nueva fecha antes de persistir en la base de datos
+     * todo comprobar si no modifica la fecha al actualizar el producto
+     */
     @PrePersist
     private void prePersist() {
         createdAt = new Date();
@@ -85,6 +92,10 @@ public class Producto implements Serializable {
         this.createdAt = createdAt;
     }
 
+    /**
+     * Copia todos los atributos de un producto menos la id
+     * @param producto producto que se va a copiat
+     */
     public void copy(Producto producto) {
         precio = producto.precio;
         nombre = producto.nombre;

@@ -13,9 +13,12 @@ import javax.validation.constraints.Min;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+/**
+ * Entidad que representa un item de la factura en la base de datos
+ */
 @Entity
 @Table(schema = "tfg", name = "facturas_items")
-public class  ItemFactura implements Serializable {
+public class ItemFactura implements Serializable {
 
     private static final long serialVersionUID = -1142856044917006208L;
 
@@ -23,6 +26,7 @@ public class  ItemFactura implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // relación many to one con producto
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
     private Producto producto;
@@ -72,6 +76,10 @@ public class  ItemFactura implements Serializable {
         this.producto = producto;
     }
 
+    /**
+     * Calcula el importe
+     * @return precio * cantidad
+     */
     public BigDecimal getImporte() {
         return precio.multiply(BigDecimal.valueOf(cantidad));
     }

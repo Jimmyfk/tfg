@@ -2,8 +2,8 @@ package com.curso.spring.rest.paginator;
 
 public class PageItem {
 
-    private int numero;
-    private boolean actual;
+    private final int numero;
+    private final boolean actual;
 
     public PageItem(int numero, boolean actual) {
         this.numero = numero;

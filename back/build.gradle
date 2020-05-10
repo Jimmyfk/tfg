@@ -1,14 +1,22 @@
+/**
+ * En este fichero se configura la build del proyecto y se gestionan las dependencias
+ */
+
 plugins {
+    // configura el proyecto como spring boot
     id 'org.springframework.boot' version '2.2.0.M2'
     id 'java'
 }
 
 apply plugin: 'io.spring.dependency-management'
 
+// nombre y versión del proyecto
 group = 'com.curso.spring'
 version = '0.0.1'
+// versión de java
 sourceCompatibility = '1.8'
 
+// repositorios de las dependencias
 repositories {
     mavenCentral()
     mavenLocal()
@@ -16,6 +24,7 @@ repositories {
     maven { url 'https://repo.spring.io/milestone' }
 }
 
+// dependencias
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security:2.1.2.RELEASE'

@@ -17,9 +17,13 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Entidad que representa al cliente en la base de datos
+ */
+
 @Entity
 @Table(name = "clientes", schema = "tfg")
-public class Cliente  implements Serializable {
+public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 548693643152216215L;
 

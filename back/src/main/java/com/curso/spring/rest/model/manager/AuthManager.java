@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthManager implements AuthService {
 
-    private UsuarioDao usuarioDao;
-    private RolDao rolDao;
-    private PrivilegioDao privilegioDao;
+    private final UsuarioDao usuarioDao;
+    private final RolDao rolDao;
+    private final PrivilegioDao privilegioDao;
 
     @Autowired
     public AuthManager(UsuarioDao usuarioDao, RolDao rolDao, PrivilegioDao privilegioDao) {

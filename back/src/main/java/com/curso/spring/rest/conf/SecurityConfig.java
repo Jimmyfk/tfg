@@ -23,17 +23,20 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
+/**
+ * Configuración de seguridad
+ */
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private JwtAuthEntryPoint jwtAuthEntryPoint;
+    private final JwtAuthEntryPoint jwtAuthEntryPoint;
 
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
-    private BCryptPasswordEncoder encoder;
+    private final BCryptPasswordEncoder encoder;
 
-    private JwtRequestFilter jwtRequestFilter;
+    private final JwtRequestFilter jwtRequestFilter;
 
     @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
     @Override
@@ -55,9 +58,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         build.userDetailsService(userDetailsService).passwordEncoder(encoder);
     }
 
+    /**
+     * <p>Configuración de seguridad web</P>
+     * Ver {@link SessionCreationPolicy#STATELESS}
+     * @param http objeto {@link HttpSecurity} que se va a modificar
+     * @throws Exception si ocurre algun error
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // desactivamos el crsf
         http.csrf().disable();
+
+        // activamos el CORS, permitimos todas las peticiones para el login e inicio
+        // para las demás peticiones es neceseario estar autenticado
         http.cors().and().authorizeRequests().antMatchers("/api/auth/**", "/", "/inicio").permitAll()
             .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
             .anyRequest().authenticated()
@@ -67,6 +80,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
+    /** <p>Configuración CORS</p>
+     * <p>Definimos los orígenes (sitios que podran hacer peticiones), métodos y cabeceras web permitidos</p>
+     * @return {@link CorsConfiguration}
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         final CorsConfiguration configuration = new CorsConfiguration();

@@ -52,7 +52,7 @@ export class AuthService {
       map(
         (userData: any) => {
           environment.api.token = userData.jwtToken;
-          this.cs.set('token', environment.api.token, undefined, '/', 'localhost', location.protocol === 'https:', 'Strict');
+          this.cs.set('token', userData.jwtToken, undefined, '/', 'localhost', location.protocol === 'https:', 'Strict');
           this.httpOptions = AuthService.createOptions(null);
           return userData;
         }

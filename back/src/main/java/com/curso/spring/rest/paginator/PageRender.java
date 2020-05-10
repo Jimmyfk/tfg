@@ -6,14 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PageRender<T> {
+    /**
+     * Clase para devolver un listado de elementos paginado
+     * todo implementar paginación en el cliente
+     */
 
-    private String url;
-    private Page<T> page;
+    private final String url;
+    private final Page<T> page;
 
-    private int total;
-    private int paginaActual;
+    private final int total;
+    private final int paginaActual;
 
-    private List<PageItem> paginas;
+    private final List<PageItem> paginas;
 
     public PageRender(String url, Page<T> page) {
         this.url = url;

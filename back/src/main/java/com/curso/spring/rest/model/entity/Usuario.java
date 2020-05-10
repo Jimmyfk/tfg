@@ -16,6 +16,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * Entidad que representa a un usuario en la base de datos
+ */
 @Entity
 @Table(schema = "tfg", name = "usuarios")
 public class Usuario implements Serializable {
@@ -31,6 +34,7 @@ public class Usuario implements Serializable {
     private String password;
     private Boolean enabled;
 
+    // relación many to many con los roles
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "usuarios_roles",

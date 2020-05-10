@@ -19,8 +19,8 @@ import java.io.IOException;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    private JwtUserDetailsService userDetailsService;
-    private JwtTokenUtil jwtTokenUtil;
+    private final JwtUserDetailsService userDetailsService;
+    private final JwtTokenUtil jwtTokenUtil;
 
     @Autowired
     public JwtRequestFilter(JwtUserDetailsService userDetailsService, JwtTokenUtil tokenUtil) {

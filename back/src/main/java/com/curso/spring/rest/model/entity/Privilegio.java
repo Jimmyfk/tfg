@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 
+/**
+ * Entidad que representa un privilegio en la base de datos
+ */
 @Entity
 @Table(name = "privilegios")
 public class Privilegio implements Serializable {

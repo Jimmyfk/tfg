@@ -15,6 +15,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * Entidad que representa un rol en la base de datos
+ */
 @Entity
 @Table(schema = "tfg", name = "roles")
 public class Rol implements Serializable {
@@ -27,6 +30,7 @@ public class Rol implements Serializable {
 
     private String rol;
 
+    // relación many to many con los privilegios
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "privilegios_roles",

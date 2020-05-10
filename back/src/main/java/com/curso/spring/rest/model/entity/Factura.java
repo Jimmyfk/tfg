@@ -27,6 +27,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Entidad que representa a la factura en la base de datos
+ */
 @Entity
 @Table(name = "facturas", schema = "tfg")
 public class Factura implements Serializable {
@@ -47,11 +50,13 @@ public class Factura implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createdAt;
 
+    // relación many to one con clientes
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     @NotNull
     private Cliente cliente;
 
+    // relación one to many con los items
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "factura_id")
     @NotEmpty(message = "no se puede crear una factura sin productos")
