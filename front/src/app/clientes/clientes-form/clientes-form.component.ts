@@ -21,6 +21,8 @@ export class ClientesFormComponent implements OnInit, OnDestroy, AfterViewInit {
   public destroySubject$: Subject<void> = new Subject();
   @ViewChild('botonAtras', {read: ViewContainerRef, static: false})
   botonAtras: ViewContainerRef;
+  pw: string;
+  pw2: string;
 
   constructor(private clienteService: ClienteService,
               private swal: SwalService,
@@ -44,16 +46,18 @@ export class ClientesFormComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public create(): void {
-    this.clienteService.create(this.cliente).subscribe(
-      response => {
-        this.router.navigate(['/clientes']).then(() => this.swal.fire('Nuevo cliente', this.decode(response.mensaje), 'success'));
-      },
-      response => {
-        this.errores = response.error.errores as string[];
-        console.error(this.errores);
-        console.error('Código de error: ' + response.status);
-      }
-    );
+    if (this.validar()) {
+      this.clienteService.create(this.cliente, this.pw).subscribe(
+        response => {
+          this.router.navigate(['/clientes']).then(() => this.swal.fire('Nuevo cliente', this.decode(response.mensaje), 'success'));
+        },
+        response => {
+          this.errores = response.error.errores as string[];
+          console.error(this.errores);
+          console.error('Código de error: ' + response.status);
+        }
+      );
+    }
   }
 
   public update(): void {
@@ -83,5 +87,25 @@ export class ClientesFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.loader.load('back-btn', this.botonAtras).then();
+  }
+
+  private validar() {
+
+    if (!this.pw) {
+      this.swal.getCustomButton().fire('Error', 'La contraseña es obligatoria', 'error');
+      return false;
+    }
+
+    if (!this.pw2) {
+      this.swal.getCustomButton().fire('Aviso', 'Confirma la contraseña', 'warning');
+      return false;
+    }
+
+    if (this.pw !== this.pw2) {
+      this.swal.getCustomButton().fire('Error', 'Las contraseñas no coinciden', 'error');
+      return false;
+    }
+
+    return true;
   }
 }

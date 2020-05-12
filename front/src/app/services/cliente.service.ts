@@ -42,8 +42,8 @@ export class ClienteService {
     );
   }
 
-  create(cliente: Cliente): Observable<Cliente> | Cliente | any {
-    return this.http.post<Cliente>(this.url, cliente, {headers: this.httpHeaders}).pipe(
+  create(cliente: Cliente, pw: string): Observable<Cliente> | Cliente | any {
+    return this.http.post<Cliente>(this.url + '?password=' + pw, cliente, {headers: this.httpHeaders}).pipe(
       catchError(e => {
         if (e.status === 400) {
           return throwError(e);

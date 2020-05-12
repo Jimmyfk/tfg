@@ -9,6 +9,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase envoltoria para un listado de clientes, se usará para paginar y exportar a xml
+ */
 @XmlRootElement(name = "clientes")
 public class ClienteList implements Serializable {
 

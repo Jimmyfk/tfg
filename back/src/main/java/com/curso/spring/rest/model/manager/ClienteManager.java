@@ -5,6 +5,8 @@ import com.curso.spring.rest.exception.errors.RestApiErrorCode;
 import com.curso.spring.rest.model.dao.ClienteDao;
 import com.curso.spring.rest.model.dao.FacturaDao;
 import com.curso.spring.rest.model.entity.Cliente;
+import com.curso.spring.rest.model.entity.Usuario;
+import com.curso.spring.rest.model.services.AuthService;
 import com.curso.spring.rest.model.services.ClienteService;
 import com.curso.spring.rest.model.services.ErrorService;
 import export.ClienteList;
@@ -24,18 +26,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *
+ */
 @Service
 public class ClienteManager implements ClienteService {
 
     private final ClienteDao clienteDao;
     private final FacturaDao facturaDao;
     private final ErrorService errorService;
+    private final AuthService authService;
 
     @Autowired
-    public ClienteManager(ClienteDao clienteDao, ErrorService errorService, FacturaDao facturaDao) {
+    public ClienteManager(ClienteDao clienteDao, ErrorService errorService, FacturaDao facturaDao, AuthService authService) {
         this.clienteDao = clienteDao;
         this.facturaDao = facturaDao;
         this.errorService = errorService;
+        this.authService = authService;
     }
 
     @Override
@@ -67,19 +74,16 @@ public class ClienteManager implements ClienteService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public ClienteList index(int page, int size) {
         return new ClienteList(this.findAll(PageRequest.of(page, size)).getContent());
     }
 
     @Override
-    @Transactional(readOnly = true)
     public ClienteList export() {
         return new ClienteList(this.findAll());
     }
 
     @Override
-    @Transactional(readOnly = true)
     public ResponseEntity<?> show(Integer id) {
         Cliente cliente;
         Map<String, Object> response = new HashMap<>();
@@ -99,8 +103,19 @@ public class ClienteManager implements ClienteService {
     }
 
     @Override
+    public ResponseEntity<?> getUsuario(Integer clienteId) {
+        Map<String, Object> response = new HashMap<>();
+
+        Usuario usuario = authService.findByClienteId(clienteId);
+
+        response.put("usuario", usuario);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @Override
     @Transactional
-    public ResponseEntity<?> create(@Valid Cliente cliente, BindingResult result) {
+    public ResponseEntity<?> create(@Valid Cliente cliente, BindingResult result, String password) {
         Cliente clienteNew;
         Map<String, Object> response = new HashMap<>();
 
@@ -109,6 +124,8 @@ public class ClienteManager implements ClienteService {
 
         try {
             clienteNew = this.save(cliente);
+            Usuario usuario = new Usuario(clienteNew, password);
+            authService.saveCliente(usuario);
         } catch(DataAccessException e) {
             return errorService.dbError(e, response);
         }
@@ -119,7 +136,6 @@ public class ClienteManager implements ClienteService {
     }
 
     @Override
-    @Transactional
     public ResponseEntity<?> update(@Valid Cliente cliente, BindingResult result, Integer id) {
         Cliente clienteActual = this.findById(id);
         Map<String, Object> response = new HashMap<>();
@@ -168,7 +184,7 @@ public class ClienteManager implements ClienteService {
     public ResponseEntity<?> existenClientes() {
         Map<String, Object> body = new HashMap<>();
         try {
-            Integer numCLientes = countAll();
+            Long numCLientes = countAll();
             body.put("existenClientes", numCLientes > 0);
         } catch (Exception e) {
             e.printStackTrace();
@@ -178,8 +194,8 @@ public class ClienteManager implements ClienteService {
     }
 
     @Override
-    public Integer countAll() {
-        return clienteDao.findAll().size();
+    public Long countAll() {
+        return clienteDao.count();
     }
 
 }

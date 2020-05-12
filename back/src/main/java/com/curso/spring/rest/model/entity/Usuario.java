@@ -33,6 +33,7 @@ public class Usuario implements Serializable {
     private String username;
     private String password;
     private Boolean enabled;
+    private Integer clienteId;
 
     // relación many to many con los roles
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -46,6 +47,13 @@ public class Usuario implements Serializable {
 
     public Usuario() {
         roles = new ArrayList<>();
+    }
+
+    public Usuario(Cliente cliente, String password) {
+        this();
+        username = cliente.getEmail();
+        clienteId = cliente.getId();
+        this.password = password;
     }
 
     public Integer getId() {
@@ -90,6 +98,14 @@ public class Usuario implements Serializable {
 
     public void addRol(Rol rol) {
         roles.add(rol);
+    }
+
+    public Integer getClienteId() {
+        return clienteId;
+    }
+
+    public void setClienteId(Integer clienteId) {
+        this.clienteId = clienteId;
     }
 
     @PrePersist

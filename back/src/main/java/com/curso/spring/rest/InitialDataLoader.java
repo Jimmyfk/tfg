@@ -45,10 +45,13 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         // si no hay roles creados, se crean los privilegios de escritura y lectura y los roles de administrador y usuario
         Privilegio read = createPrivilegeIfNotFound("READ_PRIVILEGE");
         Privilegio write = createPrivilegeIfNotFound("WRITE_PRIVILEGE");
+        Privilegio root = createPrivilegeIfNotFound("SUPER_PRIVILEGE");
 
-        List<Privilegio> adminPrivileges = Arrays.asList(read, write);
+        List<Privilegio> adminPrivileges = Arrays.asList(read, write, root);
+        List<Privilegio> clientePrivileges = Arrays.asList(read, write);
         createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
         createRoleIfNotFound("ROLE_USER", Collections.singletonList(read));
+        createRoleIfNotFound("ROLE_CLIENTE", clientePrivileges);
 
         alreadySetup = true;
     }

@@ -55,8 +55,13 @@ public class ClienteRestController {
 
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     @PostMapping()
-    public ResponseEntity<?> create(@Valid @RequestBody Cliente cliente, BindingResult result) {
-        return this.clienteService.create(cliente, result);
+    public ResponseEntity<?> create(@Valid @RequestBody Cliente cliente, BindingResult result, @RequestParam String password) {
+        return this.clienteService.create(cliente, result, password);
+    }
+
+    @GetMapping("/{clienteId}")
+    public ResponseEntity<?> getUsuario(@PathVariable Integer clienteId) {
+        return clienteService.getUsuario(clienteId);
     }
 
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")

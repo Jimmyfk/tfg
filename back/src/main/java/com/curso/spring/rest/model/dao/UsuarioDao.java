@@ -23,4 +23,6 @@ public interface UsuarioDao extends JpaRepository<Usuario, Integer> {
      */
     @Override
     void delete(Usuario entity);
+
+    Usuario findByClienteId(Integer clienteId);
 }
