@@ -39,7 +39,7 @@ export class ClienteGuard implements CanActivate, CanActivateChild, CanLoad {
       return true;
     }
 
-    this.swal.getCustomButton().fire('', '');
+    this.swal.getCustomButton().fire('Acceso denegado', '', 'warning');
   }
   canActivateChild(
     next: ActivatedRouteSnapshot,
