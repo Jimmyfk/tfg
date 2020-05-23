@@ -1,6 +1,6 @@
 <div class="container" *ngIf="cliente">
   <div class="card bg-light">
-    <div class="card-header">Detalles del cliente</div>
+    <div class="card-header">{{titulo}}</div>
     <div class="card-body">
       <ul class="list-group my-2">
         <li class="list-group-item list-group-item-primary">
@@ -12,8 +12,9 @@
         <li class="list-group-item">
           Fecha de creación: {{cliente.createdAt | date: 'longDate'}}
         </li>
-        <li class="list-group-item" *ngIf="isAdmin()">
+        <li class="list-group-item" *ngIf="isAdmin() || isCliente()">
           <button class="btn btn-sm btn-success" [routerLink]="['/factura/nueva', cliente.id]">Crear Factura</button>
+          <button class="btn btn-sm btn-info mx-1" [routerLink]="['/clientes/editar', cliente.id]" [hidden]="!isCliente()">Modificar cuenta de usuario</button>
         </li>
       </ul>
       <div class="container wrapper" *ngIf="facturas && facturas.length > 0; else sinFactura">
@@ -45,7 +46,7 @@
       </div>
       <ng-template #sinFactura>
         <div class="aler alert-info mb-2 py-1">
-          El cliente {{cliente.nombre}} {{cliente.apellidos}} no tiene facturas
+          {{noFactura}}
         </div>
       </ng-template>
       <ng-container #botonAtras class="ml-3"></ng-container>

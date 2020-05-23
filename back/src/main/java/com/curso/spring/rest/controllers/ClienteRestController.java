@@ -1,6 +1,7 @@
 package com.curso.spring.rest.controllers;
 
 import com.curso.spring.rest.model.entity.Cliente;
+import com.curso.spring.rest.model.services.AuthService;
 import com.curso.spring.rest.model.services.ClienteService;
 import export.ClienteList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,12 @@ import javax.validation.Valid;
 public class ClienteRestController {
 
     private final ClienteService clienteService;
+    private final AuthService authService;
 
     @Autowired
-    public ClienteRestController(ClienteService clienteService) {
+    public ClienteRestController(ClienteService clienteService, AuthService authService) {
         this.clienteService = clienteService;
+        this.authService = authService;
     }
 
     // todo: Adaptar el front a la paginación
@@ -48,9 +51,14 @@ public class ClienteRestController {
        return this.clienteService.show(id);
     }
 
+    @PostMapping("/{id}/modificar-password")
+    public ResponseEntity<?> updatePassword(@PathVariable Integer id, @RequestParam String password) {
+        return this.authService.actualizarPassword(id, password);
+    }
+
     @GetMapping("/existen")
     public ResponseEntity<?> existenClientes() {
-        return clienteService.existenClientes();
+        return this.clienteService.existenClientes();
     }
 
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
@@ -59,9 +67,9 @@ public class ClienteRestController {
         return this.clienteService.create(cliente, result, password);
     }
 
-    @GetMapping("/{clienteId}")
+    @GetMapping("/usuario/{clienteId}")
     public ResponseEntity<?> getUsuario(@PathVariable Integer clienteId) {
-        return clienteService.getUsuario(clienteId);
+        return this.clienteService.getUsuario(clienteId);
     }
 
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")

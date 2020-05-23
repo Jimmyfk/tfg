@@ -7,7 +7,7 @@
           <label class="col-form-label text-right col-2">Cliente</label>
           <div class="col-10">
             <input type="text" class="form-control"
-                   value="{{factura.cliente.nombre}} {{factura.cliente.apellidos}}"
+                   [value]="factura.cliente?.nombre + ' ' + factura.cliente?.apellidos"
                    disabled="disabled"/>
           </div>
         </div>

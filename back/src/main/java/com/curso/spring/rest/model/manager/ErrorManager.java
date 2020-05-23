@@ -23,7 +23,7 @@ public class ErrorManager implements ErrorService {
                         : err.getDefaultMessage())
                 .collect(Collectors.toList());
         response.put("errores", errors);
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     private boolean isList(String field) {

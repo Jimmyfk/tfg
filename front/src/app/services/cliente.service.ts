@@ -42,6 +42,10 @@ export class ClienteService {
     );
   }
 
+  getUsuario(clienteId: number) {
+    return this.http.get(`${this.url}/usuario/${clienteId}`);
+  }
+
   create(cliente: Cliente, pw: string): Observable<Cliente> | Cliente | any {
     return this.http.post<Cliente>(this.url + '?password=' + pw, cliente, {headers: this.httpHeaders}).pipe(
       catchError(e => {
@@ -56,8 +60,6 @@ export class ClienteService {
   }
 
   update(cliente: Cliente): Observable<Cliente> | Cliente | any {
-    console.log(cliente);
-    console.log(cliente.apellidos);
     return this.http.put<Cliente>(`${this.url}/${cliente.id}`, cliente, {headers: this.httpHeaders}).pipe(
       catchError(e => {
         if (e.status === 400) {
@@ -67,6 +69,10 @@ export class ClienteService {
           throwError(e));
       })
     );
+  }
+
+  updatePassword(clienteId: number, password: string) {
+    return this.http.post(`${this.url}/${clienteId}/modificar-password?password=${password}`, {headers: this.httpHeaders});
   }
 
   delete(cliente: Cliente): Observable<Cliente> | Cliente | any {

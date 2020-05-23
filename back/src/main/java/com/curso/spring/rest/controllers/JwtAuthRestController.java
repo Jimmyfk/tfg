@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/api/auth")
+@RequestMapping("/api/auth")
 public class JwtAuthRestController {
 
     private final AuthenticationManager authenticationManager;
@@ -45,23 +45,23 @@ public class JwtAuthRestController {
         this.errorService = errorService;
     }
 
-    @PostMapping(value = "/login")
+    @PostMapping("/login")
     public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authRequest)  {
         try {
-            authenticate(authRequest.getUsername(), authRequest.getPassword());
+            this.authenticate(authRequest.getUsername(), authRequest.getPassword());
         } catch (BadCredentialsException e) {
             return ResponseEntity.notFound().build();
         }
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
-        return ResponseEntity.ok(new JwtResponse(this.jwtTokenUtil.generateToken(userDetails, authService.findByUsername(authRequest.getUsername()).getRoles())));
+        final UserDetails userDetails = this.userDetailsService.loadUserByUsername(authRequest.getUsername());
+        return ResponseEntity.ok(new JwtResponse(this.jwtTokenUtil.generateToken(userDetails, this.authService.findByUsername(authRequest.getUsername()))));
     }
 
-    @PostMapping(value = {"/register"})
+    @PostMapping("/register")
     public ResponseEntity<?> saveUser(@RequestBody Usuario user) {
         final Usuario usuario;
         Map<String, Object> response = new HashMap<>();
-        if (firstUser()) {
-            user.addRol(authService.findByRol("ROLE_ADMIN"));
+        if (this.firstUser()) {
+            user.addRol(this.authService.findByRol("ROLE_ADMIN"));
         }
 
         try {
@@ -78,20 +78,20 @@ public class JwtAuthRestController {
         return ResponseEntity.accepted().body(response);
     }
 
-    @DeleteMapping(value = "/delete/{userId}")
+    @DeleteMapping("/delete/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable Integer userId) {
         return null;
     }
 
     private void authenticate(String username, String password) {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (BadCredentialsException e) {
             throw new BadCredentialsException("INVALID_CREDENTIALS", e);
         }
     }
 
     private boolean firstUser() {
-        return authService.countUsuarios() == 0;
+        return this.authService.countUsuarios() == 0;
     }
 }

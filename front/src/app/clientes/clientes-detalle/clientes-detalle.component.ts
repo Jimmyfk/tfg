@@ -21,6 +21,8 @@ export class ClientesDetalleComponent implements OnInit, OnDestroy, AfterViewIni
   @ViewChild('botonAtras', {read: ViewContainerRef, static: false})
   botonAtras: ViewContainerRef;
   destroySub$: Subject<void> = new Subject();
+  titulo: string;
+  noFactura: string;
 
   constructor(private clienteService: ClienteService,
               private facturaService: FacturaService,
@@ -35,11 +37,14 @@ export class ClientesDetalleComponent implements OnInit, OnDestroy, AfterViewIni
       this.cliente = data.cliente;
     });
     this.getFacturas();
+    this.titulo = this.isCliente() ? 'Mi cuenta' : 'Detalles del cliente';
+    this.noFactura = this.isCliente() ? 'No tienes ninguna factura'
+                                      : `El cliente ${this.cliente.nombre} ${this.cliente.apellidos} no tiene facturas`;
   }
 
   getFacturas() {
     this.rutaActiva.params.pipe(takeUntil(this.destroySub$)).subscribe(params => {
-      const id = params.id;
+      const id = params.clienteId;
       if (id) {
         this.facturaService.getFacturas(id).subscribe(facturas => {
           this.facturas = facturas;
@@ -61,12 +66,10 @@ export class ClientesDetalleComponent implements OnInit, OnDestroy, AfterViewIni
       if (result.value) {
         this.facturaService.delete(factura).subscribe(
           response => {
-            console.log(response);
             this.facturas = this.facturas.filter(fact => fact !== factura);
             alert.fire('', 'Factura eliminada', 'info').then();
           },
           err => {
-            console.log(err);
           }
         );
       }
@@ -75,6 +78,10 @@ export class ClientesDetalleComponent implements OnInit, OnDestroy, AfterViewIni
 
   isAdmin() {
     return this.authService.isAdmin();
+  }
+
+  isCliente() {
+    return this.authService.hasRole('CLIENTE');
   }
 
   ngOnDestroy(): void {
@@ -86,6 +93,8 @@ export class ClientesDetalleComponent implements OnInit, OnDestroy, AfterViewIni
   }
 
   ngAfterViewInit(): void {
-    this.loader.load('back-btn', this.botonAtras).then();
+    if (!this.authService.hasRole('CLIENTE')) {
+      this.loader.load('back-btn', this.botonAtras).then();
+    }
   }
 }

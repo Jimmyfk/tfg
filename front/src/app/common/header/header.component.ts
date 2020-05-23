@@ -8,13 +8,18 @@ import {LazyloaderService} from '../../services/lazy/lazyloader.service';
   styleUrls: []
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
+
   @ViewChild('auth', {read: ViewContainerRef, static: false})
   auth: ViewContainerRef;
+
+  isCliente: boolean;
+
   constructor(private authService: AuthService,
               private loader: LazyloaderService) {
   }
 
   ngOnInit() {
+    this.isCliente = this.authService.hasRole('CLIENTE');
   }
 
   isAdmin() {

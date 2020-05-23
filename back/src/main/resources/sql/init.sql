@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `tfg`.`Usuarios` (
   PRIMARY KEY (`ID`),
   UNIQUE INDEX `Username_UNIQUE` (`Username` ASC),
   CONSTRAINT `FK_Usuarios_Clientes`
-   FOREIGN KEY `UsuarioId`
+   FOREIGN KEY (`ClienteId`)
    REFERENCES `tfg`.`Clientes` (`ID`)
    ON DELETE CASCADE
    ON UPDATE CASCADE )

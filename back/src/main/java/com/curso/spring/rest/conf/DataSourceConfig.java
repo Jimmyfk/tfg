@@ -28,72 +28,72 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
-@PropertySource(value = "classpath:datasource.properties")
+@PropertySource("classpath:datasource.properties")
 @Configuration
 @EnableTransactionManagement
 public class DataSourceConfig {
 
     private static final Logger LOG = LoggerFactory.getLogger(DataSourceConfig.class);
 
-    @Value(value = "${db.url}")
+    @Value("${db.url}")
     private String url;
 
-    @Value(value = "${db.user}")
+    @Value("${db.user}")
     private String username;
 
-    @Value(value = "${db.password}")
+    @Value("${db.password}")
     private String password;
 
-    @Value(value = "${db.schema}")
+    @Value("${db.schema}")
     private String esquema;
 
-    @Value(value = "${db.conector}")
+    @Value("${db.conector}")
     private String conector;
 
-    @Value(value = "${db.host}")
+    @Value("${db.host}")
     private String host;
 
-    @Value(value = "${db.params}")
+    @Value("${db.params}")
     private String params;
 
-    @Value(value = "${db.driver}")
+    @Value("${db.driver}")
     private String driver;
 
-    @Value(value = "${ruta.script.inicial}")
+    @Value("${ruta.script.inicial}")
     private String rutaScript;
 
-    @Value(value = "${db.dialect}")
+    @Value("${db.dialect}")
     private String dialecto;
 
-    @Value(value = "${db.ddl-auto}")
+    @Value("${db.ddl-auto}")
     private String ddlAuto;
 
-    @Value(value = "${db.show-sql}")
+    @Value("${db.show-sql}")
     private String showSql;
 
-    @Value(value = "${db.new-id-generator}")
+    @Value("${db.new-id-generator}")
     private Boolean newIdGenerator;
 
-    @Value(value = "${db.esquema.creado}")
+    @Value("${db.esquema.creado}")
     private Boolean creado;
 
-    @Value(value = "${ruta.datasource.properties}")
+    @Value("${ruta.datasource.properties}")
     private String rutaProperties;
 
     @Bean(name = "dataSource")
     public DriverManagerDataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource(getUrl(), username, password);
-        dataSource.setDriverClassName(driver);
+        DriverManagerDataSource dataSource = new DriverManagerDataSource(this.getUrl(), this.username, this.password);
+        dataSource.setDriverClassName(this.driver);
 
         // crear base de datos
-        if (!creado) {
-            crearEsquema(dataSource);
-            setUrl();
-            dataSource.setUrl(url);
+        if (!this.creado) {
+            this.crearEsquema(dataSource);
+            this.setUrl();
+            dataSource.setUrl(this.url);
         }
 
-        comprobarCreacion(dataSource);
-        dataSource.setSchema(esquema);
+        this.comprobarCreacion(dataSource);
+        dataSource.setSchema(this.esquema);
 
         return dataSource;
     }
@@ -101,12 +101,12 @@ public class DataSourceConfig {
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
-        entityManager.setDataSource(dataSource());
+        entityManager.setDataSource(this.dataSource());
         entityManager.setPackagesToScan("com.curso.spring.rest.model");
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         entityManager.setJpaVendorAdapter(vendorAdapter);
-        entityManager.setJpaProperties(configuracionesAdicionales());
+        entityManager.setJpaProperties(this.configuracionesAdicionales());
 
         return entityManager;
     }
@@ -130,41 +130,41 @@ public class DataSourceConfig {
     }
 
     private void crearEsquema(DriverManagerDataSource dataSource) {
-        Resource initSchema = new ClassPathResource(rutaScript);
+        Resource initSchema = new ClassPathResource(this.rutaScript);
 
         DatabasePopulator databasePopulator = new ResourceDatabasePopulator(initSchema);
         DatabasePopulatorUtils.execute(databasePopulator, dataSource);
 
         // ponemos la variable creado a true para no repetir el proceso
-        setEsquemaCreado(true);
+        this.setEsquemaCreado(true);
     }
 
     private void setEsquemaCreado(Boolean creado) {
-        guardarConf("db.esquema.creado", creado);
+        this.guardarConf("db.esquema.creado", creado);
         this.creado = creado;
     }
 
     private String getUrl() {
-        if (url.isEmpty()) {
-            setUrl();
+        if (this.url.isEmpty()) {
+            this.setUrl();
         }
-        return url;
+        return this.url;
     }
 
     private void setUrl() {
-        if (creado) {
-            url = conector + host + esquema + params;
+        if (this.creado) {
+            this.url = this.conector + this.host + this.esquema + this.params;
         } else {
-            url =  conector + host + params;
+            this.url = this.conector + this.host + this.params;
         }
 
-        guardarConf("db.url", url);
+        this.guardarConf("db.url", this.url);
     }
 
     private void guardarConf(String propiedad, Object valor) {
 
         try {
-            PropertiesConfiguration conf = new PropertiesConfiguration(rutaProperties);
+            PropertiesConfiguration conf = new PropertiesConfiguration(this.rutaProperties);
             conf.setProperty(propiedad, valor);
             conf.save();
             LOG.info(propiedad + " = " + valor);
@@ -177,10 +177,10 @@ public class DataSourceConfig {
     private Properties configuracionesAdicionales() {
         Properties properties = new Properties();
 
-        properties.setProperty("hibernate.dialect", dialecto);
-        properties.setProperty("hibernate.ddl-auto", ddlAuto);
-        properties.setProperty("show-sql", showSql);
-        properties.setProperty("hibernate.use-new-id-generator-mappings", newIdGenerator.toString());
+        properties.setProperty("hibernate.dialect", this.dialecto);
+        properties.setProperty("hibernate.ddl-auto", this.ddlAuto);
+        properties.setProperty("show-sql", this.showSql);
+        properties.setProperty("hibernate.use-new-id-generator-mappings", this.newIdGenerator.toString());
 
         return properties;
     }
@@ -192,8 +192,8 @@ public class DataSourceConfig {
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
-            setEsquemaCreado(false);
-            crearEsquema(dataSource);
+            this.setEsquemaCreado(false);
+            this.crearEsquema(dataSource);
             return false;
         }
     }

@@ -7,9 +7,16 @@ import com.curso.spring.rest.model.entity.Privilegio;
 import com.curso.spring.rest.model.entity.Rol;
 import com.curso.spring.rest.model.entity.Usuario;
 import com.curso.spring.rest.model.services.AuthService;
+import com.curso.spring.rest.model.services.ErrorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Implementación de {@link AuthService}
@@ -20,13 +27,15 @@ public class AuthManager implements AuthService {
     private final UsuarioDao usuarioDao;
     private final RolDao rolDao;
     private final PrivilegioDao privilegioDao;
+    private final ErrorService errorService;
     private final BCryptPasswordEncoder encoder;
 
     @Autowired
-    public AuthManager(UsuarioDao usuarioDao, RolDao rolDao, PrivilegioDao privilegioDao, BCryptPasswordEncoder encoder) {
+    public AuthManager(UsuarioDao usuarioDao, RolDao rolDao, PrivilegioDao privilegioDao, ErrorService errorService, BCryptPasswordEncoder encoder) {
         this.usuarioDao = usuarioDao;
         this.rolDao = rolDao;
         this.privilegioDao = privilegioDao;
+        this.errorService = errorService;
         this.encoder = encoder;
     }
 
@@ -35,34 +44,63 @@ public class AuthManager implements AuthService {
      */
     @Override
     public Usuario findByUsername(String username) {
-        return usuarioDao.findByUsername(username);
+        return this.usuarioDao.findByUsername(username);
     }
 
     @Override
     public Usuario findByClienteId(Integer clienteId) {
-        return usuarioDao.findByClienteId(clienteId);
+        return this.usuarioDao.findByClienteId(clienteId);
     }
 
     @Override
     public Rol findByRol(String rol) {
-        return rolDao.findByRol(rol);
+        return this.rolDao.findByRol(rol);
     }
 
     @Override
     public Privilegio findByPrivilegio(String privilegio) {
-        return privilegioDao.findByPrivilegio(privilegio);
+        return this.privilegioDao.findByPrivilegio(privilegio);
     }
 
     /**
      * Guarda un usuario y lo retorna, ya que el guardado ha podido modificar la instancia.
      *
      * @param usuario usuario a guardar, no puede ser {@literal null}
-     * @returnel el usuario guardado
+     * @return el el usuario guardado
      */
     @Override
     public Usuario saveUsuario(Usuario usuario) {
-        return usuarioDao.save(usuario);
+        return this.usuarioDao.save(usuario);
     }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param usuarioId id del usuario que se va a modificar
+     * @param password  nueva contraseña del usuario
+     * @return respuesta con el resultado de la operación
+     */
+    @Transactional
+    @Override
+    public ResponseEntity<?> actualizarPassword(Integer usuarioId, String password) {
+        Map<String, Object> body = new HashMap<>();
+        ResponseEntity<?> resultado = null;
+
+        try {
+            int res = this.usuarioDao.updatePassword(usuarioId, password);
+            if (res == 1) {
+                body.put("mensaje", "Contraseña actualizada correctamente");
+                resultado = ResponseEntity.ok(body);
+            } else {
+                body.put("mensaje", "Error al actualizar la contraseña");
+                resultado = ResponseEntity.ok(body);
+            }
+        } catch (DataAccessException e) {
+            resultado = this.errorService.dbError(e, body);
+        }
+        return resultado;
+    }
+
 
     /**
      * Crea un usuario para un cliente
@@ -72,9 +110,9 @@ public class AuthManager implements AuthService {
      */
     @Override
     public Usuario saveCliente(Usuario usuario) {
-        usuario.setPassword(encoder.encode(usuario.getPassword()));
-        usuario.addRol(findByRol("ROLE_CLIENTE"));
-        return usuarioDao.save(usuario);
+        usuario.setPassword(this.encoder.encode(usuario.getPassword()));
+        usuario.addRol(this.findByRol("ROLE_CLIENTE"));
+        return this.usuarioDao.save(usuario);
     }
 
     /**
@@ -95,7 +133,7 @@ public class AuthManager implements AuthService {
      */
     @Override
     public Rol saveRol(Rol rol) {
-        return rolDao.save(rol);
+        return this.rolDao.save(rol);
     }
 
     /**
@@ -104,7 +142,7 @@ public class AuthManager implements AuthService {
      */
     @Override
     public Privilegio savePrivilegio(Privilegio privilegio) {
-        return privilegioDao.save(privilegio);
+        return this.privilegioDao.save(privilegio);
     }
 
     /**
@@ -113,7 +151,7 @@ public class AuthManager implements AuthService {
     @Override
     public long countUsuarios() {
         try {
-            return usuarioDao.count();
+            return this.usuarioDao.count();
         } catch (Exception e) {
             e.printStackTrace();
             return -1;
@@ -128,6 +166,6 @@ public class AuthManager implements AuthService {
      */
     @Override
     public long countRoles() {
-        return rolDao.count();
+        return this.rolDao.count();
     }
 }

@@ -63,7 +63,7 @@ export class AuthService {
 
   logout() {
     environment.api.token = '';
-    this.cs.delete('token');
+    this.cs.delete('token', '/');
   }
 
   isLogged(): boolean {
@@ -71,13 +71,18 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    return this.isLogged() && JSON.stringify(this.getData().roles).includes('ADMIN');
+    return this.hasRole('ADMIN');
+  }
+
+  hasRole(rol: string) {
+    return this.isLogged() && JSON.stringify(this.getData().roles).includes(rol);
   }
 
   getUser(): Usuario {
     const user = new Usuario();
     user.username = this.getData().username;
     user.roles = this.getData().roles;
+    user.clienteId = this.getData().clienteId;
     return user;
   }
 
@@ -91,7 +96,6 @@ export class AuthService {
 
   blob(url: string) {
     const options = AuthService.createOptions('blob');
-    console.log(options);
     return this.http.get(url, options);
   }
 

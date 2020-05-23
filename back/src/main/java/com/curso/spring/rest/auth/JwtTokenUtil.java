@@ -1,6 +1,6 @@
 package com.curso.spring.rest.auth;
 
-import com.curso.spring.rest.model.entity.Rol;
+import com.curso.spring.rest.model.entity.Usuario;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,9 +46,10 @@ public class JwtTokenUtil implements Serializable {
         return expiration.before(new Date());
     }
 
-    public String generateToken(UserDetails userDetails, Collection<Rol> roles) {
+    public String generateToken(UserDetails userDetails, Usuario usuario) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("roles", roles);
+        claims.put("roles", usuario.getRoles());
+        claims.put("clienteId", usuario.getClienteId());
         return doGenerateToken(claims, userDetails.getUsername());
     }
 

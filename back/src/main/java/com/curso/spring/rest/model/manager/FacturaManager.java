@@ -50,37 +50,37 @@ public class FacturaManager implements FacturaService {
     @Override
     @Transactional(readOnly = true)
     public Factura fetchByIdWithClienteWithItemFacturaWithProducto(Integer id) {
-        return facturaDao.fetchByIdWithClienteWithItemFacturaWithProducto(id);
+        return this.facturaDao.fetchByIdWithClienteWithItemFacturaWithProducto(id);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Page<Factura> findAllFacturasByClienteOrderById(Cliente cliente, Pageable pageable) {
-        return facturaDao.findAllFacturasByClienteOrderById(cliente, pageable);
+        return this.facturaDao.findAllFacturasByClienteOrderById(cliente, pageable);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Factura> findAllByCliente(Cliente cliente) {
-        return facturaDao.findAllByCliente(cliente);
+        return this.facturaDao.findAllByCliente(cliente);
     }
 
     @Override
     @Transactional
     public Factura save(Factura factura) {
-        return facturaDao.save(factura);
+        return this.facturaDao.save(factura);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Factura findById(Integer id) {
-        return facturaDao.findById(id).orElse(null);
+        return this.facturaDao.findById(id).orElse(null);
     }
 
     @Override
     @Transactional
     public void delete(Integer id) {
-        facturaDao.deleteById(id);
+        this.facturaDao.deleteById(id);
     }
 
     @Override
@@ -124,7 +124,7 @@ public class FacturaManager implements FacturaService {
         Map<String, Object> response = new HashMap<>();
 
         if (bindingResult.hasErrors()) {
-            return errorService.throwErrors(bindingResult, response);
+            return this.errorService.throwErrors(bindingResult, response);
         }
 
         try {
@@ -138,7 +138,7 @@ public class FacturaManager implements FacturaService {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
-        save(factura);
+        this.save(factura);
         response.put("mensaje", "Factura creada correctamente");
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -154,7 +154,7 @@ public class FacturaManager implements FacturaService {
             try {
                 this.delete(id);
             } catch (DataAccessException e) {
-                return errorService.dbError(e, response);
+                return this.errorService.dbError(e, response);
             }
             response.put("mensaje", "Factura eliminada");
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -165,8 +165,8 @@ public class FacturaManager implements FacturaService {
 
     @Override
     public ResponseEntity<?> exportPdf(Integer facturaId) {
-        Factura factura = findById(facturaId);
-        byte[] pdf = generarPdf(factura);
+        Factura factura = this.findById(facturaId);
+        byte[] pdf = this.generarPdf(factura);
         HttpHeaders headers = new HttpHeaders();
         String nombre = "factura_" + facturaId;
 

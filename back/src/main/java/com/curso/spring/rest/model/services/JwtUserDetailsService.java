@@ -21,8 +21,8 @@ import java.util.List;
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
 
-    private AuthService authService;
-    private BCryptPasswordEncoder encoder;
+    private final AuthService authService;
+    private final BCryptPasswordEncoder encoder;
 
     @Autowired
     public JwtUserDetailsService(AuthService authService, BCryptPasswordEncoder encoder) {
@@ -33,7 +33,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario usuario = authService.findByUsername(username);
+        Usuario usuario = this.authService.findByUsername(username);
 
         if (usuario == null) {
             throw new UsernameNotFoundException("El usuario no existe");
@@ -41,18 +41,18 @@ public class JwtUserDetailsService implements UserDetailsService {
         else if (usuario.getRoles().isEmpty()) {
             throw new UsernameNotFoundException("El usuario no puede iniciar sesión");
         }
-        return new User(usuario.getUsername(), usuario.getPassword(), usuario.getEnabled(), true, true, true, getAuthorities(usuario.getRoles()));
+        return new User(usuario.getUsername(), usuario.getPassword(), usuario.getEnabled(), true, true, true, this.getAuthorities(usuario.getRoles()));
     }
 
     @Transactional
     public Usuario save(Usuario usuario) {
-        usuario.setPassword(encoder.encode(usuario.getPassword()));
-        usuario.addRol(authService.findByRol("ROLE_USER"));
-        return authService.saveUsuario(usuario);
+        usuario.setPassword(this.encoder.encode(usuario.getPassword()));
+        usuario.addRol(this.authService.findByRol("ROLE_USER"));
+        return this.authService.saveUsuario(usuario);
     }
 
     private Collection<? extends GrantedAuthority> getAuthorities(Collection<Rol> roles) {
-        return getGrantedAuthorities(getPrivileges(roles));
+        return this.getGrantedAuthorities(this.getPrivileges(roles));
     }
 
     private List<String> getPrivileges(Collection<Rol> roles) {

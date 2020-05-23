@@ -8,7 +8,7 @@
     <div class="card-header">{{ titulo }} </div>
     <div class="card-body">
       <form #clienteForm="ngForm">
-        <div class="form-group row">
+        <div class="form-group row" [hidden]="modificarPw && cliente.id">
           <label for="nombre" class="col-form-label col-sm-2">Nombre</label>
           <div class="col-sm-6">
             <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="cliente.nombre"
@@ -23,7 +23,7 @@
             </div>
           </div>
         </div>
-        <div class="form-group row">
+        <div class="form-group row" [hidden]="modificarPw && cliente.id">
           <label for="apellidos" class="col-form-label col-sm-2">Apellidos</label>
           <div class="col-sm-6">
             <input type="text" class="form-control" id="apellidos" name="apellidos" [(ngModel)]="cliente.apellidos"
@@ -35,7 +35,7 @@
             </div>
           </div>
         </div>
-        <div class="form-group row">
+        <div class="form-group row" [hidden]="modificarPw && cliente.id">
           <label for="email" class="col-form-label col-sm-2">Correo</label>
           <div class="col-sm-6">
             <input type="text" class="form-control" id="email" name="email" [(ngModel)]="cliente.email" email="true"
@@ -50,20 +50,19 @@
             </div>
           </div>
         </div>
-        <div class="form-group row">
-          <label for="pw" class="col-form-label col-sm-3">Contraseña</label>
+        <div class="form-group row" [hidden]="!modificarPw && cliente.id">
+          <label for="pw" class="col-form-label col-sm-2">Contraseña</label>
           <div class="col-sm-6">
             <input type="password" class="form-control" id="pw" name="pw" [(ngModel)]="this.pw"
-                   #password="ngModel" (input)="isValid()"
-                   required minlength="8"/>
+                   #password="ngModel" [required]="modificarPw"/>
           </div>
         </div>
-        <div class="form-group row">
-          <label for="confirmar" class="col-form-label col-sm-3">Confirmar Contraseña</label>
+        <div class="form-group row" [hidden]="!modificarPw && cliente.id">
+          <label for="confirmar" class="col-form-label col-sm-2">Confirmar Contraseña</label>
           <div class="col-sm-6">
             <input type="password" class="form-control" id="confirmar" name="confirmar" [(ngModel)]="this.pw2"
-                   #confirmar="ngModel" (keyup.enter)="esValido ? register() : false" (input)="isValid()"
-                   required="required" minlength="8"/>
+                   #confirmar="ngModel"
+                   [required]="modificarPw || !cliente.id"  />
           </div>
         </div>
         <div class="form-group row" tabindex="0">
@@ -73,6 +72,7 @@
             <input type="button" value="Actualizar" name="update" class="btn btn-sm btn-primary mx-2" (click)="update()"
                    [disabled]="!clienteForm.valid" />
           </ng-template>
+          <input type="button" [value]="modificarPw ? 'Modificar datos de cliente' : 'Modificar contraseña'"  class="btn btn-sm btn-primary mx-2" (click)="modidificarClave()" [hidden]="!cliente.id">
           <ng-container #botonAtras class="mx-2"></ng-container>
         </div>
       </form>

@@ -5,6 +5,7 @@ export class Usuario {
   private _email: string;
   private _enabled: boolean;
   private _roles = [];
+  private _clienteId: number;
 
   constructor() {
   }
@@ -57,6 +58,14 @@ export class Usuario {
     this._email = value;
   }
 
+  get clienteId(): number {
+    return this._clienteId;
+  }
+
+  set clienteId(value: number) {
+    this._clienteId = value;
+  }
+
   toJSON() {
     return {
       id: this.id,
@@ -64,7 +73,8 @@ export class Usuario {
       password: this.password,
       enabled: this.enabled,
       email: this.email,
-      roles: this.roles
+      roles: this.roles,
+      clienteId: this.clienteId
     };
   }
 }

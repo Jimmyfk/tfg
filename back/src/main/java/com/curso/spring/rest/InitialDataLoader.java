@@ -40,20 +40,20 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
         // si ya hay algun rol creado, retornamos para no volver a ejecutar el proceso
-        if (alreadySetup)
+        if (this.alreadySetup)
             return;
         // si no hay roles creados, se crean los privilegios de escritura y lectura y los roles de administrador y usuario
-        Privilegio read = createPrivilegeIfNotFound("READ_PRIVILEGE");
-        Privilegio write = createPrivilegeIfNotFound("WRITE_PRIVILEGE");
-        Privilegio root = createPrivilegeIfNotFound("SUPER_PRIVILEGE");
+        Privilegio read = this.createPrivilegeIfNotFound("READ_PRIVILEGE");
+        Privilegio write = this.createPrivilegeIfNotFound("WRITE_PRIVILEGE");
+        Privilegio root = this.createPrivilegeIfNotFound("SUPER_PRIVILEGE");
 
         List<Privilegio> adminPrivileges = Arrays.asList(read, write, root);
         List<Privilegio> clientePrivileges = Arrays.asList(read, write);
-        createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
-        createRoleIfNotFound("ROLE_USER", Collections.singletonList(read));
-        createRoleIfNotFound("ROLE_CLIENTE", clientePrivileges);
+        this.createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
+        this.createRoleIfNotFound("ROLE_USER", Collections.singletonList(read));
+        this.createRoleIfNotFound("ROLE_CLIENTE", clientePrivileges);
 
-        alreadySetup = true;
+        this.alreadySetup = true;
     }
 
     /**

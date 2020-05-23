@@ -1,5 +1,6 @@
 package com.curso.spring.rest.model.services;
 
+import com.curso.spring.rest.exception.CustomException;
 import com.curso.spring.rest.model.entity.Cliente;
 import export.ClienteList;
 import org.springframework.data.domain.Page;
@@ -54,9 +55,9 @@ public interface ClienteService {
     boolean exists(Integer id);
 
     /**
-     * Devuelve un listado de clientes que ser� usado en paginaci�n
+     * Devuelve un listado de clientes que será usado en paginación
      *
-     * @param page n�mero de la p�gina
+     * @param page número de la página
      * @param size cantidad de clientes por pagina
      * @return listado de clientes
      */
@@ -69,17 +70,55 @@ public interface ClienteService {
      */
     ClienteList export();
 
+    /**
+     * Busca un cliente por su id y lo añade a la respuesta, si lo encuentra
+     *
+     * @param id id del cliente a buscar
+     * @return respuesta con el cliente, o un mensaje en el caso de que no exista
+     */
     ResponseEntity<?> show(Integer id);
 
+    /**
+     * Busca un usuario por su id de cliente y lo añade a la respuesta
+     *
+     * @param clienteId id del cliente
+     * @return respuesta con el usuario
+     */
     ResponseEntity<?> getUsuario(Integer clienteId);
 
+    /**
+     * Guarda un cliente en la base de datos y después le crea una cuenta de usuario
+     *
+     * @param cliente cliente a guardar
+     * @param result resultado de la validación
+     * @param password contraseña de la cuenta de usuario
+     * @return respuesta con el cliente creado, o con el mensaje de error en caso de que ocurra alguno
+     */
     ResponseEntity<?> create(Cliente cliente, BindingResult result, String password);
 
-    ResponseEntity<?> update(Cliente cliente, BindingResult result, Integer id);
+    /**
+     * Actualiza un cliente en la base de datos TODO: 17/05/2020 - Revisar update del usuario
+     *
+     * @param cliente cliente a actualizar
+     * @param result resultado de la validación
+     * @param id id del cliente
+     * @return respuesta con el cliente
+     */
+    ResponseEntity<?> update(Cliente cliente, BindingResult result, Integer id) throws CustomException;
 
-    ResponseEntity<?> remove(Integer id);
+    /**
+     * Borra un cliente de la base de datos
+     *
+     * @param id id del cliente a eliminar
+     * @return respuesta con el mensaje del resultado de la operación
+     * @throws CustomException si el cliente tiene facturas
+     */
+    ResponseEntity<?> remove(Integer id) throws CustomException;
 
+    /**
+     * Comprueba si hay clientes en la base de datos
+     *
+     * @return respuesta indicando si hay clientes o no
+     */
     ResponseEntity<?> existenClientes();
-
-    Long countAll();
 }

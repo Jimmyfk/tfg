@@ -28,7 +28,7 @@ export class FacturasFormComponent implements OnInit, OnDestroy, AfterViewInit {
               private router: Router) {
   }
 
-  public factura: Factura;
+  factura: Factura;
   item: ItemFactura;
   @ViewChild('botonAtras', {read: ViewContainerRef, static: false})
   botonAtras: ViewContainerRef;
@@ -54,7 +54,7 @@ export class FacturasFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
   instanciarFactura() {
     this.subcripciones[0] = this.rutaActiva.params.subscribe(params => {
-      const id = params.id;
+      const id = params.clienteId;
       if (id) {
         this.clienteService.getCliente(id).subscribe(cliente => {
           this.factura = new Factura(cliente);
@@ -122,6 +122,7 @@ export class FacturasFormComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.instanciarFactura();
     if (this.botonAtras) {
       this.loader.load('back-btn', this.botonAtras).then();
     } else {

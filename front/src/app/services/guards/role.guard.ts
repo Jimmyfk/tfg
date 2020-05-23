@@ -16,17 +16,25 @@ export class RoleGuard implements CanActivate {
 
   }
 
+  private static hasRole(user: Usuario, rol: string[]): boolean {
+    for (const rl of user.roles) {
+      if (rol.includes(rl.rol) || rol.filter(r => r === rl.rol)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Promise<boolean> {
     return new Promise<boolean>(resolve => {
-      console.log('new promise');
       if (!this.authService.isLogged()) {
         resolve(false);
       }
       const user = this.authService.getUser();
       const roles = next.data.roles;
-      if (!roles || this.hasRole(user, roles)) {
+      if (!roles || RoleGuard.hasRole(user, roles)) {
         resolve(true);
       } else {
         resolve(false);
@@ -44,15 +52,6 @@ export class RoleGuard implements CanActivate {
       this.router.navigate(['/inicio']).then(() => this.swal.getCustomButton().fire('Error', err, 'error'));
       return err;
     });
-  }
-
-  private hasRole(user: Usuario, rol: string): boolean {
-    for (const rl of user.roles) {
-      if (rl.rol.includes(rol)) {
-        return true;
-      }
-    }
-    return false;
   }
 
 }

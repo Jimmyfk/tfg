@@ -3,10 +3,11 @@ package com.curso.spring.rest.model.services;
 import com.curso.spring.rest.model.entity.Privilegio;
 import com.curso.spring.rest.model.entity.Rol;
 import com.curso.spring.rest.model.entity.Usuario;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
- * Servicio de autenticaci�n, es el que ser� usado en los controladores
+ * Servicio de autenticación, es el que será usado en los controladores
  */
 @Service
 public interface AuthService {
@@ -38,6 +39,16 @@ public interface AuthService {
      */
     Usuario saveUsuario(Usuario usuario);
 
+
+    /**
+     * Modifica la contraseña de un usuario y añade el resultado a la respuesta
+     *
+     * @param usuarioId id del usuario que se va a modificar
+     * @param password nueva contraseña del usuario
+     * @return respuesta con el resultado de la operación
+     */
+    ResponseEntity<?> actualizarPassword(Integer usuarioId, String password);
+
     /**
      * Crea un usuario para un cliente
      * @param usuario usuario a guardar
@@ -68,16 +79,16 @@ public interface AuthService {
     Privilegio savePrivilegio(Privilegio privilegio);
 
     /**
-     * Cuenta el n�mero de usuarios
+     * Cuenta el número de usuarios
      *
-     * @return el n�mero de usuarios
+     * @return el número de usuarios
      */
     long countUsuarios();
 
     /**
-     * Cuenta el n�mero de roles
+     * Cuenta el número de roles
      *
-     * @return el n�mero de roles
+     * @return el número de roles
      */
     long countRoles();
 }

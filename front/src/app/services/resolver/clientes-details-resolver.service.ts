@@ -15,7 +15,7 @@ export class ClientesDetailsResolverService implements Resolve<Cliente> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Cliente> | Promise<Cliente> | Cliente {
-    const id = route.paramMap.get('id');
+    const id = route.paramMap.get('clienteId');
 
     return this.clienteService.getCliente(id).pipe(
       take(1),

@@ -3,7 +3,7 @@ import {ItemFactura} from './itemFactura';
 
 export class Factura {
   private _id: number;
-  private _descripcion: string;
+  public descripcion: string;
   private _observacion: string;
   private _cliente: Cliente;
   private _items: ItemFactura[];
@@ -14,6 +14,7 @@ export class Factura {
     if (cliente) {
       this._cliente = cliente;
       this._items = [];
+      this.descripcion = '';
     }
   }
 
@@ -23,14 +24,6 @@ export class Factura {
 
   set id(value: number) {
     this._id = value;
-  }
-
-  get descripcion(): string {
-    return !!this._descripcion ? this._descripcion : '';
-  }
-
-  set descripcion(value: string) {
-    this._descripcion = value;
   }
 
   get observacion(): string {
