@@ -16,7 +16,8 @@
         <li class="list-group-item">Descripción: {{factura.descripcion}}</li>
         <li class="list-group-item">Fecha de creación: {{factura.createdAt | date : 'mediumDate'}}</li>
         <li class="list-group-item" *ngIf="factura.observacion">Observaciones: {{factura.observacion}}</li>
-        <li class="list-group-item">
+<!--        Lo oculto porque no se interpreta bien la respuesta de la api, lo dejo como posible mejora-->
+        <li class="list-group-item" hidden>
           <button class="btn btn-danger btn-xs" (click)="exportarPdf()">PDF</button>
         </li>
       </ul>

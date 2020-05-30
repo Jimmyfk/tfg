@@ -1,3 +1,4 @@
+// Componente principal
 import {AfterViewInit, Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {LazyloaderService} from './services/lazy/lazyloader.service';
 

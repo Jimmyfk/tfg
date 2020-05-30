@@ -49,13 +49,15 @@ public class JwtTokenUtil implements Serializable {
     public String generateToken(UserDetails userDetails, Usuario usuario) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("roles", usuario.getRoles());
-        claims.put("clienteId", usuario.getCliente().getId());
+        if (usuario.getCliente() != null) {
+            claims.put("clienteId", usuario.getCliente().getId());
+        }
         return this.doGenerateToken(claims, userDetails.getUsername());
     }
 
     private String doGenerateToken(Map<String, Object> claims, String subject) {
         return "Bearer " + Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000)).signWith(SignatureAlgorithm.HS512, this.secret)
+                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY)).signWith(SignatureAlgorithm.HS512, this.secret)
                 .compact();
     }
 

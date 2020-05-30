@@ -87,14 +87,13 @@ public class AuthManager implements AuthService {
         ResponseEntity<?> resultado = null;
 
         try {
-            int res = this.usuarioDao.updatePassword(usuarioId, password);
+            int res = this.usuarioDao.updatePassword(usuarioId, this.encoder.encode(password));
             if (res == 1) {
                 body.put("mensaje", "Contraseña actualizada correctamente");
-                resultado = ResponseEntity.ok(body);
             } else {
                 body.put("mensaje", "Error al actualizar la contraseña");
-                resultado = ResponseEntity.ok(body);
             }
+            resultado = ResponseEntity.ok(body);
         } catch (DataAccessException e) {
             resultado = this.errorService.dbError(e, body);
         }

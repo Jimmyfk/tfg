@@ -20,7 +20,6 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    console.log(this.usuario);
     this.usuarioService.login(this.usuario.username, this.usuario.password).subscribe(() => {
       if (this.usuarioService.isLogged()) {
         this.usuario.roles = this.usuarioService.getUser().roles;

@@ -55,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void confGlobal(AuthenticationManagerBuilder build) throws Exception {
-        build.userDetailsService(userDetailsService).passwordEncoder(encoder);
+        build.userDetailsService(this.userDetailsService).passwordEncoder(this.encoder);
     }
 
     /**
@@ -74,10 +74,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().authorizeRequests().antMatchers("/api/auth/**", "/", "/inicio").permitAll()
             .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
             .anyRequest().authenticated()
-                .and().exceptionHandling().authenticationEntryPoint(jwtAuthEntryPoint)
+                .and().exceptionHandling().authenticationEntryPoint(this.jwtAuthEntryPoint)
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(this.jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     /** <p>Configuración CORS</p>

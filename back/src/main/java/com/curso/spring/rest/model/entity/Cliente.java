@@ -18,6 +18,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -100,6 +101,7 @@ public class Cliente implements Serializable {
     }
 
     @JsonIgnore
+    @XmlTransient
     public Usuario getUsuario() {
         return this.usuario;
     }

@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 import {AuthGuard} from './services/guards/auth.guard';
 
-
+// Módulo de enrrutamiento principal, aquí se enlazan las url con los demás módulos
 const routes: Routes = [
   {
     path: 'inicio',
