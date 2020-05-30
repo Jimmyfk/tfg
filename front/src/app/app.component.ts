@@ -1,4 +1,4 @@
-// Componente principal
+// Este es el primer componente en cargarse
 import {AfterViewInit, Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {LazyloaderService} from './services/lazy/lazyloader.service';
 

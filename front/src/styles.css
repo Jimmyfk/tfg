@@ -1,3 +1,6 @@
+/*
+  Estilos generales para todo el proyecto
+*/
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 a, button, .btn {

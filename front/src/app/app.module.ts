@@ -25,9 +25,14 @@ registerLocaleData(localeRu, 'ru');
 
 @NgModule({
   declarations: [
+    // componentes, directivas o pipes que pertenecen a este módulo
     AppComponent
   ],
   imports: [
+/*
+    los  módulos que se van a usar en este módulo, aqui irán todos los módulos que creemos (si no los cargamos de forma perezosa)
+    o nos descarguuemos
+*/
     BrowserModule,
     HttpClientModule,
     NgbModule,
@@ -35,6 +40,10 @@ registerLocaleData(localeRu, 'ru');
     AppRoutingModule
   ],
   providers: [
+    /*
+      El grupo de objetos (normalmente servicios) inyectables disponibles para este módulo, todas las dependencias
+      declaradas aquí estarán disponibles para cualquier componente, directiva, pipe o servicio que sea hijo de este inyector
+    */
     {provide: LOCALE_ID, useValue: 'es'},
     {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true},
     {provide: LAZY_WIDGETS, useFactory: lazyArrayToObj},
@@ -43,6 +52,9 @@ registerLocaleData(localeRu, 'ru');
   ],
   exports: [],
   bootstrap: [
+/*
+    Componentes que arrancarán cuando este módulo arranque
+*/
     AppComponent
   ]
 })
