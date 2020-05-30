@@ -10,7 +10,6 @@ import com.curso.spring.rest.model.services.AuthService;
 import com.curso.spring.rest.model.services.ClienteService;
 import com.curso.spring.rest.model.services.ErrorService;
 import export.ClienteList;
-import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -74,14 +73,6 @@ public class ClienteManager implements ClienteService {
         return this.clienteDao.findAll(pageable);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @Transactional
-    public Cliente save(Cliente cliente) {
-        return this.clienteDao.save(cliente);
-    }
 
     /**
      * {@inheritDoc}
@@ -104,7 +95,7 @@ public class ClienteManager implements ClienteService {
     @Override
     @Transactional(readOnly = true)
     public boolean exists(Integer id) {
-        return clienteDao.existsById(id);
+        return this.clienteDao.existsById(id);
     }
 
     /**
@@ -192,6 +183,7 @@ public class ClienteManager implements ClienteService {
      * @param password contraseña de la cuenta de usuario
      * @return respuesta con el resultado de la operación: cliente si no hay errores, mensajes de validacion si hay algun error de validacion, o mensaje con error de base de datos
      */
+    @Transactional
     @Override
     public ResponseEntity<?> create(@Valid Cliente cliente, BindingResult result, String password) {
         ResponseEntity<?> res = null;
@@ -206,7 +198,7 @@ public class ClienteManager implements ClienteService {
 
             try {
                 // guardamos el cliente
-                clienteNew = this.save(cliente);
+                clienteNew = this.clienteDao.save(cliente);
                 // creamos un usuario para el cliente
                 Usuario usuario = new Usuario(clienteNew, password);
                 // guardamos el usuario
@@ -235,38 +227,42 @@ public class ClienteManager implements ClienteService {
      * @param id      id del cliente
      * @return respuesta con el resultado de la operación
      */
+    @Transactional
     @Override
     public ResponseEntity<?> update(@Valid Cliente cliente, BindingResult result, Integer id) {
         ResponseEntity<?> res = null;
+        Map<String, Object> response = new HashMap<>();
         boolean finished = false;
         Cliente clienteActual = this.findById(id);
-        Map<String, Object> response = new HashMap<>();
 
-        if (result.hasErrors()) {
-            // si hay errores de validación, añadimos los mensajes a la respuesta
-            res = this.errorService.throwErrors(result, response);
-        } else if (clienteActual == null) {
+        if (clienteActual == null) {
             // si el cliente no existe, añadimos el mensaje de error a la respuesta
             response.put("mensaje", "Error: no se pudo editar, el cliente ID: " + id.toString() + " no existe");
-            res = new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            res = new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         } else {
 
-            try {
-                // copiamos el cliente recibido como parámetro, para que al guardar no cree un cliente nuevo
-                clienteActual.copy(cliente);
-                // guardamos el cliente
-                clienteActual = this.save(clienteActual);
-            } catch (DataAccessException e) {
-                // si ocurre algún error, añadimos el mensaje de error a la respuesta
-                res = this.errorService.dbError(e, response);
-                finished = true;
-            }
+            if (result.hasErrors()) {
+                // si hay errores de validación, añadimos los mensajes a la respuesta
+                res = this.errorService.throwErrors(result, response);
+            } else {
+                try {
+                    Integer usuarioId = clienteActual.getUsuario().getId();
+                    // guardamos el cliente
+                    clienteActual = this.clienteDao.save(cliente);
+                    // actualizamos la cuenta de usuario
+                    this.authService.updateUsernameByUserId(usuarioId, clienteActual.getEmail());
+                } catch (DataAccessException e) {
+                    // si ocurre algún error, añadimos el mensaje de error a la respuesta
+                    res = this.errorService.dbError(e, response);
+                    finished = true;
+                }
 
-            if (!finished) {
-                // si no hay errores, añadimos el cliente y un mensaje a la respuesta
-                response.put("mensaje", "El cliente ha sido actualizado con éxito!");
-                response.put("cliente", clienteActual);
-                res = new ResponseEntity<>(response, HttpStatus.CREATED);
+                if (!finished) {
+                    // si no hay errores, añadimos el cliente y un mensaje a la respuesta
+                    response.put("mensaje", "El cliente ha sido actualizado con éxito!");
+                    response.put("cliente", clienteActual);
+                    res = ResponseEntity.ok(response);
+                }
             }
         }
 
@@ -288,12 +284,17 @@ public class ClienteManager implements ClienteService {
 
         // si el cliente no tiene facturas, lo eliminamos
         if (this.facturaDao.countAllByClienteId(id) == 0) {
-            this.clienteDao.deleteById(id);
+            Cliente cliente = this.findById(id);
+            if (cliente == null) {
+                throw new CustomException(HttpStatus.BAD_REQUEST, RestApiErrorCode.CLIENTE_NOT_FOUND);
+            }
+            // eliminamos el cliente
+            this.clienteDao.delete(cliente);
             response.put("mensaje", "Cliente eliminado con éxito");
             result = ResponseEntity.ok(response);
         } else {
             // si tiene facturas, lanzamos excepción
-            throw new CustomException(RestApiErrorCode.CLIENTE_CON_FACTURAS);
+            throw new CustomException(HttpStatus.BAD_REQUEST, RestApiErrorCode.CLIENTE_CON_FACTURAS);
         }
         return result;
     }

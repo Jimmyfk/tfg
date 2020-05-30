@@ -23,8 +23,7 @@ export class ClientesListComponent implements OnInit {
               private swalService: SwalService,
               private authService: AuthService,
               private modalService: NgbModal,
-              private sanitizer: DomSanitizer,
-              private router: Router) {
+              private sanitizer: DomSanitizer) {
   }
 
   ngOnInit() {

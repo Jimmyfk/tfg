@@ -9,7 +9,7 @@ public class CustomException extends RuntimeException {
 
     private static final long serialVersionUID = 5658129865837267458L;
 
-    private RestApiError error;
+    private final RestApiError error;
 
     public CustomException(RestApiErrorCode error) {
         super(error.getMessage());
@@ -27,6 +27,6 @@ public class CustomException extends RuntimeException {
     }
 
     public RestApiError getError() {
-        return error;
+        return this.error;
     }
 }

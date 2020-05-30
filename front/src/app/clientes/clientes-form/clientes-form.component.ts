@@ -61,7 +61,7 @@ export class ClientesFormComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.validar()) {
       this.clienteService.create(this.cliente, this.pw).subscribe(
         response => {
-          this.router.navigate(['/clientes']).then(() => this.swal.fire('Nuevo cliente', this.decode(response.mensaje), 'success'));
+          this.router.navigate(['/clientes']).then(() => this.swal.fire('Nuevo cliente', response.mensaje, 'success'));
         },
         response => {
           this.errores = response.error.errores as string[];
@@ -77,7 +77,7 @@ export class ClientesFormComponent implements OnInit, OnDestroy, AfterViewInit {
       this.clienteService.update(this.cliente).subscribe(
         response => {
           this.router.navigate([this.isCliente ? '/inicio' : '/clientes'])
-            .then(() => this.swal.fire('Cliente actualizado', this.decode(response.mensaje), 'success'));
+            .then(() => this.swal.fire('Cliente actualizado', response.mensaje, 'success'));
         },
         response => {
           this.errores = response.error.errores as string[];
@@ -92,10 +92,6 @@ export class ClientesFormComponent implements OnInit, OnDestroy, AfterViewInit {
         this.swal.getCustomButton().fire('Error', error.error.error, 'error');
       });
     }
-  }
-
-  private decode(cadena: string): string {
-    return decodeURIComponent(escape(cadena));
   }
 
   test(val) {

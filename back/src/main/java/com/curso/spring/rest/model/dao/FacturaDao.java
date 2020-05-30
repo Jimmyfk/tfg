@@ -22,14 +22,14 @@ public interface FacturaDao extends JpaRepository<Factura, Integer> {
      * @param id id de la factura a obtener
      * @return factura con los items asociados
      */
-    @Query(value = "select f from Factura f join fetch f.cliente c join fetch f.items i join fetch i.producto where f.id = ?1")
+    @Query("select f from Factura f join fetch f.cliente c join fetch f.items i join fetch i.producto where f.id = ?1")
     Factura fetchByIdWithClienteWithItemFacturaWithProducto(Integer id);
 
     /**
      * Obtiene un listado paginado con las facturas de un cliente
      * @param cliente cliente del que se obtienen las facturas
-     * @param pageable paginaciÛn
-     * @return p·gina con facturas de un cliente
+     * @param pageable paginaci√≥n
+     * @return p√°gina con facturas de un cliente
      */
     Page<Factura> findAllFacturasByClienteOrderById(Cliente cliente, Pageable pageable);
 

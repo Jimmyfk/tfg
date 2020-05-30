@@ -111,11 +111,11 @@ CREATE TABLE IF NOT EXISTS `tfg`.`Usuarios` (
   `Username` VARCHAR(100) NOT NULL,
   `Password` VARCHAR(255) NOT NULL,
   `Enabled` TINYINT NULL DEFAULT 1,
-  `ClienteId` SMALLINT UNSIGNED NULL,
+  `Cliente_id` SMALLINT UNSIGNED NULL,
   PRIMARY KEY (`ID`),
   UNIQUE INDEX `Username_UNIQUE` (`Username` ASC),
   CONSTRAINT `FK_Usuarios_Clientes`
-   FOREIGN KEY (`ClienteId`)
+   FOREIGN KEY (`Cliente_id`)
    REFERENCES `tfg`.`Clientes` (`ID`)
    ON DELETE CASCADE
    ON UPDATE CASCADE )

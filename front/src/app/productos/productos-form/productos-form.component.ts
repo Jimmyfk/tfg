@@ -64,7 +64,7 @@ export class ProductosFormComponent implements OnInit, OnDestroy, AfterViewInit 
     this.productoService.update(this.producto).subscribe(
       (response: any) => {
         this.router.navigate(['productos']).then(() =>
-          this.swal.getCustomButton().fire('', decodeURIComponent(escape(response.mensaje)), 'info')
+          this.swal.getCustomButton().fire('', response.mensaje, 'info')
         );
       }
     );

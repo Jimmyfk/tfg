@@ -27,24 +27,24 @@ export class FormComponent implements OnInit {
   }
 
   register() {
-    function getError(error: string) {
-      if (error.includes('Username_UNIQUE')) {
-        return 'El nombre de usuario está cogido';
-      }
-      return 'Error al realizar la consulta';
-    }
-
     this.usuarioService.register(this.usuario).subscribe(response => {
         this.router.navigate(['/inicio']).then(() =>
-          this.swal.getCustomButton().fire('', decodeURIComponent(escape(response.mensaje)), 'success').then(() => console.log(response)));
+          this.swal.getCustomButton().fire('', response.mensaje, 'success').then(() => console.log(response)));
       },
       err => {
-        this.swal.getCustomButton().fire('Error', getError(err.error.error)).then(() => console.error(err));
+        this.swal.getCustomButton().fire('Error', this.getError(err.error.error)).then(() => console.error(err));
       });
   }
 
   isValid() {
     this.esValido = !!this.usuario.password && this.usuario.password === this.pw2
       && !!this.usuario.username && this.usuario.username.length > 2;
+  }
+
+  getError(error: string): string {
+    if (error.includes('Username_UNIQUE')) {
+      return 'El nombre de usuario está cogido';
+    }
+    return 'Error al realizar la consulta';
   }
 }

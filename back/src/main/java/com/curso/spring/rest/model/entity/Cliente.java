@@ -1,13 +1,17 @@
 package com.curso.spring.rest.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -43,12 +47,15 @@ public class Cliente implements Serializable {
     private String email;
 
     @Column(name = "created_at")
-    @Temporal(value = TemporalType.DATE)
+    @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createdAt;
 
+    @OneToOne(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Usuario usuario;
+
     public Integer getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(Integer id) {
@@ -56,7 +63,7 @@ public class Cliente implements Serializable {
     }
 
     public String getNombre() {
-        return nombre;
+        return this.nombre;
     }
 
     public void setNombre(String nombre) {
@@ -64,7 +71,7 @@ public class Cliente implements Serializable {
     }
 
     public String getApellidos() {
-        return apellidos;
+        return this.apellidos;
     }
 
     public void setApellidos(String apellidos) {
@@ -72,7 +79,7 @@ public class Cliente implements Serializable {
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public void setEmail(String email) {
@@ -80,22 +87,24 @@ public class Cliente implements Serializable {
     }
 
     public Date getCreatedAt() {
-        return createdAt;
+        return this.createdAt;
     }
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
-    public void copy(Cliente cliente) {
-        nombre = cliente.nombre;
-        apellidos = cliente.apellidos;
-        email = cliente.email;
-        createdAt = cliente.createdAt;
-    }
-
     @PrePersist
     public void prePersist() {
-        createdAt = new Date();
+        this.createdAt = new Date();
+    }
+
+    @JsonIgnore
+    public Usuario getUsuario() {
+        return this.usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

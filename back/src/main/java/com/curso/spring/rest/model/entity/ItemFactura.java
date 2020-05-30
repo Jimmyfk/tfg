@@ -26,9 +26,9 @@ public class ItemFactura implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // relación many to one con producto
+    // relaciÃ³n many to one con producto
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Producto producto;
 
     @Min(value = 1, message = "tiene que ser mayor que 0")
@@ -39,13 +39,13 @@ public class ItemFactura implements Serializable {
     public ItemFactura() {}
 
     public ItemFactura(Integer cantidad, Producto producto) {
-        setCantidad(cantidad);
-        setProducto(producto);
-        setPrecio(producto.getPrecio());
+        this.setCantidad(cantidad);
+        this.setProducto(producto);
+        this.setPrecio(producto.getPrecio());
     }
 
     public Long getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(Long id) {
@@ -53,7 +53,7 @@ public class ItemFactura implements Serializable {
     }
 
     public Integer getCantidad() {
-        return cantidad;
+        return this.cantidad;
     }
 
     public void setCantidad(Integer cantidad) {
@@ -61,7 +61,7 @@ public class ItemFactura implements Serializable {
     }
 
     public BigDecimal getPrecio() {
-        return precio;
+        return this.precio;
     }
 
     public void setPrecio(BigDecimal precio) {
@@ -69,7 +69,7 @@ public class ItemFactura implements Serializable {
     }
 
     public Producto getProducto() {
-        return producto;
+        return this.producto;
     }
 
     public void setProducto(Producto producto) {
@@ -81,6 +81,6 @@ public class ItemFactura implements Serializable {
      * @return precio * cantidad
      */
     public BigDecimal getImporte() {
-        return precio.multiply(BigDecimal.valueOf(cantidad));
+        return this.precio.multiply(BigDecimal.valueOf(this.cantidad));
     }
 }

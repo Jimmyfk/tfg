@@ -9,7 +9,9 @@ public enum RestApiErrorCode {
 
     PRODUCTO_EXISTE_EN_FACTURA(2, "Hay facturas que tienen este producto, no se puede eliminar"),
 
-    PRODUCTO_NOMBRE_DUPLICADO(3, "Ya existe un producto con el mismo nombre")
+    PRODUCTO_NOMBRE_DUPLICADO(3, "Ya existe un producto con el mismo nombre"),
+
+    CLIENTE_NOT_FOUND(4, "El cliente no existe")
 
     ;
 
@@ -22,11 +24,11 @@ public enum RestApiErrorCode {
     }
 
     public Integer getValue() {
-        return value;
+        return this.value;
     }
 
     public String getMessage() {
-        return message;
+        return this.message;
     }
 
     public static <T extends Enum<T>> T valueOf(Class<T> enumType, String name) {

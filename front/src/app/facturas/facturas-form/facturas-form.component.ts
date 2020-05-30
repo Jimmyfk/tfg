@@ -2,13 +2,12 @@ import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ViewContainerRef
 import {Factura} from '../../models/factura';
 import {ClienteService} from '../../services/cliente.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MatAutocompleteSelectedEvent} from '@angular/material';
 import {FormControl, Validators} from '@angular/forms';
 import {FacturaService} from '../../services/factura.service';
-import {debounceTime, take} from 'rxjs/operators';
+import {debounceTime} from 'rxjs/operators';
 import {ItemFactura} from '../../models/itemFactura';
 import {ProductoService} from '../../services/producto.service';
-import {interval, Observable, Subscription} from 'rxjs';
+import {interval, Subscription} from 'rxjs';
 import {LazyloaderService} from '../../services/lazy/lazyloader.service';
 import {Producto} from '../../models/producto';
 import {SwalService} from '../../services/swal.service';
@@ -42,9 +41,6 @@ export class FacturasFormComponent implements OnInit, OnDestroy, AfterViewInit {
   hayClientes: boolean;
   puedeCrearFactura: boolean;
 
-  private static decode(cadena: string): string {
-    return decodeURIComponent(escape(cadena));
-  }
 
   ngOnInit() {
     this.instanciarFactura();
@@ -107,7 +103,7 @@ export class FacturasFormComponent implements OnInit, OnDestroy, AfterViewInit {
     this.facturaService.create(this.factura).subscribe(
       response => {
         this.router.navigate(['/clientes', this.factura.cliente.id]).then(() =>
-          this.swal.fire('Nueva factura', FacturasFormComponent.decode(response.mensaje), 'success'));
+          this.swal.fire('Nueva factura', response.mensaje, 'success'));
       },
       response => {
         this.errores = response.error.errores as string[];

@@ -20,13 +20,6 @@ public interface UsuarioDao extends JpaRepository<Usuario, Integer> {
      */
     Usuario findByUsername(String username);
 
-    /**
-     * Elimina un usuario
-     * @param entity usuario a eliminar
-     */
-    @Override
-    void delete(Usuario entity);
-
     Usuario findByClienteId(Integer clienteId);
 
     /**
@@ -38,4 +31,15 @@ public interface UsuarioDao extends JpaRepository<Usuario, Integer> {
     @Modifying
     @Query("update Usuario user set user.password = :password where user.id = :id")
     int updatePassword(@Param("id") Integer usuarioId, @Param("password") String password);
+
+    /**
+     * Actualiza el nombre de usuario de un usuario
+     *
+     * @param usuarioId id del usuario a modificar
+     * @param username nuevo nombre de usuario
+     * @return número de filas afectadas
+     */
+    @Modifying
+    @Query("update Usuario user set user.username = :username where user.id = :usuarioId")
+    int updateUsernameByUserId(@Param("usuarioId") Integer usuarioId, @Param("username") String username);
 }

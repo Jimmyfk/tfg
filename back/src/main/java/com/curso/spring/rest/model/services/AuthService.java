@@ -39,7 +39,6 @@ public interface AuthService {
      */
     Usuario saveUsuario(Usuario usuario);
 
-
     /**
      * Modifica la contraseña de un usuario y añade el resultado a la respuesta
      *
@@ -91,4 +90,6 @@ public interface AuthService {
      * @return el número de roles
      */
     long countRoles();
+
+    int updateUsernameByUserId(Integer usuarioId, String username);
 }

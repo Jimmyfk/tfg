@@ -1,5 +1,7 @@
 package com.curso.spring.rest.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -33,10 +36,14 @@ public class Usuario implements Serializable {
     private String username;
     private String password;
     private Boolean enabled;
-    private Integer clienteId;
+
+    // relación 1 a 1 con clientes
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "cliente_id", referencedColumnName = "id")
+    private Cliente cliente;
 
     // relación many to many con los roles
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "usuarios_roles",
             joinColumns = @JoinColumn(
@@ -46,18 +53,17 @@ public class Usuario implements Serializable {
     private Collection<Rol> roles;
 
     public Usuario() {
-        roles = new ArrayList<>();
+        this.roles = new ArrayList<>();
     }
 
     public Usuario(Cliente cliente, String password) {
         this();
-        username = cliente.getEmail();
-        clienteId = cliente.getId();
+        this.username = cliente.getEmail();
         this.password = password;
     }
 
     public Integer getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(Integer id) {
@@ -65,7 +71,7 @@ public class Usuario implements Serializable {
     }
 
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
     public void setUsername(String username) {
@@ -73,7 +79,7 @@ public class Usuario implements Serializable {
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
@@ -81,7 +87,7 @@ public class Usuario implements Serializable {
     }
 
     public Boolean getEnabled() {
-        return enabled;
+        return this.enabled;
     }
 
     public void setEnabled(Boolean enabled) {
@@ -89,7 +95,7 @@ public class Usuario implements Serializable {
     }
 
     public Collection<Rol> getRoles() {
-        return roles;
+        return this.roles;
     }
 
     public void setRoles(Collection<Rol> roles) {
@@ -97,19 +103,20 @@ public class Usuario implements Serializable {
     }
 
     public void addRol(Rol rol) {
-        roles.add(rol);
+        this.roles.add(rol);
     }
 
-    public Integer getClienteId() {
-        return clienteId;
+    @JsonIgnore
+    public Cliente getCliente() {
+        return this.cliente;
     }
 
-    public void setClienteId(Integer clienteId) {
-        this.clienteId = clienteId;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     @PrePersist
     public void prePersist() {
-        enabled = true;
+        this.enabled = true;
     }
 }

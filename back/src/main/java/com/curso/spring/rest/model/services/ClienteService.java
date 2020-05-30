@@ -30,13 +30,6 @@ public interface ClienteService {
      */
     Page<Cliente> findAll(Pageable pageable);
 
-    /**
-     * Guarda un cliente y lo retorna
-     *
-     * @param cliente cliente a guardar
-     * @return el cliente guardado
-     */
-    Cliente save(Cliente cliente);
 
     /**
      * Busca un cliente por su id

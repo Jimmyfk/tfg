@@ -168,4 +168,9 @@ public class AuthManager implements AuthService {
     public long countRoles() {
         return this.rolDao.count();
     }
+
+    @Override
+    public int updateUsernameByUserId(Integer usuarioId, String username) {
+        return this.usuarioDao.updateUsernameByUserId(usuarioId, username);
+    }
 }

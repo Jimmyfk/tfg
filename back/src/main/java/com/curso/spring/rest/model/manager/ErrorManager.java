@@ -19,7 +19,7 @@ public class ErrorManager implements ErrorService {
     public ResponseEntity<?> throwErrors(BindingResult result, Map<String, Object> response) {
         List<String> errors = result.getFieldErrors()
                 .stream()
-                .map(err -> !isList(err.getField()) ? "El campo '" + err.getField() + "' " + err.getDefaultMessage()
+                .map(err -> !this.isList(err.getField()) ? "El campo '" + err.getField() + "' " + err.getDefaultMessage()
                         : err.getDefaultMessage())
                 .collect(Collectors.toList());
         response.put("errores", errors);
@@ -33,7 +33,7 @@ public class ErrorManager implements ErrorService {
     @Override
     public ResponseEntity<?> dbError(DataAccessException e, Map<String, Object> response) {
         response.put("mensaje", "Error al realizar la consulta en la base de datos");
-        response.put("error", !StringUtils.isEmpty(e.getMessage()) ? e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()) : false);
+        response.put("error", !StringUtils.isEmpty(e.getMessage()) ? (e.getMessage() + ": ") + e.getMostSpecificCause().getMessage() : false);
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
