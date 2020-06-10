@@ -166,11 +166,11 @@ public class ClienteManager implements ClienteService {
         Map<String, Object> response = new HashMap<>();
 
         // obtenemos el usuario
-        Usuario usuario = this.authService.findByClienteId(clienteId);
-        usuario.setPassword("");
+        Cliente cliente = this.clienteDao.findById(clienteId).orElseThrow(new CustomException(RestApiErrorCode.CLIENTE_NOT_FOUND));
+        cliente.getUsuario().setPassword("");
 
         // añadimos el usuario a la respuesta
-        response.put("usuario", usuario);
+        response.put("usuario", cliente.getUsuario());
 
         return ResponseEntity.ok(response);
     }

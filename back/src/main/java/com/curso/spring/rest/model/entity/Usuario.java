@@ -60,6 +60,7 @@ public class Usuario implements Serializable {
         this();
         this.username = cliente.getEmail();
         this.password = password;
+        this.setCliente(cliente);
     }
 
     public Integer getId() {

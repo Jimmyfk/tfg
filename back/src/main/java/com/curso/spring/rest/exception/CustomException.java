@@ -5,7 +5,9 @@ import com.curso.spring.rest.exception.errors.RestApiError;
 import com.curso.spring.rest.exception.errors.RestApiErrorCode;
 import org.springframework.http.HttpStatus;
 
-public class CustomException extends RuntimeException {
+import java.util.function.Supplier;
+
+public class CustomException extends RuntimeException implements Supplier<CustomException> {
 
     private static final long serialVersionUID = 5658129865837267458L;
 
@@ -28,5 +30,10 @@ public class CustomException extends RuntimeException {
 
     public RestApiError getError() {
         return this.error;
+    }
+
+    @Override
+    public CustomException get() {
+        return this;
     }
 }

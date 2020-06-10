@@ -51,7 +51,7 @@ export class ClientesFormComponent implements OnInit, OnDestroy, AfterViewInit {
         this.clienteService.getUsuario(id).subscribe((response: any) => {
           this.pw = response.usuario.password;
           this.pw2 = response.usuario.password;
-          this.usuarioId = response.usuario.id;
+          this.usuarioId = Number(response.usuario.id);
         });
       }
     });
@@ -86,6 +86,7 @@ export class ClientesFormComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       );
     } else {
+      console.log(this.usuarioId);
       this.clienteService.updatePassword(this.usuarioId, this.pw).subscribe((response: any) => {
         this.swal.getCustomButton().fire('Resultado de la modificación', response.mensaje, 'info');
       }, error => {
