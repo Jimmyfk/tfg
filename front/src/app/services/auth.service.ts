@@ -56,8 +56,7 @@ export class AuthService {
           this.httpOptions = AuthService.createOptions(null);
           return userData;
         }
-      ),
-      catchError(e => throwError(e))
+      )
     );
   }
 
