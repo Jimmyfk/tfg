@@ -63,8 +63,7 @@ export class AuthService {
   logout() {
     environment.api.token = '';
     this.cs.delete('token', '/');
-    this.router.navigateByUrl('/');
-    window.location.reload();
+    this.router.navigateByUrl('/').then(() => window.location.reload());
   }
 
   isLogged(): boolean {
